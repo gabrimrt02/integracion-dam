@@ -18,10 +18,11 @@ Diagrama de Casos de Uso:
 
     - Empleado:
 
-
+![Diagrama_Casos_de_Uso_Empleado](https://user-images.githubusercontent.com/113668866/228030817-0eced79c-0db2-4a86-86ad-1cb25b3aaac8.PNG)
 
     - Administrador:
 
+![Diagrama_Casos_de_Uso_Administrador](https://user-images.githubusercontent.com/113668866/228030846-972e8cef-a6ef-4ab7-ba59-e6b557390e5d.PNG)
 
 
 El software proporcionará a la empresa un sistema digital de control de balances dentro de la misma, facilitando las labores de introducción de gastos, ingresos y automatizando los cálculos de beneficios de la empresa. Por otro lado, aportará un sistema de registro de compras y/o pedidos que agilizará las ventas y reservas dentro del local, lo que favorecerá al flujo de clientes de la organización, permitiendo tener un local más despejado.
@@ -32,7 +33,7 @@ Por otro lado, el sistema de registro de pedidos y/o compras permitirá a los tr
 
 Diagrama de Clases:
 
-
+![DiagramaClases](https://user-images.githubusercontent.com/113668866/228030879-e2c3f86a-32c3-4c31-a8c6-61eaae67f340.PNG)
 
 Para la creación del Panel de Gestión, es decir, la aplicación de escritorio, se emplearán diferentes lenguajes, como Java y XML. Las Interfaces Gráficas de Usuario, GUI de ahora en adelante, se realizarán principalmente con Java FX, aprendido durante el curso. Con relación a los datos generados por la aplicación, se pretende usar en lenguaje Java, ya que es el que se ha impartido durante el curso, al igual que para la gestión de la base de datos. Otra de las opciones para gestionar los datos de la base de datos que maneja la aplicación es por medio de la implementación del framework de Hibernate.
 
