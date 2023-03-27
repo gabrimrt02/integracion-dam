@@ -18,11 +18,9 @@ Diagrama de Casos de Uso:
 
     - Empleado:
 
-![](D:\0_Proyecto_DAM\Diagrama_Casos_de_Uso_Empleado.PNG)
+
 
     - Administrador:
-
-![](D:\0_Proyecto_DAM\Diagrama_Casos_de_Uso_Administrador.PNG)
 
 
 
@@ -34,7 +32,7 @@ Por otro lado, el sistema de registro de pedidos y/o compras permitirá a los tr
 
 Diagrama de Clases:
 
-![](D:\0_Proyecto_DAM\DiagramaClases.PNG)
+
 
 Para la creación del Panel de Gestión, es decir, la aplicación de escritorio, se emplearán diferentes lenguajes, como Java y XML. Las Interfaces Gráficas de Usuario, GUI de ahora en adelante, se realizarán principalmente con Java FX, aprendido durante el curso. Con relación a los datos generados por la aplicación, se pretende usar en lenguaje Java, ya que es el que se ha impartido durante el curso, al igual que para la gestión de la base de datos. Otra de las opciones para gestionar los datos de la base de datos que maneja la aplicación es por medio de la implementación del framework de Hibernate.
 
