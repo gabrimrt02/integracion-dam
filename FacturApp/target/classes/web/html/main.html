@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FacturApp - Inicio</title>
+
+    <link rel="stylesheet" href="../css/main.css">
+    <script type="text/javascript" src="../javascript/jquery.js"></script>
+    <script src="../javascript/main.js"></script>
+</head>
+<body>
+    
+    <h1>ESTA ES LA VENTANA PRINCIPAL DE LA APLICACIÓN</h1>
+
+    <div id="botones-temporales">
+
+        <button id="boton1" onclick="inicio()">Primera ventana</button>
+        <button id="boton-segunda" onclick="console.log('Segunda ventana')">Segunda ventana</button>
+        <button id="boton-tercera" onclick="console.log('Tercera ventana')">Tercera ventana</button>
+        <button id="boton-cuarta"  onclick="console.log('Cuarta ventana')">Cuarta ventana</button>
+
+    </div>
+
+    <!--TODO Quitar el border cuando la app cargo correctamente los datos del resto de las ventanas-->
+    <iframe id="frame" src="" frameborder="0" width="100%" height="500px">
+
+    </iframe>
+
+</body>
+</html>
