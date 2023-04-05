@@ -4,7 +4,7 @@
  * Variables de elementos
 */
 var documento = $(document);
-var botones = [];
+var secciones = [];
 var frame;
 
 /*
@@ -15,14 +15,14 @@ var lastLoaded = ""; // Almacena el ultimo recurso cargado dentro del frame
 documento.ready(inicio);
 
 function inicio() {
-    botones.push($("#boton1"));
-    botones.push($("#boton2"));
+    secciones.push($("#seccion1"));
+    secciones.push($("#seccion2"));
 
     frame = $("#frame");
     lastLoaded = frame.attr("src");
 
-    $.each(botones, function (indexInArray, valueOfElement) {
-        botones[indexInArray].click(function (e) {
+    $.each(secciones, function (indexInArray, valueOfElement) {
+        secciones[indexInArray].click(function (e) {
             var pageToLoad = "";
 
             switch (indexInArray) {
