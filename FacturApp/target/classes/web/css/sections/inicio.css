@@ -1,0 +1,33 @@
+body {
+    margin: 1%;
+}
+
+#balance-global {
+    /* margin-left: 50vw; */
+    text-align: end;
+    margin-right: 2vw;
+}
+
+#content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#tabla {
+    width: 47vw;
+    margin: 1%;
+}
+
+#grafica {
+    width: 45vw;
+    margin: 1%;
+}
+
+.ingreso {
+    color: lightgreen;
+}
+
+.gasto {
+    color: red;
+}

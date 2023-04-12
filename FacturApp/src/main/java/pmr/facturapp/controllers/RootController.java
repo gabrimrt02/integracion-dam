@@ -11,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 public class RootController implements Initializable {
@@ -57,4 +56,5 @@ public class RootController implements Initializable {
         URL pageToLoad = getClass().getResource("/web/html/main.html");
         webView.getEngine().load(pageToLoad.toString());
     }
+
 }

@@ -27,7 +27,7 @@ function inicio() {
 
             switch (indexInArray) {
                 case 0:
-                    pageToLoad = "../html/sections/balance.html";
+                    pageToLoad = "../html/sections/inicio.html";
                     break;
 
                 case 1:
