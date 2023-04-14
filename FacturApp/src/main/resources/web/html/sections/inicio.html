@@ -23,7 +23,7 @@
 
 <body>
 
-    <div>
+    <div id="header">
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title">Hola, Usuario</h3>
@@ -35,42 +35,52 @@
         </div>
     </div>
 
-    <div id="content">
 
-        <div id="tabla">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="ingreso">
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr class="gasto">
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr class="ingreso">
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="card-group" id="content">
+        <div class="class tarjeta" style="margin-right: 1%;">
+            <div class="card-header" style="text-align: center;">Últimos Movimientos</div>
+            <div class="card-body">
+                <div id="tabla">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="ingreso">
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr class="gasto">
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr class="ingreso">
+                                <th scope="row">3</th>
+                                <td colspan="2">Larry the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div id="grafica">
-            <canvas id="line-chart"></canvas>
+        <div class="card tarjeta" style="margin-left: 1%;">
+            <div class="card-header" style="text-align: center;">Último Mes</div>
+            <div class="card-body">
+                <div id="grafica">
+                    <canvas id="line-chart"></canvas>
+                </div>
+            </div>
         </div>
 
     </div>

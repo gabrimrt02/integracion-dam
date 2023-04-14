@@ -18,6 +18,7 @@ public class App extends Application{
 
         App.primaryStage.setTitle("FacturApp");
         App.primaryStage.setScene(new Scene(controller.getView()));
+        App.primaryStage.setMaximized(true);
         App.primaryStage.show();
     }
 
