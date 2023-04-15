@@ -25,5 +25,9 @@ public class TipoCliente {
     public static TipoCliente COOPERATIVA() {
         return new TipoCliente("COOPERATIVA");
     }
+
+    public String getTipo() {
+        return nombre;
+    }
     
 }

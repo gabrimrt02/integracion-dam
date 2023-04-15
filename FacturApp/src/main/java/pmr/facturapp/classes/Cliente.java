@@ -13,7 +13,7 @@ public class Cliente extends Persona {
         this.tipoCliente = tipoCliente;
     }
     // Constructor
-    private Cliente(TipoCliente tipoCliente, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
+    public Cliente(TipoCliente tipoCliente, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         super(nombre, apellido, domicilio, nTelefono, mail);
         this.tipoCliente = tipoCliente;
     }

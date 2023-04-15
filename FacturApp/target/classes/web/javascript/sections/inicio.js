@@ -25,7 +25,7 @@ const datos = {
 
 const opciones = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     resizeDelay: 0
 }
 
