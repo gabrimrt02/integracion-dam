@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import pmr.facturapp.controllers.RootController;
 
-public class App extends Application{
+public class App extends Application {
 
     public static Stage primaryStage;
 

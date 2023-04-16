@@ -9,5 +9,5 @@ public class Empleado extends Persona {
     public Empleado(String id, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         super(id, nombre, apellido, domicilio, nTelefono, mail);
     }
-    
+
 }

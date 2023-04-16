@@ -13,8 +13,8 @@ public class DomicilioCodec implements Codec<Domicilio>{
     @Override
     public void encode(BsonWriter writer, Domicilio value, EncoderContext encoderContext) {
         writer.writeStartDocument();
-        writer.writeString("Provincia", value.getProvincia());
-        writer.writeString("Municipio", value.getMunicipio());
+        writer.writeString("provincia", value.getProvincia());
+        writer.writeString("municipio", value.getMunicipio());
         writer.writeEndDocument();
     }
 

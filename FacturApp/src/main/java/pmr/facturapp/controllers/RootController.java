@@ -27,7 +27,7 @@ public class RootController implements Initializable {
 
     // Constructor
     public RootController() {
-        
+
         URL fichero = getClass().getResource("/fxml/view.fxml");
         try {
             FXMLLoader loader = new FXMLLoader(fichero);
