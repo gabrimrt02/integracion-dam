@@ -1,9 +1,7 @@
 package pmr.facturapp.DataBase;
 
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
-import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -11,12 +9,17 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
+import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.statics.TipoCliente;
-import pmr.facturapp.codecs.DomicilioCodec;
-import pmr.facturapp.codecs.TipoClienteCodec;
+import pmr.facturapp.classes.statics.Unidad;
+import pmr.facturapp.converters.ClienteConverter;
+import pmr.facturapp.converters.DomicilioConverter;
+import pmr.facturapp.converters.ProductoConverter;
+import pmr.facturapp.converters.TipoClienteConverter;
 
 public class MongoDBManager {
 
@@ -32,10 +35,8 @@ public class MongoDBManager {
         MongoClientSettings clienteSettings;
         MongoClient cliente;
         MongoDatabase database;
-        MongoCollection<Document> clientes;
+        MongoCollection<Document> clientes, productos;
         Document documentoPrueba;
-
-        // TODO Crear XXXConverter para poder transformar los objetos en documentos y viceversa
 
         clienteSettings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(CONN_STRING))
@@ -48,28 +49,39 @@ public class MongoDBManager {
 
         clientes = database.getCollection("Clientes");
 
+        productos = database.getCollection("Productos");
+
         Domicilio domicilio = new Domicilio("SC de Tenerife", "El Rosario");
 
         Cliente clienteInsert = new Cliente(TipoCliente.PARTICULAR(), "Rodolfito", "Ramirez", domicilio, "922 34 85 08",
                 "rod.ram@dev.facturapp.es");
 
-        Document dTipoCliente = new Document("tipo", clienteInsert.getTipoCliente().getTipo());
 
-        Document dDomicilio = new Document("provincia", clienteInsert.getDomicilio().getProvincia())
-                .append("municipio", clienteInsert.getDomicilio().getMunicipio());
+        // Producto producto = new Producto("Plátano de Canarias", "Plátano de Canarias", 1.10, 100, Unidad.CAJAS());
 
-        documentoPrueba = new Document("tipoCliente", dTipoCliente)
-                .append("nombre", clienteInsert.getNombre())
-                .append("apellido", clienteInsert.getApellido())
-                .append("domicilio", dDomicilio)
-                .append("nTelefono", clienteInsert.getNTelefono())
-                .append("mail", clienteInsert.getMail());
+        // documentoPrueba = new Document("tipoCliente", TipoClienteConverter.convert(clienteInsert.getTipoCliente()))
+        //         .append("nombre", clienteInsert.getNombre())
+        //         .append("apellido", clienteInsert.getApellido())
+        //         .append("domicilio", DomicilioConverter.convert(clienteInsert.getDomicilio()))
+        //         .append("nTelefono", clienteInsert.getNTelefono())
+        //         .append("mail", clienteInsert.getMail());
+
+        // documentoPrueba = new Document("producto", ProductoConverter.convert(producto));
+
+        documentoPrueba = new Document("cliente", ClienteConverter.convert(clienteInsert));
 
         System.out.println(" ===== Se va a realizar la inserción...");
 
         clientes.insertOne(documentoPrueba);
+        // productos.insertOne(documentoPrueba);
 
         System.out.println(" ===== La inserción se a realizado correctamente");
+
+        System.out.println(" ===== Recuperando datos de los clientes...");
+
+        Bson filtro = Filters.all("cliente.nombre", "Rodolfito");
+
+        clientes.find(filtro).forEach(doc -> System.out.println(doc));
 
     }
 

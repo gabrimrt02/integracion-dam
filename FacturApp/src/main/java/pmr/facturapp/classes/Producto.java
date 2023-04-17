@@ -1,11 +1,13 @@
 package pmr.facturapp.classes;
 
+import org.bson.types.ObjectId;
+
 import pmr.facturapp.classes.statics.Unidad;
 
 public class Producto {
 
     // Atributos
-    private String id;
+    private ObjectId id;
     private String nombre;
     private String descripcion;
     private Double precio;
@@ -13,7 +15,7 @@ public class Producto {
     private Unidad unidad;
 
     // Constructores
-    public Producto(String id, String nombre, String descripcion, Double precio, int stock, Unidad unidad) {
+    public Producto(ObjectId id, String nombre, String descripcion, Double precio, int stock, Unidad unidad) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -31,7 +33,7 @@ public class Producto {
     }
 
     // Getters y Setters
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 

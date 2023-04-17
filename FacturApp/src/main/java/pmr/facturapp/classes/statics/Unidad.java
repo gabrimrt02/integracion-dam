@@ -22,4 +22,8 @@ public class Unidad {
         return new Unidad("UNIDAD(ES) SUELTA(S)");
     }
 
+    public String getUnidad() {
+        return nombre;
+    }
+
 }

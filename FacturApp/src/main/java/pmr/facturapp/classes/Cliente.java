@@ -1,5 +1,7 @@
 package pmr.facturapp.classes;
 
+import org.bson.types.ObjectId;
+
 import pmr.facturapp.classes.statics.TipoCliente;
 
 public class Cliente extends Persona {
@@ -8,7 +10,7 @@ public class Cliente extends Persona {
     private TipoCliente tipoCliente;
 
     // Constructor
-    private Cliente(String id, TipoCliente tipoCliente, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
+    public Cliente(ObjectId id, TipoCliente tipoCliente, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         super(id, nombre, apellido, domicilio, nTelefono, mail);
         this.tipoCliente = tipoCliente;
     }
@@ -18,13 +20,17 @@ public class Cliente extends Persona {
         this.tipoCliente = tipoCliente;
     }
 
-    // Getters y Setters
+    // Getters y Setters    
     public TipoCliente getTipoCliente() {
         return tipoCliente;
     }
-
+    
     public void setTipoCliente(TipoCliente tipoCliente) {
         this.tipoCliente = tipoCliente;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s - %s", getTipoCliente().getTipo(), super.toString());
+    }
 }

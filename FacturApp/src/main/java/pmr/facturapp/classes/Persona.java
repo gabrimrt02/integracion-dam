@@ -1,9 +1,11 @@
 package pmr.facturapp.classes;
 
+import org.bson.types.ObjectId;
+
 public class Persona {
 
     // Atributos
-    private String id;
+    private ObjectId id;
     private String nombre;
     private String apellido;
     private Domicilio domicilio;
@@ -11,7 +13,7 @@ public class Persona {
     private String mail;
 
     // Constructores
-    public Persona(String id, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
+    public Persona(ObjectId id, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -29,7 +31,7 @@ public class Persona {
     }
 
     // Getters y Setters
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
