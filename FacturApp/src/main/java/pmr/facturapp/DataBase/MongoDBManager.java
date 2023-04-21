@@ -1,88 +1,233 @@
 package pmr.facturapp.DataBase;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-
-import pmr.facturapp.classes.Cliente;
-import pmr.facturapp.classes.Domicilio;
-import pmr.facturapp.classes.Producto;
-import pmr.facturapp.classes.statics.TipoCliente;
-import pmr.facturapp.classes.statics.Unidad;
-import pmr.facturapp.converters.ClienteConverter;
-import pmr.facturapp.converters.DomicilioConverter;
-import pmr.facturapp.converters.ProductoConverter;
-import pmr.facturapp.converters.TipoClienteConverter;
 
 public class MongoDBManager {
 
-    // private final String CONN_STRING =
-    // "mongodb+srv://Developer:3gughi9KTrPYd3uW@facturapp.exx6an8.mongodb.net/test";
+    /**
+     * Atributos de la clase MongoDBManager que almacenan los nombres de las
+     * colecciones y la base de datos utilizados en la aplicación.
+     */
+    private final String BBDD_NAME = "FacturApp";
+    private final String COL_CIENTES = "Clientes";
+    private final String COL_EMPLEADOS = "Empleados";
+    private final String COL_PRODUCTOS = "Productos";
+    private final String COL_PROVEEDORES = "Proveedores";
 
-    // MongoClientSettings clienteSettings;
-    // MongoClient cliente;
+    /**
+     * Atributo de la clase MongoDBManager que almacena los datos de configuración
+     * de la conexión con la base de datos de MongoDB.
+     */
+    private Properties properties;
 
-    public static void main(String[] args) {
-        final String CONN_STRING = "mongodb+srv://Developer:3gughi9KTrPYd3uW@facturapp.exx6an8.mongodb.net/test";
+    /**
+     * Atributos de la clase MongoDBManager que almacenan los objetos y valores
+     * necesarios para la conexión con la base de datos de MongoDB.
+     */
+    private String connString;
+    private ConnectionString conn;
+    private MongoClient client;
+    private MongoClientSettings clientSettings;
+    private MongoDatabase database;
+    private MongoCollection<Document> clientes, empleados, productos, proveedores;
 
-        MongoClientSettings clienteSettings;
-        MongoClient cliente;
-        MongoDatabase database;
-        MongoCollection<Document> clientes, productos;
-        Document documentoPrueba;
+    /**
+     * Constructor de la clase MongoDBManager, encargado de establecer la conexión
+     * con la base de datos de MongoDB utilizando un archivo de propiedades.
+     * Recupera las colecciones de datos de la base de datos y las almacena en
+     * variables de clase para su posterior uso.
+     *
+     * @throws IOException si ocurre un error al leer el archivo de propiedades.
+     */
+    private MongoDBManager() throws IOException {
+        properties = new Properties();
 
-        clienteSettings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(CONN_STRING))
-                .build();
+        // Apertura del fichero de properties y retorno de la clave de conexión
+        properties.load(MongoDBManager.class.getResourceAsStream("properties/mongoConn.properties"));
+        connString = properties.getProperty("connString");
 
-        cliente = MongoClients.create(clienteSettings);
-        database = cliente.getDatabase("FacturApp");
+        // Conexión con la base de datos de MongoDB
+        conn = new ConnectionString(connString);
+        clientSettings = MongoClientSettings.builder().applyConnectionString(conn).build();
 
-        System.out.println(" ===== Conexión Realizada con éxito");
+        // Creación del cliente
+        client = MongoClients.create(clientSettings);
 
-        clientes = database.getCollection("Clientes");
+        // Recuperación de la BBDD
+        database = client.getDatabase(BBDD_NAME);
 
-        productos = database.getCollection("Productos");
+        // Recuperación de las colecciones de datos
+        clientes = database.getCollection(COL_CIENTES);
+        empleados = database.getCollection(COL_EMPLEADOS);
+        productos = database.getCollection(COL_PRODUCTOS);
+        proveedores = database.getCollection(COL_PROVEEDORES);
+    }
 
-        Domicilio domicilio = new Domicilio("SC de Tenerife", "El Rosario");
+    /**
+     * Intenta conectarse a una instancia de MongoDB utilizando la clase
+     * MongoDBManager. Si la conexión es exitosa, devuelve true, de lo contrario,
+     * devuelve false.
+     *
+     * @return true si la conexión fue exitosa, false de lo contrario.
+     */
+    public Boolean connectar() {
+        Boolean connResult = false;
+        try {
+            new MongoDBManager();
+            connResult = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return connResult;
+    }
 
-        Cliente clienteInsert = new Cliente(TipoCliente.PARTICULAR(), "Rodolfito", "Ramirez", domicilio, "922 34 85 08",
-                "rod.ram@dev.facturapp.es");
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Clientes".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos los clientes
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllClientes() {
+        ArrayList<Document> documentosClientes = new ArrayList<>();
+        MongoCursor<Document> cursor = clientes.find().cursor();
+        while (cursor.hasNext()) {
+            documentosClientes.add(cursor.next());
+        }
+        return documentosClientes;
+    }
 
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Empleados".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos los empleados
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllEmpleados() {
+        ArrayList<Document> documentosEmpleados = new ArrayList<>();
+        MongoCursor<Document> cursor = empleados.find().cursor();
+        while (cursor.hasNext()) {
+            documentosEmpleados.add(cursor.next());
+        }
+        return documentosEmpleados;
+    }
 
-        // Producto producto = new Producto("Plátano de Canarias", "Plátano de Canarias", 1.10, 100, Unidad.CAJAS());
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Productos".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos los productos
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllProductos() {
+        ArrayList<Document> documentosProductos = new ArrayList<>();
+        MongoCursor<Document> cursor = productos.find().cursor();
+        while (cursor.hasNext()) {
+            documentosProductos.add(cursor.next());
+        }
+        return documentosProductos;
+    }
 
-        // documentoPrueba = new Document("tipoCliente", TipoClienteConverter.convert(clienteInsert.getTipoCliente()))
-        //         .append("nombre", clienteInsert.getNombre())
-        //         .append("apellido", clienteInsert.getApellido())
-        //         .append("domicilio", DomicilioConverter.convert(clienteInsert.getDomicilio()))
-        //         .append("nTelefono", clienteInsert.getNTelefono())
-        //         .append("mail", clienteInsert.getMail());
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Proveedores".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos los proveedores
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllProveedores() {
+        ArrayList<Document> documentosProveedores = new ArrayList<>();
+        MongoCursor<Document> cursor = proveedores.find().cursor();
+        while (cursor.hasNext()) {
+            documentosProveedores.add(cursor.next());
+        }
+        return documentosProveedores;
+    }
 
-        // documentoPrueba = new Document("producto", ProductoConverter.convert(producto));
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Clientes" que coinciden con el nombre especificado.
+     *
+     * @param nombre El nombre a buscar en los documentos de la colección
+     *               "Clientes".
+     * @return Una lista de documentos de tipo "Document" con los clientes que
+     *         coinciden con el nombre especificado.
+     */
+    public List<Document> getClientesByName(String nombre) {
+        ArrayList<Document> documentosClientes = new ArrayList<>();
+        MongoCursor<Document> cursor = clientes.find().cursor();
+        while (cursor.hasNext()) {
+            documentosClientes.add(cursor.next());
+        }
+        return documentosClientes;
+    }
 
-        documentoPrueba = new Document("cliente", ClienteConverter.convert(clienteInsert));
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Empleados" que coinciden con el nombre especificado.
+     *
+     * @param nombre El nombre a buscar en los documentos de la colección
+     *               "Empleados".
+     * @return Una lista de documentos de tipo "Document" con los clientes que
+     *         coinciden con el nombre especificado.
+     */
+    public List<Document> getEmpleadosByName(String nombre) {
+        ArrayList<Document> documentosEmpleados = new ArrayList<>();
+        MongoCursor<Document> cursor = empleados.find().cursor();
+        while (cursor.hasNext()) {
+            documentosEmpleados.add(cursor.next());
+        }
+        return documentosEmpleados;
+    }
 
-        System.out.println(" ===== Se va a realizar la inserción...");
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Productos" que coinciden con el nombre especificado.
+     *
+     * @param nombre El nombre a buscar en los documentos de la colección
+     *               "Productos".
+     * @return Una lista de documentos de tipo "Document" con los clientes que
+     *         coinciden con el nombre especificado.
+     */
+    public List<Document> getProductosByName(String nombre) {
+        ArrayList<Document> documentosProductos = new ArrayList<>();
+        MongoCursor<Document> cursor = proveedores.find().cursor();
+        while (cursor.hasNext()) {
+            documentosProductos.add(cursor.next());
+        }
+        return documentosProductos;
+    }
 
-        clientes.insertOne(documentoPrueba);
-        // productos.insertOne(documentoPrueba);
-
-        System.out.println(" ===== La inserción se a realizado correctamente");
-
-        System.out.println(" ===== Recuperando datos de los clientes...");
-
-        Bson filtro = Filters.all("cliente.nombre", "Rodolfito");
-
-        clientes.find(filtro).forEach(doc -> System.out.println(doc));
-
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Proveedores" que coinciden con el nombre especificado.
+     *
+     * @param nombre El nombre a buscar en los documentos de la colección
+     *               "Proveedoes".
+     * @return Una lista de documentos de tipo "Document" con los clientes que
+     *         coinciden con el nombre especificado.
+     */
+    public List<Document> getProveedoresByName(String nombre) {
+        ArrayList<Document> documentosProveedores = new ArrayList<>();
+        MongoCursor<Document> cursor = proveedores.find().cursor();
+        while (cursor.hasNext()) {
+            documentosProveedores.add(cursor.next());
+        }
+        return documentosProveedores;
     }
 
 }

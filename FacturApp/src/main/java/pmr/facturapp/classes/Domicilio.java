@@ -29,4 +29,9 @@ public class Domicilio {
         this.municipio = municipio;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s, %s", getProvincia(), getMunicipio());
+    }
+
 }

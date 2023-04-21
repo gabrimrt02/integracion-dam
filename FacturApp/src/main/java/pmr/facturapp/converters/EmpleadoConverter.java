@@ -8,7 +8,7 @@ import pmr.facturapp.classes.Empleado;
 
 public class EmpleadoConverter {
     
-    public static Document converter(Empleado empleado) {
+    public static Document convert(Empleado empleado) {
         return new Document("nombre", empleado.getNombre())
                 .append("apellido", empleado.getApellido())
                 .append("domicilio", DomicilioConverter.convert(empleado.getDomicilio()))
@@ -16,7 +16,7 @@ public class EmpleadoConverter {
                 .append("mail", empleado.getMail());
     }
 
-    public static Empleado converter(Document documento) {
+    public static Empleado convert(Document documento) {
         ObjectId id = documento.getObjectId("_id");
         String nombre = documento.getString("nombre");
         String apellido = documento.getString("apellido");
