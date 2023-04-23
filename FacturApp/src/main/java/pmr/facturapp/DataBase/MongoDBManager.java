@@ -15,6 +15,15 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
+import pmr.facturapp.classes.Cliente;
+import pmr.facturapp.classes.Empleado;
+import pmr.facturapp.classes.Producto;
+import pmr.facturapp.classes.Proveedor;
+import pmr.facturapp.converters.ClienteConverter;
+import pmr.facturapp.converters.EmpleadoConverter;
+import pmr.facturapp.converters.ProductoConverter;
+import pmr.facturapp.converters.ProveedorConverter;
+
 public class MongoDBManager {
 
     /**
@@ -56,7 +65,7 @@ public class MongoDBManager {
         properties = new Properties();
 
         // Apertura del fichero de properties y retorno de la clave de conexión
-        properties.load(MongoDBManager.class.getResourceAsStream("properties/mongoConn.properties"));
+        properties.load(MongoDBManager.class.getResourceAsStream("/properties/mongoConn.properties"));
         connString = properties.getProperty("connString");
 
         // Conexión con la base de datos de MongoDB
@@ -83,15 +92,54 @@ public class MongoDBManager {
      *
      * @return true si la conexión fue exitosa, false de lo contrario.
      */
-    public Boolean connectar() {
-        Boolean connResult = false;
+    public static MongoDBManager connect() {
         try {
-            new MongoDBManager();
-            connResult = true;
+            MongoDBManager manager = new MongoDBManager();
+            return manager;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return connResult;
+    }
+
+    /**
+     * Inserta un nuevo cliente en la base de datos.
+     * 
+     * @param cliente el objeto Cliente a ser insertado
+     */
+    public void insertCliente(Cliente cliente) {
+        Document documentoCliente = ClienteConverter.convert(cliente);
+        clientes.insertOne(new Document("cliente", documentoCliente));
+    }
+
+    /**
+     * Inserta un nuevo empleado en la base de datos.
+     * 
+     * @param empleado el objeto Empleado a ser insertado
+     */
+    public void insertEmpleado(Empleado empleado) {
+        Document documentoEmpleado = EmpleadoConverter.convert(empleado);
+        empleados.insertOne(new Document("empleado", documentoEmpleado));
+    }
+
+    /**
+     * Inserta un nuevo producto en la base de datos.
+     * 
+     * @param producto el objeto Producto a ser insertado
+     */
+    public void insertProducto(Producto producto) {
+        Document documentoProducto = ProductoConverter.convert(producto);
+        productos.insertOne(new Document("producto", documentoProducto));
+    }
+
+    /**
+     * Inserta un nuevo proveedor en la base de datos.
+     * 
+     * @param proveedor el objeto Proveedor a ser insertado
+     */
+    public void insertProveedor(Proveedor proveedor) {
+        Document documentoProveedor = ProveedorConverter.convert(proveedor);
+        proveedores.insertOne(new Document("proveedor", documentoProveedor));
     }
 
     /**
@@ -169,7 +217,8 @@ public class MongoDBManager {
      */
     public List<Document> getClientesByName(String nombre) {
         ArrayList<Document> documentosClientes = new ArrayList<>();
-        MongoCursor<Document> cursor = clientes.find().cursor();
+        Document query = new Document("nombre", nombre);
+        MongoCursor<Document> cursor = clientes.find(query).cursor();
         while (cursor.hasNext()) {
             documentosClientes.add(cursor.next());
         }
@@ -187,7 +236,8 @@ public class MongoDBManager {
      */
     public List<Document> getEmpleadosByName(String nombre) {
         ArrayList<Document> documentosEmpleados = new ArrayList<>();
-        MongoCursor<Document> cursor = empleados.find().cursor();
+        Document query = new Document("nombre", nombre);
+        MongoCursor<Document> cursor = empleados.find(query).cursor();
         while (cursor.hasNext()) {
             documentosEmpleados.add(cursor.next());
         }
@@ -205,7 +255,8 @@ public class MongoDBManager {
      */
     public List<Document> getProductosByName(String nombre) {
         ArrayList<Document> documentosProductos = new ArrayList<>();
-        MongoCursor<Document> cursor = proveedores.find().cursor();
+        Document query = new Document("nombre", nombre);
+        MongoCursor<Document> cursor = proveedores.find(query).cursor();
         while (cursor.hasNext()) {
             documentosProductos.add(cursor.next());
         }
@@ -223,7 +274,8 @@ public class MongoDBManager {
      */
     public List<Document> getProveedoresByName(String nombre) {
         ArrayList<Document> documentosProveedores = new ArrayList<>();
-        MongoCursor<Document> cursor = proveedores.find().cursor();
+        Document query = new Document("nombre", nombre);
+        MongoCursor<Document> cursor = proveedores.find(query).cursor();
         while (cursor.hasNext()) {
             documentosProveedores.add(cursor.next());
         }

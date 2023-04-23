@@ -79,7 +79,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return String.format("%s | %.2f | %d %s", getNombre(), getPrecio(), getStock(), getUnidad());
+        return String.format("%s | %.2f | %d %s", getNombre(), getPrecio(), getStock(), getUnidad().getUnidad());
     }
 
 }

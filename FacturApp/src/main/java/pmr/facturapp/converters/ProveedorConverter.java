@@ -11,23 +11,26 @@ public class ProveedorConverter {
     public static Document convert(Proveedor proveedor) {
         return new Document("nombre", proveedor.getNombre())
                 .append("apellido", proveedor.getApellido())
+                .append("domicilio", DomicilioConverter.convert(proveedor.getDomicilio()))
                 .append("telefono", proveedor.getNTelefono())
                 .append("mail", proveedor.getMail());
     }
 
     public static Proveedor convert(Document documento) {
-        // Atributos del proveedor
         ObjectId id = documento.getObjectId("_id");
-        String nombre = documento.getString("nombre");
-        String apellido = documento.getString("apellido");
-        String telefono = documento.getString("telefono");
-        String mail = documento.getString("mail");
 
-        // Atributos del domicilio
-        Document d = documento.get("domicilio", Document.class);
+        // Recuperamos el documento Cliente incluido dentro de la BBDD
+        Document docProveedor = documento.get("proveedor", Document.class);
 
-        Domicilio domicilio = DomicilioConverter.convert(d);
+        String nombre = docProveedor.getString("nombre");
+        String apellido = docProveedor.getString("apellido");
 
+        // Transformamos el subDocumento a la clase correspondiente
+        Domicilio domicilio = DomicilioConverter.convert(docProveedor.get("domicilio", Document.class));
+
+        String telefono = docProveedor.getString("telefono");
+        String mail = docProveedor.getString("mail");
+        
         return new Proveedor(id, nombre, apellido, domicilio, telefono, mail);
     }
 

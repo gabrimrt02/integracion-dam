@@ -8,7 +8,7 @@ import pmr.facturapp.classes.Domicilio;
 import pmr.facturapp.classes.statics.TipoCliente;
 
 public class ClienteConverter {
-    
+
     public static Document convert(Cliente cliente) {
         return new Document("tipoCliente", TipoClienteConverter.convert(cliente.getTipoCliente()))
                 .append("nombre", cliente.getNombre())
@@ -21,16 +21,22 @@ public class ClienteConverter {
     public static Cliente convert(Document documento) {
         ObjectId id = documento.getObjectId("_id");
 
-        TipoCliente tipoCliente = TipoClienteConverter.convert(documento.get("tipoCliente", Document.class));
+        // Recuperamos el documento Cliente incluido dentro de la BBDD
+        Document docCliente = documento.get("cliente", Document.class);
 
-        String nombre = documento.getString("nombre");
-        String apellido = documento.getString("apellido");
+        // Transformamos el subDocumento a la clase correspondiente
+        TipoCliente tipoCliente = TipoClienteConverter.convert(docCliente.get("tipoCliente", Document.class));
 
-        Domicilio domicilio = DomicilioConverter.convert(documento.get("domicilio", Document.class));
+        String nombre = docCliente.getString("nombre");
+        String apellido = docCliente.getString("apellido");
+
+        // Transformamos el subDocumento a la clase correspondiente
+        Domicilio domicilio = DomicilioConverter.convert(docCliente.get("domicilio", Document.class));
+
+        String telefono = docCliente.getString("telefono");
+        String mail = docCliente.getString("mail");
         
-        String telefono = documento.getString("telefono");
-        String mail = documento.getString("mail");
         return new Cliente(id, tipoCliente, nombre, apellido, domicilio, telefono, mail);
     }
-    
+
 }

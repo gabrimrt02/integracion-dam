@@ -8,7 +8,7 @@ public class DomicilioConverter {
 
     public static Document convert(Domicilio domicilio) {
         return new Document("provincia", domicilio.getProvincia())
-                .append("muncipio", domicilio.getMunicipio());
+                .append("municipio", domicilio.getMunicipio());
     }
 
     public static Domicilio convert(Document documento) {

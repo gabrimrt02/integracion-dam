@@ -18,11 +18,19 @@ public class ProductoConverter {
 
     public static Producto convert(Document documento) {
         ObjectId id = documento.getObjectId("_id");
-        String nombre = documento.getString("nombre");
-        String descripcion = documento.getString("descripcion");
-        Double precio = documento.getDouble("precio");
-        int stock = documento.getInteger("stock");
-        Unidad unidad = (Unidad) documento.get("unidad");
+
+        // Recuperamos el documento Cliente incluido dentro de la BBDD
+        Document docProducto = documento.get("producto", Document.class);
+
+        String nombre = docProducto.getString("nombre");
+        String descripcion = docProducto.getString("descripcion");
+
+        Double precio = docProducto.getDouble("precio");
+        int stock = docProducto.getInteger("stock");
+        
+        // Transformamos el subDocumento en la clase correspondiente
+        Unidad unidad = UnidadConverter.convert(docProducto.get("unidad", Document.class));
+
         return new Producto(id, nombre, descripcion, precio, stock, unidad);
     }
 
