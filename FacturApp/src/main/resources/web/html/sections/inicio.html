@@ -16,6 +16,7 @@
 
     <!-- JS -->
     <!-- <script src="../../javascript/sections/inicio.js"></script> -->
+    <script src="../../javascript/jquery.js"></script>
 
     <!-- ChartJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -23,21 +24,19 @@
 
 <body>
 
-    <div id="header">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="card-title">Hola, Usuario</h3>
-                <p class="card-text">Fecha del día</p>
-            </div>
-            <div id="balance-global">
-                <h2>+/- 00,00€</h2>
-            </div>
+    <div class="card" id="header">
+        <div class="card-body">
+            <h3 class="card-title">Hola, Usuario</h3>
+            <p class="card-text">Fecha del día</p>
+        </div>
+        <div id="balance-global">
+            <h2>+/- 00,00€</h2>
         </div>
     </div>
 
 
     <div class="card-group" id="content">
-        <div class="class tarjeta" style="margin-right: 1%;">
+        <div class="tarjeta" style="margin-right: 1%;">
             <div class="card-header" style="text-align: center;">Últimos Movimientos</div>
             <div class="card-body">
                 <div id="tabla">

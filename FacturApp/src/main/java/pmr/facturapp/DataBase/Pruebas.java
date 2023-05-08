@@ -1,17 +1,22 @@
 package pmr.facturapp.DataBase;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.bson.Document;
 
 import pmr.facturapp.classes.Cliente;
+import pmr.facturapp.classes.Compra;
 import pmr.facturapp.classes.Domicilio;
 import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
+import pmr.facturapp.classes.Venta;
 import pmr.facturapp.classes.statics.TipoCliente;
 import pmr.facturapp.classes.statics.Unidad;
 import pmr.facturapp.converters.ClienteConverter;
+import pmr.facturapp.converters.CompraConverter;
 import pmr.facturapp.converters.EmpleadoConverter;
 import pmr.facturapp.converters.ProductoConverter;
 import pmr.facturapp.converters.ProveedorConverter;
@@ -37,6 +42,11 @@ public class Pruebas {
         Proveedor pProveedor = new Proveedor("Nombre_Proveedor", "Apellido_Proveedor",
                 new Domicilio("Las Palmas de Gran Canaria", "Arucas"), "928 789 654", "prov.ape@dev.facturapp.es");
 
+        Compra pCompra = new Compra(pProveedor, List.of(pProducto, pProducto, pProducto), LocalDate.now());
+
+        Venta pVenta = new Venta(pCliente, List.of(pProducto, pProducto, pProducto), pEmpleado, LocalDate.now());
+
+
         /*
          * Inserción de objetos Cliente
          */
@@ -58,6 +68,11 @@ public class Pruebas {
         manager.insertProveedor(pProveedor);
 
         /*
+         * Inserción de objetos Compra
+         */
+        manager.insertCompra(pCompra);
+
+        /*
          * Retorno de todos los clientes registrados
          */
         System.out.println("=====  CLIENTES  =====");
@@ -72,6 +87,7 @@ public class Pruebas {
         /*
          * Retorno de todos los empleado registrados
          */
+        
         System.out.println("=====  EMPLEADOS  =====");
         List<Document> empleados = manager.getAllEmpleados();
         for (int i = 0; i < empleados.size(); i++) {
@@ -101,6 +117,18 @@ public class Pruebas {
         for (int i = 0; i < proveedores.size(); i++) {
             Proveedor pr = ProveedorConverter.convert(proveedores.get(i));
             System.out.println(pr);
+        }
+
+        System.out.println(SEPARADOR);
+
+        /*
+         * Retorno de todas las compra registradas
+         */
+        System.out.println("=====  COMPRAS  =====");
+        List<Document> compras = manager.getAllCompras();
+        for (int i = 0; i < compras.size(); i++) {
+            Compra cmp = CompraConverter.convert(compras.get(i));
+            System.out.println(cmp);
         }
 
         System.out.println(SEPARADOR);

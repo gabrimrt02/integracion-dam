@@ -1,4 +1,4 @@
-const chartName = document.getElementById('line-chart');
+const chartName = $('#line-chart');
 
 const valores = [500, 205, 425, 600, 200, 90, 1800];
 

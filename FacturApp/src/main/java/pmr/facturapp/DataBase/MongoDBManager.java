@@ -16,10 +16,12 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 
 import pmr.facturapp.classes.Cliente;
+import pmr.facturapp.classes.Compra;
 import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
 import pmr.facturapp.converters.ClienteConverter;
+import pmr.facturapp.converters.CompraConverter;
 import pmr.facturapp.converters.EmpleadoConverter;
 import pmr.facturapp.converters.ProductoConverter;
 import pmr.facturapp.converters.ProveedorConverter;
@@ -35,6 +37,7 @@ public class MongoDBManager {
     private final String COL_EMPLEADOS = "Empleados";
     private final String COL_PRODUCTOS = "Productos";
     private final String COL_PROVEEDORES = "Proveedores";
+    private final String COL_COMPRAS = "Compras";
 
     /**
      * Atributo de la clase MongoDBManager que almacena los datos de configuración
@@ -51,7 +54,7 @@ public class MongoDBManager {
     private MongoClient client;
     private MongoClientSettings clientSettings;
     private MongoDatabase database;
-    private MongoCollection<Document> clientes, empleados, productos, proveedores;
+    private MongoCollection<Document> clientes, empleados, productos, proveedores, compras;
 
     /**
      * Constructor de la clase MongoDBManager, encargado de establecer la conexión
@@ -83,6 +86,7 @@ public class MongoDBManager {
         empleados = database.getCollection(COL_EMPLEADOS);
         productos = database.getCollection(COL_PRODUCTOS);
         proveedores = database.getCollection(COL_PROVEEDORES);
+        compras = database.getCollection(COL_COMPRAS);
     }
 
     /**
@@ -90,7 +94,7 @@ public class MongoDBManager {
      * MongoDBManager. Si la conexión es exitosa, devuelve true, de lo contrario,
      * devuelve false.
      *
-     * @return true si la conexión fue exitosa, false de lo contrario.
+     * @return manager si la conexión fue exitosa, null de lo contrario.
      */
     public static MongoDBManager connect() {
         try {
@@ -140,6 +144,16 @@ public class MongoDBManager {
     public void insertProveedor(Proveedor proveedor) {
         Document documentoProveedor = ProveedorConverter.convert(proveedor);
         proveedores.insertOne(new Document("proveedor", documentoProveedor));
+    }
+
+    /**
+     * Inserta un nuevo compra en la base de datos.
+     * 
+     * @param proveedor el objeto Compra a ser insertado
+     */
+    public void insertCompra(Compra compra) {
+        Document documentoCompra = CompraConverter.convert(compra);
+        compras.insertOne(new Document("compra", documentoCompra));
     }
 
     /**
@@ -204,6 +218,22 @@ public class MongoDBManager {
             documentosProveedores.add(cursor.next());
         }
         return documentosProveedores;
+    }
+
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Proveedores".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos los proveedores
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllCompras() {
+        ArrayList<Document> documentosCompras = new ArrayList<>();
+        MongoCursor<Document> cursor = compras.find().cursor();
+        while (cursor.hasNext()) {
+            documentosCompras.add(cursor.next());
+        }
+        return documentosCompras;
     }
 
     /**

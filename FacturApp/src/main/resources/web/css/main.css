@@ -97,33 +97,6 @@ body {
     top: 79%;
 }
 
-@media only screen and (max-width: 700px) {
-    .side-nav {
-        width: 10%;
-    }
-
-    .logo-icon {
-        display: block;
-        width: 40px;
-    }
-
-    .logo-img {
-        display: none;
-    }
-
-    .nav-links li a p {
-        display: none;
-    }
-
-    .nav-links li a i {
-        margin-right: 0;
-    }
-
-    .nav-links li a {
-        justify-content: center;
-    }
-}
-
 /* FRAME */
 #frame {
     margin-left: 15%;

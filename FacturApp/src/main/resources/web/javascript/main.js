@@ -17,6 +17,8 @@ documento.ready(inicio);
 function inicio() {
     secciones.push($("#seccion1"));
     secciones.push($("#seccion2"));
+    secciones.push($("#seccion3"));
+    secciones.push($("#seccion6"));
 
     frame = $("#frame");
     lastLoaded = frame.attr("src");
@@ -31,6 +33,14 @@ function inicio() {
                     break;
 
                 case 1:
+                    pageToLoad = "../html/sections/ventas.html";
+                    break;
+
+                case 2:
+                    pageToLoad = "#";
+                    break;
+            
+                case 3:
                     pageToLoad = "../html/sections/test.html";
                     break;
 

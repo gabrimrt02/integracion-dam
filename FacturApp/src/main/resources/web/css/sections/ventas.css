@@ -1,0 +1,35 @@
+body {
+    margin: 1%;
+    background-color: #FEFEFA;
+    display: flex;
+}
+
+.tarjeta {
+    width: 70%;
+    margin: 1% 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.ingreso {
+    color: #00A86B;
+}
+
+.gasto {
+    color: red;
+}
+
+#side-charts {
+    width: 30%;
+}
+
+#radar {
+    border: 1px solid blue;
+    margin: 1%;
+    width: 98%;
+}
+
+#polar {
+    border: 1px solid green;
+    margin: 1%;
+    width: 98%;
+}

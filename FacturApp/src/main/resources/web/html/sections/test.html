@@ -12,61 +12,40 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../../css/sections/inicio.css">
+    <link rel="stylesheet" href="../../css/sections/test.css">
 
     <!-- ChartJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- JQuery -->
+    <script src="../../javascript/jquery.js"></script>
+    <script src="../../javascript/sections/test.js"></script>
 </head>
 
 <body>
 
-    <div style="position: relative; height:80vh; width:90vw">
-        <canvas id="line-chart"></canvas>
+    <ul class="nav nav-pills nav-fill flex-column" id="sidenav">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Active</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link">Disabled</a>
+        </li>
+    </ul>
+
+    <h1>TESTS</h1>
+
+    <div id="grafica">
+        <canvas id="line"></canvas>
     </div>
 
-    <script>
-        const chartName = document.getElementById('line-chart');
-
-        const valores = [500, 205, 1321, 1516, 2107,
-            2191, 3133, 3221, 4783, 500];
-
-        var color = "";
-
-        if(valores[valores.length - 1] - valores[0] > 0) {
-            color = "#3cba9f";
-        } else if (valores[valores.length - 1] - valores[0] < 0) {
-            color = "#ff0000";
-        } else {
-            color = "#D3D3D3";
-        }
-
-        const datos = {
-            labels: [1500, 1600, 1700, 1750, 1800, 1850,
-                1900, 1950, 1999, 2050],
-            datasets: [
-                {
-                    data: valores,
-                    label: "America",
-                    borderColor: color,
-                    fill: true
-                }],
-        };
-
-        const opciones = {
-            responsive: true,
-            maintainAspectRatio: true,
-            resizeDelay: 0
-        }
-
-        const cfg = {
-            type: 'line',
-            data: datos,
-            options: opciones
-        };
-
-        new Chart(chartName, cfg);
-    </script>
-
+    <!-- <script src="../../javascript/sections/test.js"></script> -->
 </body>
 
 </html>
