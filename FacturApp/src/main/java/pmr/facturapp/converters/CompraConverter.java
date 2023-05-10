@@ -13,13 +13,8 @@ import pmr.facturapp.classes.Proveedor;
 public class CompraConverter {
  
     public static Document convert(Compra compra) {
-        Document productos = new Document();
-        for(int i = 0; i < compra.getProductos().size(); i++) {
-            productos.append("producto_" + i, ProductoConverter.convert(compra.getProductos().get(i)));
-        }
-
         return new Document("proveedor", ProveedorConverter.convert(compra.getProveedor()))
-                .append("productos", productos)
+                .append("productos", ProductoConverter.convertListToDocument(compra.getProductos()))
                 .append("fecha", compra.getFecha().toEpochDay());
     }
 
@@ -30,17 +25,8 @@ public class CompraConverter {
         Document docCompra = documento.get("compra", Document.class);
 
         Proveedor proveedor = ProveedorConverter.convert(docCompra);
-        List<Producto> productos = docCompra.getList("productos", Producto.class);
+        List<Producto> productos = ProductoConverter.convertDocumentToList(docCompra);
         
-        /*
-         * Prueba
-         */
-    
-        // Document productos = docCompra.get("productos", Document.class);
-
-         /*
-          * Fin Prueba
-          */
         LocalDate fecha = LocalDate.ofEpochDay(docCompra.getLong("fecha"));
 
         return new Compra(id, proveedor, productos, fecha);
