@@ -1,6 +1,5 @@
 package pmr.facturapp.DataBase;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +19,7 @@ import pmr.facturapp.converters.CompraConverter;
 import pmr.facturapp.converters.EmpleadoConverter;
 import pmr.facturapp.converters.ProductoConverter;
 import pmr.facturapp.converters.ProveedorConverter;
+import pmr.facturapp.converters.VentaConverter;
 
 public class Pruebas {
 
@@ -71,6 +71,11 @@ public class Pruebas {
          * Inserción de objetos Compra
          */
         manager.insertCompra(pCompra);
+
+        /*
+         * Inserción de objetos Venta
+         */
+        manager.insertVenta(pVenta);
 
         /*
          * Retorno de todos los clientes registrados
@@ -129,6 +134,18 @@ public class Pruebas {
         for (int i = 0; i < compras.size(); i++) {
             Compra cmp = CompraConverter.convert(compras.get(i));
             System.out.println(cmp);
+        }
+
+        System.out.println(SEPARADOR);
+
+        /*
+         * Retorno de todas las ventas registradas
+         */
+        System.out.println("=====  VENTAS  =====");
+        List<Document> ventas = manager.getAllVentas();
+        for (int i = 0; i < ventas.size(); i++) {
+            Venta vn = VentaConverter.convert(ventas.get(i));
+            System.out.println(vn);
         }
 
         System.out.println(SEPARADOR);

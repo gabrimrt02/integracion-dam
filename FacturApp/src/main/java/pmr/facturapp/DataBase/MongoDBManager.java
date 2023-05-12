@@ -20,11 +20,13 @@ import pmr.facturapp.classes.Compra;
 import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
+import pmr.facturapp.classes.Venta;
 import pmr.facturapp.converters.ClienteConverter;
 import pmr.facturapp.converters.CompraConverter;
 import pmr.facturapp.converters.EmpleadoConverter;
 import pmr.facturapp.converters.ProductoConverter;
 import pmr.facturapp.converters.ProveedorConverter;
+import pmr.facturapp.converters.VentaConverter;
 
 public class MongoDBManager {
 
@@ -38,6 +40,7 @@ public class MongoDBManager {
     private final String COL_PRODUCTOS = "Productos";
     private final String COL_PROVEEDORES = "Proveedores";
     private final String COL_COMPRAS = "Compras";
+    private final String COL_VENTAS = "Ventas";
 
     /**
      * Atributo de la clase MongoDBManager que almacena los datos de configuración
@@ -54,7 +57,7 @@ public class MongoDBManager {
     private MongoClient client;
     private MongoClientSettings clientSettings;
     private MongoDatabase database;
-    private MongoCollection<Document> clientes, empleados, productos, proveedores, compras;
+    private MongoCollection<Document> clientes, empleados, productos, proveedores, compras, ventas;
 
     /**
      * Constructor de la clase MongoDBManager, encargado de establecer la conexión
@@ -87,6 +90,7 @@ public class MongoDBManager {
         productos = database.getCollection(COL_PRODUCTOS);
         proveedores = database.getCollection(COL_PROVEEDORES);
         compras = database.getCollection(COL_COMPRAS);
+        ventas = database.getCollection(COL_VENTAS);
     }
 
     /**
@@ -157,6 +161,16 @@ public class MongoDBManager {
     }
 
     /**
+     * Inserta un nuevo venta en la base de datos.
+     * 
+     * @param proveedor el objeto Venta a ser insertado
+     */
+    public void insertVenta(Venta venta) {
+        Document documentoVenta = VentaConverter.convert(venta);
+        ventas.insertOne(new Document("venta", documentoVenta));
+    }
+
+    /**
      * Método que devuelve una lista con todos los documentos de la colección
      * "Clientes".
      *
@@ -222,9 +236,9 @@ public class MongoDBManager {
 
     /**
      * Método que devuelve una lista con todos los documentos de la colección
-     * "Proveedores".
+     * "Compras".
      *
-     * @return Una lista de documentos de tipo "Document" con todos los proveedores
+     * @return Una lista de documentos de tipo "Document" con todos las compras
      *         almacenados en la base de datos.
      */
     public List<Document> getAllCompras() {
@@ -234,6 +248,22 @@ public class MongoDBManager {
             documentosCompras.add(cursor.next());
         }
         return documentosCompras;
+    }
+    
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Ventas".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos las ventas
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllVentas() {
+        ArrayList<Document> documentosVentas = new ArrayList<>();
+        MongoCursor<Document> cursor = ventas.find().cursor();
+        while (cursor.hasNext()) {
+            documentosVentas.add(cursor.next());
+        }
+        return documentosVentas;
     }
 
     /**
