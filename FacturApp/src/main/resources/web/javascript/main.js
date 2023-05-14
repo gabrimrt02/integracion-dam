@@ -18,7 +18,8 @@ function inicio() {
     secciones.push($("#seccion1"));
     secciones.push($("#seccion2"));
     secciones.push($("#seccion3"));
-    secciones.push($("#seccion6"));
+    secciones.push($("#seccion4"));
+    secciones.push($("#seccion5"));
 
     frame = $("#frame");
     lastLoaded = frame.attr("src");
@@ -37,24 +38,22 @@ function inicio() {
                     break;
 
                 case 2:
-                    pageToLoad = "#";
+                    pageToLoad = "../html/sections/compras.html";
                     break;
             
                 case 3:
-                    pageToLoad = "../html/sections/test.html";
+                    pageToLoad = "../html/sections/clientes.html";
                     break;
+
+                case 4:pageToLoad = "../html/sections/empleados.html"
 
                 default:
                     break;
             }
 
-            console.log("A cargar: " + pageToLoad)
-
             if (pageToLoad != lastLoaded) {
                 frame.attr("src", pageToLoad);
                 lastLoaded = frame.attr("src");
-            } else {
-                console.log('Ya se encuentra en la ventana');
             }
         });
     });

@@ -1,7 +1,6 @@
 package pmr.facturapp.DataBase;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import com.mongodb.ConnectionString;
@@ -10,19 +9,13 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
 import pmr.facturapp.classes.statics.TipoCliente;
 import pmr.facturapp.classes.statics.Unidad;
-import pmr.facturapp.converters.ClienteConverter;
-import pmr.facturapp.converters.DomicilioConverter;
-import pmr.facturapp.converters.ProductoConverter;
 import pmr.facturapp.converters.ProveedorConverter;
-import pmr.facturapp.converters.TipoClienteConverter;
 
 public class Tests {
 
