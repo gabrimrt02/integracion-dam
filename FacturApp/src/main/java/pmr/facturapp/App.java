@@ -7,12 +7,33 @@ package pmr.facturapp;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import pmr.facturapp.DataBase.MongoDBManager;
 import pmr.facturapp.controllers.RootController;
 
 public class App extends Application {
 
+    // Strings alerta conexión
+    private final String ALERT_TITLE   = "Error al conectar con la Base de Datos";
+    private final String ALERT_CONTENT = "Se ha producido un error durante la conexión con la Base de Datos";
+
     public static Stage primaryStage;
+
+    private static MongoDBManager dbManager;
+
+    // @Override
+    // public void init() throws Exception {
+    //     super.init();
+
+    //     // Conexión con BBDD
+    //     if((dbManager = MongoDBManager.connect()) == null) {
+    //         Alert alert = new Alert(AlertType.ERROR);
+    //         alert.setTitle();
+    //     }
+
+    // }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -20,6 +41,7 @@ public class App extends Application {
         App.primaryStage = primaryStage;
 
         RootController controller = new RootController();
+        // LoginController loginController = new LoginController();
 
         App.primaryStage.setTitle("FacturApp");
         App.primaryStage.setScene(new Scene(controller.getView()));

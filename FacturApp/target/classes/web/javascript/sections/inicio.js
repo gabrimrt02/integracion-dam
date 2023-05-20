@@ -21,7 +21,7 @@ function createGraficaMes(datos, mes) {
         datasets: [{
             data: datos,
             label: mes,
-            borderColor:"#" + Math.floor(Math.random()*16777215).toString(16),
+            borderColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
             fill: true
         }]
     };
@@ -48,7 +48,7 @@ function createGraficaSemana(datos, nSemana) {
         datasets: [{
             data: datos,
             label: "Semana " + nSemana,
-            borderColor:"#" + Math.floor(Math.random()*16777215).toString(16),
+            borderColor: "#" + Math.floor(Math.random() * 16777215).toString(16),
             fill: true
         }]
     };
@@ -89,3 +89,25 @@ function replaceFecha() {
 }
 
 replaceFecha();
+
+function replaceBalanceGlobal(cantidad) {
+    var signo = '';
+    var cifra = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(cantidad);
+
+    if (cantidad > 0) {
+        $('#balance-global').removeClass('gasto');
+        $('#balance-global').addClass('ingreso');
+
+    } else if (cantidad < 0) {
+        $('#balance-global').removeClass('ingreso');
+        $('#balance-global').addClass('gasto');
+
+    } else {
+        $('#balance-global').removeClass('gasto');
+        $('#balance-global').removeClass('ingreso');
+    }
+
+    $('#balance-global').html('<h2>' + signo + ' ' + cifra + '<h2/>');
+}
+
+// replaceBalanceGlobal(111100.40);
