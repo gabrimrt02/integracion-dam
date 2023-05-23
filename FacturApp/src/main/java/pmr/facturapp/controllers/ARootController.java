@@ -20,7 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
-public class RootController implements Initializable {
+public class ARootController implements Initializable {
 
     // Mode
     private Worker<Void> worker;
@@ -71,7 +71,7 @@ public class RootController implements Initializable {
     private BorderPane view;
 
     // Constructor
-    public RootController() {
+    public ARootController() {
 
         URL fichero = getClass().getResource(FICHERO_VIEW.toString());
         try {

@@ -12,7 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import pmr.facturapp.DataBase.MongoDBManager;
-import pmr.facturapp.controllers.RootController;
+import pmr.facturapp.controllers.ARootController;
 
 public class App extends Application {
 
@@ -42,7 +42,7 @@ public class App extends Application {
 
         App.primaryStage = primaryStage;
 
-        RootController controller = new RootController();
+        ARootController controller = new ARootController();
         // LoginController loginController = new LoginController();
 
         App.primaryStage.setTitle("FacturApp");
