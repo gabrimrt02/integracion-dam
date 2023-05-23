@@ -88,7 +88,7 @@ function replaceFecha() {
     $('#fecha-dia').text(dia + '/' + mes + '/' + anyo);
 }
 
-replaceFecha();
+// replaceFecha();
 
 function replaceBalanceGlobal(cantidad) {
     var signo = '';

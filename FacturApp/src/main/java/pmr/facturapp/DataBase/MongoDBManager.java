@@ -110,6 +110,10 @@ public class MongoDBManager {
         }
     }
 
+    public void disconnect() {
+        client.close();
+    }
+
     /**
      * Inserta un nuevo cliente en la base de datos.
      * 
