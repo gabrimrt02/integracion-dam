@@ -3,7 +3,6 @@ package pmr.facturapp.classes.statics;
 public class Unidad {
 
     // Atributos
-    @SuppressWarnings("unused")
     private String nombre;
 
     private Unidad(String nombre) {

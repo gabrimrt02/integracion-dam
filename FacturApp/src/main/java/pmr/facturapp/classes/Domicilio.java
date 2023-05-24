@@ -1,32 +1,47 @@
 package pmr.facturapp.classes;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Domicilio {
 
-    // Atributos
-    private String provincia;
-    private String municipio;
+    // Model
+    private StringProperty provinciaSP = new SimpleStringProperty();
+    private StringProperty municipioSP = new SimpleStringProperty();
 
     // Constructor
+    public Domicilio() {
+        // Constructor Vacio
+    }
+
     public Domicilio(String provincia, String municipio) {
-        this.provincia = provincia;
-        this.municipio = municipio;
+        this.provinciaSP.set(provincia);
+        this.municipioSP.set(municipio);
+    }
+
+    public StringProperty provinciaProperty() {
+        return provinciaSP;
+    }
+
+    public StringProperty municipioProperty() {
+        return municipioSP;
     }
 
     // Getters y Setters
     public String getProvincia() {
-        return provincia;
+        return provinciaSP.get();
     }
 
     public void setProvincia(String provincia) {
-        this.provincia = provincia;
+        this.provinciaSP.set(provincia);
     }
 
     public String getMunicipio() {
-        return municipio;
+        return municipioSP.get();
     }
 
     public void setMunicipio(String municipio) {
-        this.municipio = municipio;
+        this.municipioSP.set(municipio);
     }
 
     @Override

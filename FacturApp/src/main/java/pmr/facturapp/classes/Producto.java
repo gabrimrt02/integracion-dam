@@ -15,6 +15,10 @@ public class Producto {
     private Unidad unidad;
 
     // Constructores
+    public Producto() {
+        // Constructor Vacio
+    }
+
     public Producto(ObjectId id, String nombre, String descripcion, Double precio, int stock, Unidad unidad) {
         this.id = id;
         this.nombre = nombre;

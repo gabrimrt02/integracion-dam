@@ -13,6 +13,10 @@ public class Persona {
     private String mail;
 
     // Constructores
+    public Persona() {
+        // Constructor vacio
+    }
+
     public Persona(ObjectId id, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         this.id = id;
         this.nombre = nombre;

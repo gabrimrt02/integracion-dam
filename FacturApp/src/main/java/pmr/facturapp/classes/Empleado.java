@@ -4,6 +4,10 @@ import org.bson.types.ObjectId;
 
 public class Empleado extends Persona {
 
+    public Empleado(){
+        // Constructor Vacio
+    }
+
     public Empleado(String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         super(nombre, apellido, domicilio, nTelefono, mail);
     }

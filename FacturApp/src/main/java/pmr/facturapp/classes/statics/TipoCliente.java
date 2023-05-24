@@ -3,7 +3,6 @@ package pmr.facturapp.classes.statics;
 public class TipoCliente {
 
     // Atributos
-    @SuppressWarnings("unused")
     private String nombre;
 
     private TipoCliente(String nombre) {

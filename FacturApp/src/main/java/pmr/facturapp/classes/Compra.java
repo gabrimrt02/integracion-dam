@@ -12,6 +12,10 @@ public class Compra {
     private List<Producto> productos;
     private LocalDate fecha;
 
+    public Compra() {
+        // Constructor Vacio
+    }
+
     public Compra(ObjectId id, Proveedor proveedor, List<Producto> productos, LocalDate fecha) {
         this.id = id;
         this.proveedor = proveedor;
