@@ -2,12 +2,14 @@ package pmr.facturapp.classes;
 
 import org.bson.types.ObjectId;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import pmr.facturapp.classes.statics.TipoCliente;
 
 public class Cliente extends Persona {
     
-    // Atributos
-    private TipoCliente tipoCliente;
+    // Properties
+    private ObjectProperty<TipoCliente> tipoClienteOP = new SimpleObjectProperty<>();
 
     // Constructor
     public Cliente() {
@@ -16,21 +18,25 @@ public class Cliente extends Persona {
 
     public Cliente(ObjectId id, TipoCliente tipoCliente, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         super(id, nombre, apellido, domicilio, nTelefono, mail);
-        this.tipoCliente = tipoCliente;
+        this.tipoClienteOP.set(tipoCliente);
     }
     
     public Cliente(TipoCliente tipoCliente, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         super(nombre, apellido, domicilio, nTelefono, mail);
-        this.tipoCliente = tipoCliente;
+        this.tipoClienteOP.set(tipoCliente);
+    }
+
+    public ObjectProperty<TipoCliente> tipoClienteProperty() {
+        return tipoClienteOP;
     }
 
     // Getters y Setters    
     public TipoCliente getTipoCliente() {
-        return tipoCliente;
+        return tipoClienteOP.get();
     }
     
     public void setTipoCliente(TipoCliente tipoCliente) {
-        this.tipoCliente = tipoCliente;
+        this.tipoClienteOP.set(tipoCliente);
     }
 
     @Override

@@ -1,12 +1,15 @@
 package pmr.facturapp.classes.statics;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class TipoCliente {
 
-    // Atributos
-    private String nombre;
+    // Properties
+    private StringProperty nombreSP = new SimpleStringProperty();
 
     private TipoCliente(String nombre) {
-        this.nombre = nombre;
+        this.nombreSP.set(nombre);
     }
 
     public static TipoCliente PARTICULAR() {
@@ -25,8 +28,12 @@ public class TipoCliente {
         return new TipoCliente("COOPERATIVA");
     }
 
+    public StringProperty nombreProperty() {
+        return nombreSP;
+    }
+
     public String getTipo() {
-        return nombre;
+        return nombreSP.get();
     }
     
 }

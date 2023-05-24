@@ -5,62 +5,85 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+
 public class Compra {
     
-    private ObjectId id;
-    private Proveedor proveedor;
-    private List<Producto> productos;
-    private LocalDate fecha;
+    // Properties
+    private ObjectProperty<ObjectId> idOP = new SimpleObjectProperty<>();
+    private ObjectProperty<Proveedor> proveedorOP = new SimpleObjectProperty<>();
+    private ListProperty<Producto> productosLP = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private ObjectProperty<LocalDate> fechaOP = new SimpleObjectProperty<>();
 
     public Compra() {
         // Constructor Vacio
     }
 
     public Compra(ObjectId id, Proveedor proveedor, List<Producto> productos, LocalDate fecha) {
-        this.id = id;
-        this.proveedor = proveedor;
-        this.productos = productos;
-        this.fecha = fecha;
+        this.idOP.set(id);
+        this.proveedorOP.set(proveedor);
+        this.productosLP.addAll(productos);
+        this.fechaOP.set(fecha);
     }
 
     public Compra(Proveedor proveedor, List<Producto> productos, LocalDate fecha) {
-        this.proveedor = proveedor;
-        this.productos = productos;
-        this.fecha = fecha;
+        this.proveedorOP.set(proveedor);
+        this.productosLP.setAll(productos);
+        this.fechaOP.set(fecha);
+    }
+
+    public ObjectProperty<ObjectId> idProperty() {
+        return idOP;
+    }
+
+    public ObjectProperty<Proveedor> proveedorProperty() {
+        return proveedorOP;
+    }
+
+    public ListProperty<Producto> productosProperty() {
+        return productosLP;
+    }
+
+    public ObjectProperty<LocalDate> fechaProperty() {
+        return fechaOP;
     }
 
     /**
      * @return ObjectId return the id
      */
     public ObjectId getId() {
-        return id;
+        return idOP.get();
     }
 
     /**
      * @return Cliente return the cliente
      */
     public Proveedor getProveedor() {
-        return proveedor;
+        return proveedorOP.get();
     }
 
     /**
      * @return List<Producto> return the productos
      */
     public List<Producto> getProductos() {
-        return productos;
+        return productosLP.get();
     }
 
     /**
      * @return Date return the fecha
      */
     public LocalDate getFecha() {
-        return fecha;
+        return fechaOP.get();
     }
 
     @Override
     public String toString() {
-        return String.format("%s | %s | De: %s %s", fecha.toString(), productos.toString(),
-                proveedor.getNombre(), proveedor.getApellido());
+        return String.format("%s | %s | De: %s %s", getFecha().toString(), getProductos().toString(),
+                getProveedor().getNombre(), getProveedor().getApellido());
     }
 
 }

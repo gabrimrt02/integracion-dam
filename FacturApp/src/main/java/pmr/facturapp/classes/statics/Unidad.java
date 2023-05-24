@@ -1,12 +1,15 @@
 package pmr.facturapp.classes.statics;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Unidad {
 
-    // Atributos
-    private String nombre;
+    // Properties
+    private StringProperty nombreSP = new SimpleStringProperty();
 
     private Unidad(String nombre) {
-        this.nombre = nombre;
+        this.nombreSP.set(nombre);
     }
 
     public static Unidad KILOS() {
@@ -21,8 +24,12 @@ public class Unidad {
         return new Unidad("UNIDAD(ES) SUELTA(S)");
     }
 
+    public StringProperty nombreProperty() {
+        return nombreSP;
+    }
+
     public String getUnidad() {
-        return nombre;
+        return nombreSP.get();
     }
 
 }

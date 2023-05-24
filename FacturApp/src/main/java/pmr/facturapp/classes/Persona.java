@@ -2,15 +2,20 @@ package pmr.facturapp.classes;
 
 import org.bson.types.ObjectId;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Persona {
 
-    // Atributos
-    private ObjectId id;
-    private String nombre;
-    private String apellido;
-    private Domicilio domicilio;
-    private String nTelefono;
-    private String mail;
+    // Properties
+    private ObjectProperty<ObjectId> idOP = new SimpleObjectProperty<>();
+    private StringProperty nombreSP = new SimpleStringProperty();
+    private StringProperty apellidoSP = new SimpleStringProperty();
+    private Domicilio domicilio = new Domicilio();
+    private StringProperty telefonoSP = new SimpleStringProperty();
+    private StringProperty mailSP = new SimpleStringProperty();
 
     // Constructores
     public Persona() {
@@ -18,41 +23,61 @@ public class Persona {
     }
 
     public Persona(ObjectId id, String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.idOP.set(id);
+        this.nombreSP.set(nombre);
+        this.apellidoSP.set(apellido);
         this.domicilio = domicilio;
-        this.nTelefono = nTelefono;
-        this.mail = mail;
+        this.telefonoSP.set(nTelefono);
+        this.mailSP.set(mail);
     }
 
     public Persona(String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.nombreSP.set(nombre);
+        this.apellidoSP.set(apellido);
         this.domicilio = domicilio;
-        this.nTelefono = nTelefono;
-        this.mail = mail;
+        this.telefonoSP.set(nTelefono);
+        this.mailSP.set(mail);
+    }
+
+    public ObjectProperty<ObjectId> idProperty() {
+        return idOP;
+    }
+
+    public StringProperty nombreProperty() {
+        return nombreSP;
+    }
+
+    public StringProperty apellidosProperty() {
+        return apellidoSP;
+    }
+
+    public StringProperty telefonoProperty() {
+        return telefonoSP;
+    }
+
+    public StringProperty mailProperty() {
+        return mailSP;
     }
 
     // Getters y Setters
     public ObjectId getId() {
-        return id;
+        return idOP.get();
     }
 
     public String getNombre() {
-        return nombre;
+        return nombreSP.get();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombreSP.set(nombre);
     }
 
     public String getApellido() {
-        return apellido;
+        return apellidoSP.get();
     }
 
     public void setApellido(String apellido) {
-        this.apellido = apellido;
+        this.apellidoSP.set(apellido);
     }
 
     public Domicilio getDomicilio() {
@@ -64,19 +89,19 @@ public class Persona {
     }
 
     public String getNTelefono() {
-        return nTelefono;
+        return telefonoSP.get();
     }
 
     public void setNTelefono(String nTelefono) {
-        this.nTelefono = nTelefono;
+        this.telefonoSP.set(nTelefono);
     }
 
     public String getMail() {
-        return mail;
+        return mailSP.get();
     }
 
     public void setMail(String mail) {
-        this.mail = mail;
+        this.mailSP.set(mail);
     }
 
     @Override

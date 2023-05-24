@@ -2,17 +2,25 @@ package pmr.facturapp.classes;
 
 import org.bson.types.ObjectId;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import pmr.facturapp.classes.statics.Unidad;
 
 public class Producto {
 
-    // Atributos
-    private ObjectId id;
-    private String nombre;
-    private String descripcion;
-    private Double precio;
-    private int stock;
-    private Unidad unidad;
+    // Properties
+    private ObjectProperty<ObjectId> idOP = new SimpleObjectProperty<>();
+    private StringProperty nombreSP = new SimpleStringProperty();
+    private StringProperty descripcionSP = new SimpleStringProperty();
+    private DoubleProperty precioDP = new SimpleDoubleProperty();
+    private IntegerProperty stockIP = new SimpleIntegerProperty();
+    private ObjectProperty<Unidad> unidadOP = new SimpleObjectProperty<>(); 
 
     // Constructores
     public Producto() {
@@ -20,65 +28,89 @@ public class Producto {
     }
 
     public Producto(ObjectId id, String nombre, String descripcion, Double precio, int stock, Unidad unidad) {
-        this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.stock = stock;
-        this.unidad = unidad;
+        this.idOP.set(id);
+        this.nombreSP.set(nombre);
+        this.descripcionSP.set(descripcion);
+        this.precioDP.set(precio);
+        this.stockIP.set(stock);
+        this.unidadOP.set(unidad);
     }
 
     public Producto(String nombre, String descripcion, Double precio, int stock, Unidad unidad) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.stock = stock;
-        this.unidad = unidad;
+        this.nombreSP.set(nombre);
+        this.descripcionSP.set(descripcion);
+        this.precioDP.set(precio);
+        this.stockIP.set(stock);
+        this.unidadOP.set(unidad);
+    }
+
+    public ObjectProperty<ObjectId> idProperty() {
+        return idOP;
+    }
+
+    public StringProperty nombreProperty() {
+        return nombreSP;
+    }
+
+    public StringProperty descripcionProperty() {
+        return descripcionSP;
+    }
+
+    public DoubleProperty precioProperty() {
+        return precioDP;
+    }
+
+    public IntegerProperty stockProperty() {
+        return stockIP;
+    }
+
+    public ObjectProperty<Unidad> unidadProperty() {
+        return unidadOP;
     }
 
     // Getters y Setters
     public ObjectId getId() {
-        return id;
+        return idOP.get();
     }
 
     public String getNombre() {
-        return nombre;
+        return nombreSP.get();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombreSP.set(nombre);
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return descripcionSP.get();
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcionSP.set(descripcion);
     }
 
     public Double getPrecio() {
-        return precio;
+        return precioDP.get();
     }
 
     public void setPrecio(Double precio) {
-        this.precio = precio;
+        this.precioDP.set(precio);
     }
 
     public int getStock() {
-        return stock;
+        return stockIP.get();
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        this.stockIP.set(stock);
     }
 
     public Unidad getUnidad() {
-        return unidad;
+        return unidadOP.get();
     }
 
     public void setUnidad(Unidad unidad) {
-        this.unidad = unidad;
+        this.unidadOP.set(unidad);
     }
 
     @Override
