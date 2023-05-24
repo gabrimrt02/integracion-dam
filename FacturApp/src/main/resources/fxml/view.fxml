@@ -21,7 +21,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/PNG/house-user-solid.png" />
+                        <Image url="@../images/PNG/menu/house-user-solid.png" />
                      </image>
                      <effect>
                         <ColorAdjust brightness="1.0" contrast="1.0" hue="1.0" saturation="1.0" />
@@ -36,7 +36,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/PNG/arrow-trend-up-solid.png" />
+                        <Image url="@../images/PNG/menu/arrow-trend-up-solid.png" />
                      </image>
                      <effect>
                         <ColorAdjust brightness="1.0" />
@@ -51,7 +51,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/PNG/arrow-trend-down-solid.png" />
+                        <Image url="@../images/PNG/menu/arrow-trend-down-solid.png" />
                      </image>
                      <effect>
                         <ColorAdjust brightness="1.0" />
@@ -66,7 +66,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/PNG/users-solid.png" />
+                        <Image url="@../images/PNG/menu/users-solid.png" />
                      </image>
                      <effect>
                         <ColorAdjust brightness="1.0" />
@@ -81,7 +81,7 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../images/PNG/people-carry-box-solid.png" />
+                        <Image url="@../images/PNG/menu/people-carry-box-solid.png" />
                      </image>
                      <effect>
                         <ColorAdjust brightness="1.0" />

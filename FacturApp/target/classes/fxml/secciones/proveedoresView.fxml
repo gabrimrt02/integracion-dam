@@ -35,7 +35,7 @@
       </GridPane>
    </top>
    <center>
-      <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="proveedoresTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
             <TableColumn fx:id="indexColumn" minWidth="-Infinity" prefWidth="-1.0" text="#" />
           <TableColumn fx:id="nombreColumn" minWidth="-Infinity" prefWidth="-1.0" text="Nombre" />

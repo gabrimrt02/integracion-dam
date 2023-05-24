@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Notifications;
+
 import com.jfoenix.controls.JFXButton;
 
 import javafx.beans.value.ChangeListener;
@@ -26,7 +28,7 @@ public class ARootController implements Initializable {
     private Worker<Void> worker;
     private WebEngine webEngine;
 
-    // URL
+    // URL de la view
     private final URL FICHERO_VIEW = getClass().getResource("/fxml/view.fxml");
 
     // Strings alerta fallo carga view
@@ -73,15 +75,14 @@ public class ARootController implements Initializable {
     // Constructor
     public ARootController() {
 
-        URL fichero = getClass().getResource(FICHERO_VIEW.toString());
         try {
-            FXMLLoader loader = new FXMLLoader(fichero);
+            FXMLLoader loader = new FXMLLoader(FICHERO_VIEW);
             loader.setController(this);
             loader.load();
         } catch (IOException e) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setHeaderText(ALERT_TITULO);
-            alert.setContentText(ALERT_CONTENT + fichero.toString());
+            alert.setContentText(ALERT_CONTENT + FICHERO_VIEW.toString());
         }
 
     }
@@ -148,6 +149,12 @@ public class ARootController implements Initializable {
         loadWebPage(URL_INICIO);
         
         worker.stateProperty().addListener(listenerInicio);
+
+        // TODO BORRAR
+        Notifications.create()
+                        .title("HolaMundo")
+                        .text("Hola desde la alerta")
+                        .showInformation();
     }
 
     @FXML

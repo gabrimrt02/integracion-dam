@@ -73,7 +73,7 @@
    <center>
       <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="movimientosTableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
                   <TableColumn fx:id="indexColumn" prefWidth="75.0" text="#" />
                 <TableColumn fx:id="nombreColumn" prefWidth="75.0" text="Cliente / Proveedor" />
