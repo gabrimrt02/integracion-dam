@@ -12,6 +12,13 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import pmr.facturapp.DataBase.MongoDBManager;
 import pmr.facturapp.controllers.ARootController;
+import pmr.facturapp.controllers.ClientesController;
+import pmr.facturapp.controllers.ComprasController;
+import pmr.facturapp.controllers.EmpleadosController;
+import pmr.facturapp.controllers.InicioController;
+import pmr.facturapp.controllers.ProductosController;
+import pmr.facturapp.controllers.ProveedoresController;
+import pmr.facturapp.controllers.VentasController;
 
 public class App extends Application {
 
@@ -41,8 +48,15 @@ public class App extends Application {
 
         App.primaryStage = primaryStage;
 
-        ARootController controller = new ARootController();
+        // ARootController controller = new ARootController();
         // LoginController loginController = new LoginController();
+        // ClientesController controller = new ClientesController();
+        // ComprasController controller = new ComprasController();
+        // EmpleadosController controller = new EmpleadosController();
+        // ProductosController controller = new ProductosController();
+        // ProveedoresController controller = new ProveedoresController();
+        // VentasController controller = new VentasController();
+        InicioController controller = new InicioController();
 
         App.primaryStage.setTitle("FacturApp");
         App.primaryStage.setScene(new Scene(controller.getView()));

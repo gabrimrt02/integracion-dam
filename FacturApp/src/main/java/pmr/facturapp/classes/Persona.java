@@ -13,7 +13,7 @@ public class Persona {
     private ObjectProperty<ObjectId> idOP = new SimpleObjectProperty<>();
     private StringProperty nombreSP = new SimpleStringProperty();
     private StringProperty apellidoSP = new SimpleStringProperty();
-    private Domicilio domicilio = new Domicilio();
+    private ObjectProperty<Domicilio> domicilioOP = new SimpleObjectProperty<>();
     private StringProperty telefonoSP = new SimpleStringProperty();
     private StringProperty mailSP = new SimpleStringProperty();
 
@@ -26,7 +26,7 @@ public class Persona {
         this.idOP.set(id);
         this.nombreSP.set(nombre);
         this.apellidoSP.set(apellido);
-        this.domicilio = domicilio;
+        this.domicilioOP.set(domicilio);
         this.telefonoSP.set(nTelefono);
         this.mailSP.set(mail);
     }
@@ -34,7 +34,7 @@ public class Persona {
     public Persona(String nombre, String apellido, Domicilio domicilio, String nTelefono, String mail) {
         this.nombreSP.set(nombre);
         this.apellidoSP.set(apellido);
-        this.domicilio = domicilio;
+        this.domicilioOP.set(domicilio);
         this.telefonoSP.set(nTelefono);
         this.mailSP.set(mail);
     }
@@ -59,6 +59,10 @@ public class Persona {
         return mailSP;
     }
 
+    public ObjectProperty<Domicilio> domicilioProperty() {
+        return domicilioOP;
+    }
+
     // Getters y Setters
     public ObjectId getId() {
         return idOP.get();
@@ -81,11 +85,11 @@ public class Persona {
     }
 
     public Domicilio getDomicilio() {
-        return domicilio;
+        return domicilioOP.get();
     }
 
     public void setDomicilio(Domicilio domicilio) {
-        this.domicilio = domicilio;
+        this.domicilioOP.set(domicilio);
     }
 
     public String getNTelefono() {

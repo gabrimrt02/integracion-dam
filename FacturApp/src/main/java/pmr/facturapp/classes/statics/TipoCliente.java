@@ -35,5 +35,9 @@ public class TipoCliente {
     public String getTipo() {
         return nombreSP.get();
     }
+
+    public String toString() {
+        return getTipo();
+    }
     
 }

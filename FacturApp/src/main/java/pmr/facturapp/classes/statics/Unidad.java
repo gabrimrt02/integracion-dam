@@ -32,4 +32,9 @@ public class Unidad {
         return nombreSP.get();
     }
 
+    @Override
+    public String toString() {
+        return getUnidad();
+    }
+
 }
