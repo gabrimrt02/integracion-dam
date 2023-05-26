@@ -1,4 +1,4 @@
-package pmr.facturapp.ui;
+package pmr.facturapp.ui.add;
 
 import java.io.IOException;
 import java.net.URL;

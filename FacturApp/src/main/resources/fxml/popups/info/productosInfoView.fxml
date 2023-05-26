@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXTextArea?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane fx:id="view" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" vgap="5.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="10.0" />
@@ -41,11 +40,11 @@
       <Label text="Stock y Ventas: " GridPane.rowIndex="4" />
       <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Unidad: " GridPane.columnIndex="3" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
       <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Descripción: " GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-      <JFXTextField fx:id="idTextField" editable="false" promptText="&lt;SERIAL&gt;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
-      <JFXTextField fx:id="nombreTextField" editable="false" promptText="&lt;NAME&gt;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
-      <JFXTextArea fx:id="descriptionTextArea" editable="false" promptText="&lt;DESCRIPTION&gt;" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
-      <JFXTextField fx:id="precioTextField" editable="false" promptText="&lt;PRICE&gt;" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-      <JFXTextField fx:id="unidadTextField" editable="false" promptText="&lt;UNIT&gt;" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+      <TextField fx:id="idTextField" editable="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" />
+      <TextField fx:id="nombreTextField" editable="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+      <TextField fx:id="descripcionTextField" editable="false" GridPane.columnIndex="2" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+      <TextField fx:id="precioTextField" editable="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <TextField fx:id="unidadTextField" editable="false" GridPane.columnIndex="4" GridPane.rowIndex="3" />
       <LineChart fx:id="lineChart" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
         <xAxis>
           <CategoryAxis side="BOTTOM" />

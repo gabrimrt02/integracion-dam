@@ -16,6 +16,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -56,7 +58,7 @@ public class InicioController implements Initializable {
     private TableColumn<Transaccion, LocalDate> fechaColumn;
 
     @FXML
-    private LineChart<?, ?> monthLineChart;
+    private LineChart<Number, Number> monthLineChart;
 
     @FXML
     private TableView<Transaccion> movimientosTableView;

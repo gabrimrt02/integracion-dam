@@ -11,11 +11,13 @@ import org.bson.Document;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +25,7 @@ import pmr.facturapp.App;
 import pmr.facturapp.classes.Compra;
 import pmr.facturapp.classes.Proveedor;
 import pmr.facturapp.converters.CompraConverter;
+import pmr.facturapp.ui.info.InfoComprasVentasDialog;
 
 public class ComprasController implements Initializable {
 
@@ -50,9 +53,6 @@ public class ComprasController implements Initializable {
     private TableColumn<Compra, LocalDate> fechaColumn;
 
     @FXML
-    private TableColumn<Compra, Integer> indexColumn;
-
-    @FXML
     private LineChart<?, ?> lineChart;
 
     @FXML
@@ -63,6 +63,9 @@ public class ComprasController implements Initializable {
 
     @FXML
     private TableColumn<Compra, Number> totalColumn;
+
+    @FXML
+    private MenuItem moreInfoMI;
 
     @FXML
     private BorderPane view;
@@ -103,10 +106,13 @@ public class ComprasController implements Initializable {
     }
 
     /*
-     * GetTableView
+     * Funciones de la View
      */
-    public TableView<Compra> getComprasTableView() {
-        return this.comprasTableView;
+    @FXML
+    void onMoreInfoAction(ActionEvent event) {
+        InfoComprasVentasDialog dialog = new InfoComprasVentasDialog(getSelectedCompra());
+
+        dialog.showAndWait();
     }
 
     /*
@@ -124,6 +130,14 @@ public class ComprasController implements Initializable {
         proveedorColumn.setCellValueFactory(data -> data.getValue().proveedorProperty());
         fechaColumn.setCellValueFactory(data -> data.getValue().fechaProperty());
         totalColumn.setCellValueFactory(data -> data.getValue().totalProperty());
+    }
+
+    public TableView<Compra> getComprasTableView() {
+        return this.comprasTableView;
+    }
+
+    private Compra getSelectedCompra() {
+        return comprasTableView.getSelectionModel().getSelectedItem();
     }
 
 }

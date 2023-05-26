@@ -1,4 +1,4 @@
-package pmr.facturapp.ui;
+package pmr.facturapp.ui.add;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,21 +12,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import pmr.facturapp.classes.Domicilio;
-import pmr.facturapp.classes.Proveedor;
+import pmr.facturapp.classes.Empleado;
 
-public class AddProveedorDialog extends Dialog<Proveedor> implements Initializable {
+public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable {
 
     // Variables URL
-    private final URL FICHERO = getClass().getResource("/fxml/popups/add/proveedorAddView.fxml");
+    private final URL FICHERO = getClass().getResource("/fxml/popups/add/empleadoAddView.fxml");
 
     // Variables alfanuméricas
-    private final String TITULO_DIALOG = "Añadir Proveedor";
+    private final String TITULO_DIALOG = "Añadir Empleado";
 
     // Model
     private StringProperty nombreSP = new SimpleStringProperty();
@@ -34,7 +34,7 @@ public class AddProveedorDialog extends Dialog<Proveedor> implements Initializab
     private Domicilio domicilio = new Domicilio();
     private StringProperty telefonoSP = new SimpleStringProperty();
     private StringProperty mailSP = new SimpleStringProperty();
-    
+
     // View
     @FXML
     private TextField apellidosTextField;
@@ -58,7 +58,7 @@ public class AddProveedorDialog extends Dialog<Proveedor> implements Initializab
     private GridPane view;
 
     // Constructor
-    public AddProveedorDialog() {
+    public AddEmpleadoDialog() {
         super();
 
         try {
@@ -71,15 +71,15 @@ public class AddProveedorDialog extends Dialog<Proveedor> implements Initializab
 
     }
 
-    private Proveedor onResultConverter(ButtonType button) {
+    private Empleado onResultConverter(ButtonType button) {
         if (button.getButtonData() == ButtonData.OK_DONE) {
-            Proveedor proveedor = new Proveedor();
-            proveedor.setNombre(getNombre());
-            proveedor.setApellido(getApellidos());
-            proveedor.setDomicilio(domicilio);
-            proveedor.setNTelefono(getTelefono());
-            proveedor.setMail(getMail());
-            return proveedor;
+            Empleado empleado = new Empleado();
+            empleado.setNombre(getNombre());
+            empleado.setApellido(getApellidos());
+            empleado.setDomicilio(domicilio);
+            empleado.setNTelefono(getTelefono());
+            empleado.setMail(getMail());
+            return empleado;
 
         }
 

@@ -50,9 +50,6 @@ public class EmpleadosController implements Initializable {
     private TableView<Empleado> empleadosTableView;
 
     @FXML
-    private TableColumn<Empleado, String> indexColumn;
-
-    @FXML
     private TableColumn<Empleado, String> nombreColumn;
 
     @FXML

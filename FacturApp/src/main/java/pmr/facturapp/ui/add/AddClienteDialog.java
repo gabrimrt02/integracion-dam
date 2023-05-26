@@ -1,4 +1,4 @@
-package pmr.facturapp.ui;
+package pmr.facturapp.ui.add;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,27 +6,30 @@ import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
+import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
-import pmr.facturapp.classes.Empleado;
+import pmr.facturapp.classes.statics.TipoCliente;
 
-public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable {
+public class AddClienteDialog extends Dialog<Cliente> implements Initializable {
 
     // Variables URL
-    private final URL FICHERO = getClass().getResource("/fxml/popups/add/empleadoAddView.fxml");
+    private final URL FICHERO = getClass().getResource("/fxml/popups/add/clienteAddView.fxml");
 
     // Variables alfanuméricas
-    private final String TITULO_DIALOG = "Añadir Empleado";
+    private final String TITULO_DIALOG = "Añadir Cliente";
 
     // Model
     private StringProperty nombreSP = new SimpleStringProperty();
@@ -34,6 +37,7 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
     private Domicilio domicilio = new Domicilio();
     private StringProperty telefonoSP = new SimpleStringProperty();
     private StringProperty mailSP = new SimpleStringProperty();
+    private ObjectProperty<TipoCliente> tipoClienteOP = new SimpleObjectProperty<>();
 
     // View
     @FXML
@@ -55,10 +59,13 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
     private TextField telefonoTextField;
 
     @FXML
+    private JFXComboBox<TipoCliente> tipoClienteComboBox;
+
+    @FXML
     private GridPane view;
 
     // Constructor
-    public AddEmpleadoDialog() {
+    public AddClienteDialog() {
         super();
 
         try {
@@ -71,18 +78,18 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
 
     }
 
-    private Empleado onResultConverter(ButtonType button) {
+    private Cliente onResultConverter(ButtonType button) {
         if (button.getButtonData() == ButtonData.OK_DONE) {
-            Empleado empleado = new Empleado();
-            empleado.setNombre(getNombre());
-            empleado.setApellido(getApellidos());
-            empleado.setDomicilio(domicilio);
-            empleado.setNTelefono(getTelefono());
-            empleado.setMail(getMail());
-            return empleado;
+            Cliente cliente = new Cliente();
+            cliente.setNombre(getNombre());
+            cliente.setApellido(getApellidos());
+            cliente.setDomicilio(domicilio);
+            cliente.setNTelefono(getTelefono());
+            cliente.setMail(getMail());
+            cliente.setTipoCliente(getTipoCliente());
+            return cliente;
 
         }
-
         return null;
 
     }
@@ -105,12 +112,16 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
         municipioComboBox.valueProperty().bindBidirectional(domicilio.municipioProperty());
         telefonoSP.bind(telefonoTextField.textProperty());
         mailSP.bind(emailTextField.textProperty());
+        tipoClienteOP.bind(tipoClienteComboBox.valueProperty());
+
+        tipoClienteComboBox.itemsProperty().bind(TipoCliente.tiposProperty());
 
         // Disable Añadir Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);
-        addButton.disableProperty().bind(nombreSP.isEmpty().or(apellidoSP.isEmpty().or(domicilio.provinciaProperty()
-                .isEmpty().or(domicilio.municipioProperty().isEmpty().or(telefonoSP.isEmpty().or(mailSP.isEmpty())))))
-                );
+        addButton.disableProperty()
+                .bind(nombreSP.isEmpty().or(
+                        apellidoSP.isEmpty().or(domicilio.provinciaProperty().isEmpty().or(domicilio.municipioProperty()
+                                .isEmpty().or(telefonoSP.isEmpty().or(mailSP.isEmpty().or(tipoClienteOP.isNull())))))));
 
     }
 
@@ -136,6 +147,10 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
 
     public String getMail() {
         return mailSP.get();
+    }
+
+    public TipoCliente getTipoCliente() {
+        return tipoClienteOP.get();
     }
 
 }

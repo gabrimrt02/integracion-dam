@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -37,7 +39,6 @@
    <center>
       <TableView fx:id="proveedoresTableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columns>
-            <TableColumn fx:id="indexColumn" minWidth="-Infinity" prefWidth="-1.0" text="#" />
             <TableColumn fx:id="nombreColumn" minWidth="-Infinity" prefWidth="-1.0" text="Nombre" />
             <TableColumn fx:id="domicilioColumn" minWidth="-Infinity" prefWidth="-1.0" text="Domicilio" />
             <TableColumn fx:id="telefonoColumn" minWidth="-Infinity" prefWidth="-1.0" text="Teléfono" />
@@ -46,6 +47,13 @@
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="masInformacionMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más información" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
       </TableView>
    </center>
 </BorderPane>

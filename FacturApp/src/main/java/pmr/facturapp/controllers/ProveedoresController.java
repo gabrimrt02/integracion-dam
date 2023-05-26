@@ -11,16 +11,20 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Domicilio;
+import pmr.facturapp.classes.Persona;
 import pmr.facturapp.classes.Proveedor;
 import pmr.facturapp.converters.ProveedorConverter;
+import pmr.facturapp.ui.info.InfoClienteProveedorDialog;
 
 public class ProveedoresController implements Initializable {
 
@@ -48,9 +52,6 @@ public class ProveedoresController implements Initializable {
     private TableColumn<Proveedor, String> emailColumn;
 
     @FXML
-    private TableColumn<Proveedor, Number> indexColumn;
-
-    @FXML
     private TableColumn<Proveedor, String> nombreColumn;
 
     @FXML
@@ -58,6 +59,9 @@ public class ProveedoresController implements Initializable {
 
     @FXML
     private TableColumn<Proveedor, String> telefonoColumn;
+
+    @FXML
+    private MenuItem masInformacionMI;
 
     @FXML
     private BorderPane view;
@@ -95,13 +99,16 @@ public class ProveedoresController implements Initializable {
      */
     public BorderPane getView() {
         return this.view;
-    }
+    }    
 
     /*
-     * GetTableView
+     * Funciones de la view
      */
-    public TableView<Proveedor> getProveedoresTableView() {
-        return this.proveedoresTableView;
+    @FXML
+    void onMoreInfoAction(ActionEvent event) {
+        InfoClienteProveedorDialog dialog = new InfoClienteProveedorDialog(getSelectedProveedor());
+
+        dialog.showAndWait();
     }
 
     /*
@@ -120,6 +127,14 @@ public class ProveedoresController implements Initializable {
         domicilioColumn.setCellValueFactory(data -> data.getValue().domicilioProperty());
         telefonoColumn.setCellValueFactory(data -> data.getValue().telefonoProperty());
         emailColumn.setCellValueFactory(data -> data.getValue().mailProperty());
+    }
+
+    public TableView<Proveedor> getProveedoresTableView() {
+        return this.proveedoresTableView;
+    }
+
+    private Persona getSelectedProveedor() {
+        return proveedoresTableView.getSelectionModel().getSelectedItem();
     }
 
 }

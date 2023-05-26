@@ -10,9 +10,11 @@ import org.bson.Document;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +22,7 @@ import pmr.facturapp.App;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.statics.Unidad;
 import pmr.facturapp.converters.ProductoConverter;
+import pmr.facturapp.ui.info.InfoProductosDialog;
 
 public class ProductosController implements Initializable {
 
@@ -41,9 +44,6 @@ public class ProductosController implements Initializable {
      * View
      */
     @FXML
-    private TableColumn<Producto, Integer> indexColumn;
-
-    @FXML
     private TableColumn<Producto, String> nombreColumn;
 
     @FXML
@@ -57,6 +57,9 @@ public class ProductosController implements Initializable {
 
     @FXML
     private TableColumn<Producto, Unidad> unidadColumn;
+
+    @FXML
+    private MenuItem moreInfoMI;
 
     @FXML
     private BorderPane view;
@@ -98,10 +101,13 @@ public class ProductosController implements Initializable {
     }
 
     /*
-     * GetTableView
+     * Funciones de la View
      */
-    public TableView<Producto> getProductosTableView() {
-        return this.productosTableView;
+    @FXML
+    void onMoreInfoAction(ActionEvent event) {
+        InfoProductosDialog dialog = new InfoProductosDialog(getSelectedProducto());
+
+        dialog.showAndWait();
     }
 
     /*
@@ -119,6 +125,14 @@ public class ProductosController implements Initializable {
         precioColumn.setCellValueFactory(data -> data.getValue().precioProperty());
         stockColumn.setCellValueFactory(data -> data.getValue().stockProperty());
         unidadColumn.setCellValueFactory(data -> data.getValue().unidadProperty());
+    }
+
+    public TableView<Producto> getProductosTableView() {
+        return this.productosTableView;
+    }
+
+    private Producto getSelectedProducto() {
+        return productosTableView.getSelectionModel().getSelectedItem();
     }
 
 }

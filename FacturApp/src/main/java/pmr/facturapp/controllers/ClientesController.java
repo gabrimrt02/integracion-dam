@@ -11,17 +11,21 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
+import pmr.facturapp.classes.Persona;
 import pmr.facturapp.classes.statics.TipoCliente;
 import pmr.facturapp.converters.ClienteConverter;
+import pmr.facturapp.ui.info.InfoClienteProveedorDialog;
 
 public class ClientesController implements Initializable {
 
@@ -33,7 +37,6 @@ public class ClientesController implements Initializable {
     /*
      * Varibales alfanumericas
      */
-    
 
     /*
      * Model
@@ -53,9 +56,6 @@ public class ClientesController implements Initializable {
     private TableColumn<Cliente, String> emailColumn;
 
     @FXML
-    private TableColumn<Cliente, Integer> indexColumn;
-
-    @FXML
     private TableColumn<Cliente, String> nombreColumn;
 
     @FXML
@@ -63,6 +63,9 @@ public class ClientesController implements Initializable {
 
     @FXML
     private TableColumn<Cliente, TipoCliente> tipoColumn;
+
+    @FXML
+    private MenuItem masInformacionMI;
 
     @FXML
     private BorderPane view;
@@ -110,6 +113,16 @@ public class ClientesController implements Initializable {
     }
 
     /*
+     * Funciones de la view
+     */
+    @FXML
+    void onMoreInfoAction(ActionEvent event) {
+        InfoClienteProveedorDialog dialog = new InfoClienteProveedorDialog(getSelectedCliente());
+
+        dialog.showAndWait();
+    }
+
+    /*
      * Funciones
      */
     private void setList() {
@@ -126,6 +139,10 @@ public class ClientesController implements Initializable {
         domicilioColumn.setCellValueFactory(data -> data.getValue().domicilioProperty());
         telefonoColumn.setCellValueFactory(data -> data.getValue().telefonoProperty());
         emailColumn.setCellValueFactory(data -> data.getValue().mailProperty());
+    }
+
+    private Persona getSelectedCliente() {
+        return clientesTableView.getSelectionModel().getSelectedItem();
     }
 
 }

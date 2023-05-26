@@ -25,11 +25,11 @@ import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
 import pmr.facturapp.classes.statics.TipoCliente;
 import pmr.facturapp.classes.statics.Unidad;
-import pmr.facturapp.ui.AddClienteDialog;
-import pmr.facturapp.ui.AddCompraDialog;
-import pmr.facturapp.ui.AddEmpleadoDialog;
-import pmr.facturapp.ui.AddProductoDialog;
-import pmr.facturapp.ui.AddProveedorDialog;
+import pmr.facturapp.ui.add.AddClienteDialog;
+import pmr.facturapp.ui.add.AddCompraDialog;
+import pmr.facturapp.ui.add.AddEmpleadoDialog;
+import pmr.facturapp.ui.add.AddProductoDialog;
+import pmr.facturapp.ui.add.AddProveedorDialog;
 
 public class RootController implements Initializable {
 

@@ -5,7 +5,9 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -22,12 +24,12 @@
    </padding>
    <top>
       <GridPane hgap="5.0" vgap="5.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+         </rowConstraints>
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>
@@ -44,26 +46,32 @@
       <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
             <TableView fx:id="ventasTableView" prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                  <TableColumn fx:id="indexColumn" minWidth="-Infinity" prefWidth="-1.0" text="#" />
-                <TableColumn fx:id="clienteColumn" minWidth="-Infinity" prefWidth="-1.0" text="Cliente" />
-                <TableColumn fx:id="fechaColumn" minWidth="-Infinity" prefWidth="-1.0" text="Fecha" />
+               <columns>
+                  <TableColumn fx:id="clienteColumn" minWidth="-Infinity" prefWidth="-1.0" text="Cliente" />
+                  <TableColumn fx:id="fechaColumn" minWidth="-Infinity" prefWidth="-1.0" text="Fecha" />
                   <TableColumn fx:id="totalColumn" minWidth="-Infinity" prefWidth="-1.0" text="Total (€)" />
-              </columns>
+               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem fx:id="masInfoMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más Información" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
             </TableView>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <PieChart fx:id="pieChart" />
                   <LineChart fx:id="lineChart">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
                   </LineChart>
                </children>
             </VBox>
