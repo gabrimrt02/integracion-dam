@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane fx:id="view" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar style="-fx-background-color: #0d74f5;">
+         <menus>
+            <Menu mnemonicParsing="false" text="Inicio">
+              <items>
+                <MenuItem fx:id="verInicioMI" mnemonicParsing="false" onAction="#onVerInicioAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+              </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/menu/house-user-solid.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Ventas">
+               <items>
+                  <MenuItem fx:id="verVentasMI" mnemonicParsing="false" onAction="#onVerVentasAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT2" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+               </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/menu/arrow-trend-up-solid.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Compras">
+               <items>
+                  <MenuItem fx:id="verComprasMI" mnemonicParsing="false" onAction="#onVerComprasAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT3" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="addCompraMI" mnemonicParsing="false" onAction="#onAddComprasAction" text="Añadir" />
+                  <MenuItem fx:id="delCompraMI" mnemonicParsing="false" onAction="#onDelComprasAction" text="Eliminar" />
+               </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/menu/arrow-trend-down-solid.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Clientes">
+               <items>
+                  <MenuItem fx:id="verClientesMI" mnemonicParsing="false" onAction="#onVerClientesAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT4" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="addClientesMI" mnemonicParsing="false" onAction="#onAddClientesAction" text="Añadir" />
+                  <MenuItem fx:id="delClientesMI" mnemonicParsing="false" onAction="#onDelClientesAction" text="Eliminar" />
+               </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/menu/users-solid.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Empleados">
+               <items>
+                  <MenuItem fx:id="verEmpleadosMI" mnemonicParsing="false" onAction="#onVerEmpleadosAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT5" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="addEmpleadosMI" mnemonicParsing="false" onAction="#onAddEmpleadosAction" text="Añadir" />
+                  <MenuItem fx:id="delEmpleadosMI" mnemonicParsing="false" onAction="#onDelEmpleadosAction" text="Eliminar" />
+               </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/menu/people-carry-box-solid.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Proveedores">
+               <items>
+                  <MenuItem fx:id="verProveedoresMI" mnemonicParsing="false" onAction="#onVerProveedoresAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT6" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="addProveedoresMI" mnemonicParsing="false" onAction="#onAddProveedoresAction" text="Añadir" />
+                  <MenuItem fx:id="delProveedoresMI" mnemonicParsing="false" onAction="#onDelProveedoresAction" text="Eliminar" />
+               </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/menu/truck-solid.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Productos">
+               <items>
+                  <MenuItem fx:id="verProductosMI" mnemonicParsing="false" onAction="#onVerProductosAction" text="Ver">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="DIGIT7" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="addProductosMI" mnemonicParsing="false" onAction="#onAddProductosAction" text="Añadir" />
+                  <MenuItem fx:id="delProductosMI" mnemonicParsing="false" onAction="#onDelProductosAction" text="Eliminar" />
+               </items>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/PNG/info/box-seam.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+</BorderPane>

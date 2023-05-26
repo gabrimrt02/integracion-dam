@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -54,13 +54,13 @@
       </Label>
       <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Teléfono: " GridPane.rowIndex="7" />
       <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Email: " GridPane.columnIndex="2" GridPane.rowIndex="7" />
-      <JFXTextField fx:id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <JFXTextField fx:id="apellidosTextField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <TextField fx:id="nombreTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="apellidosTextField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
       <JFXComboBox fx:id="tipoClienteComboBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <JFXComboBox fx:id="provinciaComboBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <JFXComboBox fx:id="municipioComboBox" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <JFXTextField fx:id="telefonoTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <JFXTextField fx:id="emailTextField" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+      <TextField fx:id="telefonoTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TextField fx:id="emailTextField" GridPane.columnIndex="3" GridPane.rowIndex="7" />
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

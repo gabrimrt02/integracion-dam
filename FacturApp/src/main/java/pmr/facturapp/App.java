@@ -11,20 +11,20 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import pmr.facturapp.DataBase.MongoDBManager;
-import pmr.facturapp.controllers.ARootController;
-import pmr.facturapp.controllers.ClientesController;
-import pmr.facturapp.controllers.ComprasController;
-import pmr.facturapp.controllers.EmpleadosController;
-import pmr.facturapp.controllers.InicioController;
-import pmr.facturapp.controllers.ProductosController;
-import pmr.facturapp.controllers.ProveedoresController;
-import pmr.facturapp.controllers.VentasController;
+import pmr.facturapp.controllers.RootController;
 
 public class App extends Application {
 
+    /*
+     * Variables alfanuméricas
+     */
     // Strings alerta conexión
     private final String ALERT_TITLE   = "Error al conectar con la Base de Datos";
     private final String ALERT_CONTENT = "Se ha producido un error durante la conexión con la Base de Datos";
+    
+    //
+    private final String APP_TITLE = "FacturApp";
+
 
     public static Stage primaryStage;
 
@@ -45,26 +45,18 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         App.primaryStage = primaryStage;
 
-        // ARootController controller = new ARootController();
-        // LoginController loginController = new LoginController();
-        // ClientesController controller = new ClientesController();
-        // ComprasController controller = new ComprasController();
-        // EmpleadosController controller = new EmpleadosController();
-        // ProductosController controller = new ProductosController();
-        // ProveedoresController controller = new ProveedoresController();
-        // VentasController controller = new VentasController();
-        InicioController controller = new InicioController();
+        RootController controller = new RootController();
 
-        App.primaryStage.setTitle("FacturApp");
+        App.primaryStage.setTitle(APP_TITLE);
         App.primaryStage.setScene(new Scene(controller.getView()));
         App.primaryStage.setMaximized(true);
         App.primaryStage.show();
 
         // System.out.println(LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
         // System.out.println(LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()));
+    
     }
 
     @Override

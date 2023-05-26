@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import pmr.facturapp.classes.Domicilio;
@@ -37,22 +37,22 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
 
     // View
     @FXML
-    private JFXTextField apellidosTextField;
+    private TextField apellidosTextField;
 
     @FXML
-    private JFXTextField emailTextField;
+    private TextField emailTextField;
 
     @FXML
     private JFXComboBox<String> municipioComboBox;
 
     @FXML
-    private JFXTextField nombreTextField;
+    private TextField nombreTextField;
 
     @FXML
     private JFXComboBox<String> provinciaComboBox;
 
     @FXML
-    private JFXTextField telefonoTextField;
+    private TextField telefonoTextField;
 
     @FXML
     private GridPane view;

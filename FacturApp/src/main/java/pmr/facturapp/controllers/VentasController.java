@@ -104,6 +104,13 @@ public class VentasController implements Initializable {
     }
 
     /*
+     * GetTableView
+     */
+    public TableView<Venta> getVentasTableView() {
+        return this.ventasTableView;
+    }
+
+    /*
      * Funciones
      */
     private void setList() {

@@ -83,13 +83,6 @@ public class ComprasController implements Initializable {
     }
 
     /*
-     * GetView
-     */
-    public BorderPane getView() {
-        return this.view;
-    }
-
-    /*
      * Inicializador
      */
     @Override
@@ -100,6 +93,20 @@ public class ComprasController implements Initializable {
         comprasTableView.itemsProperty().bind(comprasLP);
 
         updateTabla();
+    }
+
+    /*
+     * GetView
+     */
+    public BorderPane getView() {
+        return this.view;
+    }
+
+    /*
+     * GetTableView
+     */
+    public TableView<Compra> getComprasTableView() {
+        return this.comprasTableView;
     }
 
     /*

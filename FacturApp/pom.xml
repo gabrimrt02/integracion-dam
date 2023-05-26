@@ -38,13 +38,6 @@
       <version>18.0.1</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-web -->
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-web</artifactId>
-      <version>21-ea+5</version>
-    </dependency>
-
     <!-- https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync -->
     <dependency>
       <groupId>org.mongodb</groupId>

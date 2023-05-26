@@ -98,6 +98,13 @@ public class ProductosController implements Initializable {
     }
 
     /*
+     * GetTableView
+     */
+    public TableView<Producto> getProductosTableView() {
+        return this.productosTableView;
+    }
+
+    /*
      * Funciones
      */
     private void setList() {

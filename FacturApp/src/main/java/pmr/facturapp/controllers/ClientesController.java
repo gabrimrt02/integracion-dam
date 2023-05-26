@@ -103,6 +103,13 @@ public class ClientesController implements Initializable {
     }
 
     /*
+     * GetTableView
+     */
+    public TableView<Cliente> getClientesTableView() {
+        return this.clientesTableView;
+    }
+
+    /*
      * Funciones
      */
     private void setList() {

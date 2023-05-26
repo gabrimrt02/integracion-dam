@@ -98,6 +98,13 @@ public class ProveedoresController implements Initializable {
     }
 
     /*
+     * GetTableView
+     */
+    public TableView<Proveedor> getProveedoresTableView() {
+        return this.proveedoresTableView;
+    }
+
+    /*
      * Funciones
      */
     private void setList() {

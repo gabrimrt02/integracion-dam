@@ -5,8 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -24,6 +22,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.util.converter.NumberStringConverter;
 import pmr.facturapp.classes.Producto;
@@ -46,16 +46,16 @@ public class AddProductoDialog extends Dialog<Producto> implements Initializable
 
     // View
     @FXML
-    private JFXTextArea descripciónTextArea;
+    private TextArea descripcionTextArea;
 
     @FXML
-    private JFXTextField nombreTextField;
+    private TextField nombreTextField;
 
     @FXML
-    private JFXTextField precioTextField;
+    private TextField precioTextField;
 
     @FXML
-    private JFXTextField stockTextField;
+    private TextField stockTextField;
 
     @FXML
     private JFXComboBox<Unidad> unidadComboBox;
@@ -106,10 +106,12 @@ public class AddProductoDialog extends Dialog<Producto> implements Initializable
 
         // Bindings
         nombreSP.bind(nombreTextField.textProperty());
-        descripcionSP.bind(descripciónTextArea.textProperty());
+        descripcionSP.bind(descripcionTextArea.textProperty());
         Bindings.bindBidirectional(precioTextField.textProperty(), precioDP, new NumberStringConverter());
         Bindings.bindBidirectional(stockTextField.textProperty(), stockIP, new NumberStringConverter());
         unidadOP.bind(unidadComboBox.valueProperty());
+
+        unidadComboBox.itemsProperty().bind(Unidad.unidadesProperty());
 
         // Disable add Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);

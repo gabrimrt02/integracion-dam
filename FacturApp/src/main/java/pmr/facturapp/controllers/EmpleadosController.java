@@ -103,6 +103,13 @@ public class EmpleadosController implements Initializable {
     }
 
     /*
+     * GetTableView
+     */
+    public TableView<Empleado> getEmpleadosTableView() {
+        return this.empleadosTableView;
+    }
+
+    /*
      * Funciones
      */
     private void setList() {

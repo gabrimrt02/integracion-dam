@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
@@ -41,22 +41,22 @@ public class AddClienteDialog extends Dialog<Cliente> implements Initializable {
 
     // View
     @FXML
-    private JFXTextField apellidosTextField;
+    private TextField apellidosTextField;
 
     @FXML
-    private JFXTextField emailTextField;
+    private TextField emailTextField;
 
     @FXML
     private JFXComboBox<String> municipioComboBox;
 
     @FXML
-    private JFXTextField nombreTextField;
+    private TextField nombreTextField;
 
     @FXML
     private JFXComboBox<String> provinciaComboBox;
 
     @FXML
-    private JFXTextField telefonoTextField;
+    private TextField telefonoTextField;
 
     @FXML
     private JFXComboBox<TipoCliente> tipoClienteComboBox;
@@ -88,7 +88,7 @@ public class AddClienteDialog extends Dialog<Cliente> implements Initializable {
             cliente.setMail(getMail());
             cliente.setTipoCliente(getTipoCliente());
             return cliente;
-            
+
         }
         return null;
 
@@ -114,14 +114,14 @@ public class AddClienteDialog extends Dialog<Cliente> implements Initializable {
         mailSP.bind(emailTextField.textProperty());
         tipoClienteOP.bind(tipoClienteComboBox.valueProperty());
 
+        tipoClienteComboBox.itemsProperty().bind(TipoCliente.tiposProperty());
+
         // Disable Añadir Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);
         addButton.disableProperty()
-                .bind(nombreSP.isEmpty()
-                        .or(apellidoSP.isEmpty().or(domicilio.provinciaProperty().isEmpty()
-                                .or(domicilio.municipioProperty().isEmpty().or(telefonoSP.isEmpty()
-                                        .or(mailSP.isEmpty().or(tipoClienteOP.isNull()))))))
-                );
+                .bind(nombreSP.isEmpty().or(
+                        apellidoSP.isEmpty().or(domicilio.provinciaProperty().isEmpty().or(domicilio.municipioProperty()
+                                .isEmpty().or(telefonoSP.isEmpty().or(mailSP.isEmpty().or(tipoClienteOP.isNull())))))));
 
     }
 
