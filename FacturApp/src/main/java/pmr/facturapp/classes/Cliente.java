@@ -41,6 +41,6 @@ public class Cliente extends Persona {
 
     @Override
     public String toString() {
-        return String.format("%s - %s", getTipoCliente().getTipo(), super.toString());
+        return String.format("%s", getNombreCompleto());
     }
 }

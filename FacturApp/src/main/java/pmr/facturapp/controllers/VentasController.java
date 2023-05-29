@@ -28,7 +28,7 @@ import pmr.facturapp.converters.VentaConverter;
 import pmr.facturapp.ui.info.InfoComprasVentasDialog;
 
 public class VentasController implements Initializable {
-    
+
     /*
      * Variables URL
      */
@@ -115,11 +115,18 @@ public class VentasController implements Initializable {
 
         dialog.showAndWait();
     }
-    
+
     /*
      * Funciones
      */
+    public void updateView() {
+        setList();
+
+        updateTable();
+    }
+
     private void setList() {
+        ventasLP.clear();
         List<Document> docVentas = App.dbManager.getAllVentas();
         for (Document d : docVentas) {
             ventasLP.add(VentaConverter.convert(d));
@@ -139,6 +146,5 @@ public class VentasController implements Initializable {
     private Venta getSelectedVenta() {
         return ventasTableView.getSelectionModel().getSelectedItem();
     }
-
 
 }

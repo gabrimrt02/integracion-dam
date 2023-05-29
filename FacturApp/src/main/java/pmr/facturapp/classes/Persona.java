@@ -108,10 +108,13 @@ public class Persona {
         this.mailSP.set(mail);
     }
 
+    public String getNombreCompleto() {
+        return getApellido() + ", " + getNombre();
+    }
+
     @Override
     public String toString() {
-        return String.format("%s, %s - %s - %s / %s", getApellido(), getNombre(), getDomicilio().toString(),
-                getNTelefono(), getMail());
+        return String.format("%s, %s", getApellido(), getNombre());
     }
 
 }

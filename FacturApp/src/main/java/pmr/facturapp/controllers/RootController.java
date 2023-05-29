@@ -7,16 +7,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import org.controlsfx.control.Notifications;
+
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
+import pmr.facturapp.App;
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Compra;
 import pmr.facturapp.classes.Domicilio;
@@ -52,25 +52,10 @@ public class RootController implements Initializable {
     /*
      * Variables alfanuméricas
      */
-    // Alert borrado Clientes
-    private final String DEL_CLIENTES_TITLE = "Borrar Cliente";
-    private final String DEL_CLIENTES_HEAD = "¿Seguro que desea eliminar el siguiente cliente?";
-    
-    // Alert borrado Compras
-    private final String DEL_COMPRA_TITLE = "Borrar Compra";
-    private final String DEL_COMPRA_HEAD = "¿Seguro que desea eliminar la siguiente compra?";
-
-    // Alert borrardo Empleados
-    private final String DEL_EMPLEADO_TITLE = "Borrar Empleado";
-    private final String DEL_EMPLEADO_HEAD = "¿Seguro que desea eliminar el siguiente empleado?";
-
-    // Alert borrado Productos
-    private final String DEL_PRODUCTO_TITLE = "Borrar Producto";
-    private final String DEL_PRODUCTO_HEAD = "¿Seguro que desea eliminar el siguiente producto?";
-
-    // Alert borrado Proveedores
-    private final String DEL_PROVEEDOR_TITLE = "Borrado Proveedor";
-    private final String DEL_PROVEEDOR_HEAD = "¿Seguro que desea eliminar el siguiente proveedor?";
+    // Notificaciones Insertado
+    private final String ADD_NOTIFICATION_TITLE_SUCC = "INSERTADO REALIZADO CON ÉXITO";
+    private final String ADD_NOTIFICATION_TITLE_FAIL = "ERROR AL REALIZAR EL INSERTADO";
+    private final String ADD_NOTIFICATION_TITLE_CANCEL = "INSERTADO CANCELADO";
 
     /*
      * Model
@@ -154,21 +139,7 @@ public class RootController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Bindings disponibilidad opción borrado
-        delClientesMI.disableProperty()
-                .bind(C_CLIENTES.getClientesTableView().getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-
-        delCompraMI.disableProperty()
-                .bind(C_COMPRAS.getComprasTableView().getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-
-        delEmpleadosMI.disableProperty()
-                .bind(C_EMPLEADOS.getEmpleadosTableView().getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-
-        delProductosMI.disableProperty()
-                .bind(C_PRODUCTOS.getProductosTableView().getSelectionModel().selectedIndexProperty().isEqualTo(-1));
-
-        delProveedoresMI.disableProperty().bind(
-                C_PROVEEDORES.getProveedoresTableView().getSelectionModel().selectedIndexProperty().isEqualTo(-1));
+        onVerInicioAction(null);
 
     }
 
@@ -196,9 +167,34 @@ public class RootController implements Initializable {
             String telefono = clienteDialog.getTelefono();
             String email = clienteDialog.getMail();
 
-            Cliente nuevoCliente = new Cliente(TipoCliente, nombre, apellidos, domicilio, telefono, email);
+            Cliente cliente = new Cliente(TipoCliente, nombre, apellidos, domicilio, telefono, email);
 
-            System.out.println(nuevoCliente);
+            // Tarea de Registro en BBDD
+            App.tareaRegistro = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.insertCliente(cliente);
+
+                    return null;
+                }
+            };
+
+            App.tareaRegistro.setOnSucceeded(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(cliente.toString()).show();
+                C_CLIENTES.updateView();
+            });
+
+            App.tareaRegistro.setOnCancelled(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(cliente.toString()).showWarning();
+                C_CLIENTES.updateView();
+            });
+
+            App.tareaRegistro.setOnFailed(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(cliente.toString()).showError();
+                C_CLIENTES.updateView();
+            });
+
+            new Thread(App.tareaRegistro).start();
         }
     }
 
@@ -215,8 +211,34 @@ public class RootController implements Initializable {
 
             Compra compra = new Compra(proveedor, productos, fecha);
 
-            System.out.println(compra);
+            // Tarea de Registro en BBDD
+            App.tareaRegistro = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.insertCompra(compra);
+
+                    return null;
+                }
+            };
+
+            App.tareaRegistro.setOnSucceeded(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(compra.toString()).show();
+                C_COMPRAS.updateView();
+            });
+
+            App.tareaRegistro.setOnCancelled(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(compra.toString()).showWarning();
+                C_COMPRAS.updateView();
+            });
+
+            App.tareaRegistro.setOnFailed(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(compra.toString()).showError();
+                C_COMPRAS.updateView();
+            });
+
+            new Thread(App.tareaRegistro).start();
         }
+
     }
 
     @FXML
@@ -234,9 +256,33 @@ public class RootController implements Initializable {
 
             Empleado empleado = new Empleado(nombre, apellido, domicilio, telefono, email);
 
-            System.out.println(empleado);
-        }
+            // Tarea de Registro en BBDD
+            App.tareaRegistro = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.insertEmpleado(empleado);
 
+                    return null;
+                }
+            };
+
+            App.tareaRegistro.setOnSucceeded(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(empleado.toString()).show();
+                C_EMPLEADOS.updateView();
+            });
+
+            App.tareaRegistro.setOnCancelled(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(empleado.toString()).showWarning();
+                C_EMPLEADOS.updateView();
+            });
+
+            App.tareaRegistro.setOnFailed(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(empleado.toString()).showError();
+                C_EMPLEADOS.updateView();
+            });
+
+            new Thread(App.tareaRegistro).start();
+        }
     }
 
     @FXML
@@ -254,7 +300,33 @@ public class RootController implements Initializable {
 
             Producto producto = new Producto(nombre, descripcion, precio, stock, unidad);
 
-            System.out.println(producto);
+            // Tarea de Registro en BBDD
+            App.tareaRegistro = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.insertProducto(producto);
+
+                    return null;
+                }
+            };
+
+            App.tareaRegistro.setOnSucceeded(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(producto.toString()).show();
+                C_PRODUCTOS.updateView();
+            });
+
+            App.tareaRegistro.setOnCancelled(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(producto.toString()).showWarning();
+                C_PRODUCTOS.updateView();
+            });
+
+            App.tareaRegistro.setOnFailed(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(producto.toString()).showError();
+                C_PRODUCTOS.updateView();
+            });
+
+            new Thread(App.tareaRegistro).start();
+
         }
 
     }
@@ -274,84 +346,33 @@ public class RootController implements Initializable {
 
             Proveedor proveedor = new Proveedor(nombre, apellidos, domicilio, telefono, email);
 
-            System.out.println(proveedor);
-        }
-    }
+            // Tarea de Registro en BBDD
+            App.tareaRegistro = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.insertProveedor(proveedor);
 
-    @FXML
-    void onDelClientesAction(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
+                    return null;
+                }
+            };
 
-        alert.setTitle(DEL_CLIENTES_TITLE);
-        alert.setHeaderText(DEL_CLIENTES_HEAD);
-        alert.setContentText(C_CLIENTES.getClientesTableView().getSelectionModel().getSelectedItem().toString());
+            App.tareaRegistro.setOnSucceeded(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(proveedor.toString()).show();
+                C_PROVEEDORES.updateView();
+            });
 
-        Optional<ButtonType> resultado = alert.showAndWait();
+            App.tareaRegistro.setOnCancelled(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(proveedor.toString()).showWarning();
+                C_PROVEEDORES.updateView();
+            });
 
-        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
-            System.out.println("Eliminado");
-        }
+            App.tareaRegistro.setOnFailed(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(proveedor.toString()).showError();
+                C_PROVEEDORES.updateView();
+            });
 
-    }
+            new Thread(App.tareaRegistro).start();
 
-    @FXML
-    void onDelComprasAction(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-
-        alert.setTitle(DEL_COMPRA_TITLE);
-        alert.setHeaderText(DEL_COMPRA_HEAD);
-        alert.setContentText(C_COMPRAS.getComprasTableView().getSelectionModel().getSelectedItem().toString());
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-
-        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
-            System.out.println("Eliminado");
-        }
-        
-    }
-
-    @FXML
-    void onDelEmpleadosAction(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-
-        alert.setTitle(DEL_EMPLEADO_TITLE);
-        alert.setHeaderText(DEL_EMPLEADO_HEAD);
-        alert.setContentText(C_EMPLEADOS.getEmpleadosTableView().getSelectionModel().getSelectedItem().toString());
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-
-        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
-            System.out.println("Eliminado");
-        }
-    }
-
-    @FXML
-    void onDelProductosAction(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-
-        alert.setTitle(DEL_PRODUCTO_TITLE);
-        alert.setHeaderText(DEL_PRODUCTO_HEAD);
-        alert.setContentText(C_PRODUCTOS.getProductosTableView().getSelectionModel().getSelectedItem().toString());
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-
-        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
-            System.out.println("Eliminado");
-        }
-    }
-
-    @FXML
-    void onDelProveedoresAction(ActionEvent event) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-
-        alert.setTitle(DEL_PROVEEDOR_TITLE);
-        alert.setHeaderText(DEL_PROVEEDOR_HEAD);
-        alert.setContentText(C_PROVEEDORES.getProveedoresTableView().getSelectionModel().getSelectedItem().toString());
-
-        Optional<ButtonType> resultado = alert.showAndWait();
-
-        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
-            System.out.println("Eliminado");
         }
     }
 
@@ -377,6 +398,7 @@ public class RootController implements Initializable {
 
     @FXML
     void onVerProductosAction(ActionEvent event) {
+        C_PRODUCTOS.updateView();
         view.setCenter(C_PRODUCTOS.getView());
     }
 
@@ -389,5 +411,9 @@ public class RootController implements Initializable {
     void onVerVentasAction(ActionEvent event) {
         view.setCenter(C_VENTAS.getView());
     }
+
+    /*
+     * Funciones
+     */
 
 }

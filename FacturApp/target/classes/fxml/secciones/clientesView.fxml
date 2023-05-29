@@ -4,6 +4,7 @@
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -54,6 +55,7 @@
             <ContextMenu>
                <items>
                   <MenuItem fx:id="masInformacionMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más información" />
+                  <MenuItem fx:id="eliminarMI" mnemonicParsing="false" onAction="#onEliminarAction" text="Eliminar" />
                </items>
             </ContextMenu>
          </contextMenu>

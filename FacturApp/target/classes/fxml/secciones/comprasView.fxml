@@ -18,7 +18,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="view" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
+   xmlns="http://javafx.com/javafx/17"
+   xmlns:fx="http://javafx.com/fxml/1">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
    </padding>
@@ -56,9 +58,10 @@
                </columnResizePolicy>
                <contextMenu>
                   <ContextMenu>
-                    <items>
-                      <MenuItem fx:id="masInfoMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más Información" />
-                    </items>
+                     <items>
+                        <MenuItem fx:id="masInfoMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más Información" />
+                        <MenuItem fx:id="eliminarMI" mnemonicParsing="false" onAction="#onEliminarAction" text="Eliminar" />
+                     </items>
                   </ContextMenu>
                </contextMenu>
             </TableView>

@@ -19,6 +19,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import pmr.facturapp.classes.Domicilio;
 import pmr.facturapp.classes.Empleado;
+import pmr.facturapp.classes.statics.ProvinciasMunicipios;
 
 public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable {
 
@@ -105,6 +106,20 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
         municipioComboBox.valueProperty().bindBidirectional(domicilio.municipioProperty());
         telefonoSP.bind(telefonoTextField.textProperty());
         mailSP.bind(emailTextField.textProperty());
+
+        provinciaComboBox.getItems().setAll(ProvinciasMunicipios.getProvincias());
+        
+        provinciaComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+            municipioComboBox.getSelectionModel().clearSelection();
+
+            if (provinciaComboBox.getSelectionModel().getSelectedItem() == ProvinciasMunicipios.getProvincias()[0]) {
+                municipioComboBox.getItems().setAll(ProvinciasMunicipios.getMunicipioSCT());
+
+            } else if (provinciaComboBox.getSelectionModel().getSelectedItem() == ProvinciasMunicipios.getProvincias()[1]) {
+                municipioComboBox.getItems().setAll(ProvinciasMunicipios.getMunicipioLP());
+
+            }
+        });
 
         // Disable Añadir Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);

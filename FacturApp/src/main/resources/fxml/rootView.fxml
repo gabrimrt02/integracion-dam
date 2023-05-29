@@ -61,7 +61,6 @@
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="addCompraMI" mnemonicParsing="false" onAction="#onAddComprasAction" text="Añadir" />
-                  <MenuItem fx:id="delCompraMI" mnemonicParsing="false" onAction="#onDelComprasAction" text="Eliminar" />
                </items>
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -83,7 +82,6 @@
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="addClientesMI" mnemonicParsing="false" onAction="#onAddClientesAction" text="Añadir" />
-                  <MenuItem fx:id="delClientesMI" mnemonicParsing="false" onAction="#onDelClientesAction" text="Eliminar" />
                </items>
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -105,7 +103,6 @@
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="addEmpleadosMI" mnemonicParsing="false" onAction="#onAddEmpleadosAction" text="Añadir" />
-                  <MenuItem fx:id="delEmpleadosMI" mnemonicParsing="false" onAction="#onDelEmpleadosAction" text="Eliminar" />
                </items>
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -127,7 +124,6 @@
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="addProveedoresMI" mnemonicParsing="false" onAction="#onAddProveedoresAction" text="Añadir" />
-                  <MenuItem fx:id="delProveedoresMI" mnemonicParsing="false" onAction="#onDelProveedoresAction" text="Eliminar" />
                </items>
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
@@ -149,7 +145,6 @@
                   </MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="addProductosMI" mnemonicParsing="false" onAction="#onAddProductosAction" text="Añadir" />
-                  <MenuItem fx:id="delProductosMI" mnemonicParsing="false" onAction="#onDelProductosAction" text="Eliminar" />
                </items>
                <graphic>
                   <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">

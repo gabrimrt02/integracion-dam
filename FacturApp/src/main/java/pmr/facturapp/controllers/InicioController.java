@@ -3,7 +3,10 @@ package pmr.facturapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.bson.Document;
@@ -16,7 +19,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -58,7 +60,7 @@ public class InicioController implements Initializable {
     private TableColumn<Transaccion, LocalDate> fechaColumn;
 
     @FXML
-    private LineChart<Number, Number> monthLineChart;
+    private LineChart<String, Number> monthLineChart;
 
     @FXML
     private TableView<Transaccion> movimientosTableView;
@@ -98,8 +100,8 @@ public class InicioController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // userLabel.textProperty().set("Gabriel");
-        // dateLabel.textProperty().set(LocalDate.now().toString());
+        userLabel.textProperty().set(App.USERNAME);
+        dateLabel.textProperty().set(LocalDate.now().toString());
         // balanceLabel.textProperty().set("1000€");
 
         setList();
@@ -108,6 +110,12 @@ public class InicioController implements Initializable {
         movimientosTableView.itemsProperty().bind(transaccionesLP);
 
         updateTable();
+
+        // Como crear una grafíca
+        monthLineChart.setTitle("Comparativa de meses");
+
+        updateMonthLineChart();
+
     }
 
     /*
@@ -151,5 +159,32 @@ public class InicioController implements Initializable {
         fechaColumn.setCellValueFactory(data -> data.getValue().fechaProperty());
         totalColumn.setCellValueFactory(data -> data.getValue().totalProperty());
     }
+
+    private void updateMonthLineChart() {
+        Map<String, Integer> ventas = App.dbManager.getVentasUltimoMes();
+        Map<String, Integer> compras = App.dbManager.getComprasUltimoMes();
+
+        XYChart.Series<String, Number> seriesVentas = new XYChart.Series<>();
+        seriesVentas.setName(LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+
+        for (String clave : ventas.keySet()) {
+            seriesVentas.getData().add(new XYChart.Data<String, Number>(clave, ventas.get(clave)));
+        }
+
+        XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
+        seriesCompras.setName(LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+
+        for (String clave : compras.keySet()) {
+            seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
+        }
+
+        monthLineChart.getData().add(seriesVentas);
+        monthLineChart.getData().add(seriesCompras);
+
+    }
+
+    // private void updateWeekLineChart() {
+    // Map<String, Integer> ventas = new HashMap<>();
+    // }
 
 }

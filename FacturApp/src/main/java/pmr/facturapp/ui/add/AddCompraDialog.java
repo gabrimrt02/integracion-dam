@@ -3,9 +3,11 @@ package pmr.facturapp.ui.add;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.bson.Document;
 import org.controlsfx.control.SearchableComboBox;
 
 import com.jfoenix.controls.JFXButton;
@@ -24,9 +26,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
+import pmr.facturapp.App;
 import pmr.facturapp.classes.Compra;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
+import pmr.facturapp.converters.ProveedorConverter;
 
 public class AddCompraDialog extends Dialog<Compra> implements Initializable {
 
@@ -40,6 +44,8 @@ public class AddCompraDialog extends Dialog<Compra> implements Initializable {
     private ObjectProperty<Proveedor> proveedorOP = new SimpleObjectProperty<>();
     private ListProperty<Producto> productoLP = new SimpleListProperty<>();
     private ObjectProperty<LocalDate> fechaOP = new SimpleObjectProperty<>();
+
+    private List<Proveedor> proveedores = new ArrayList<>();
 
     // View
     @FXML
@@ -63,6 +69,11 @@ public class AddCompraDialog extends Dialog<Compra> implements Initializable {
     // Constructor
     public AddCompraDialog() {
         super();
+
+        List<Document> docs = App.dbManager.getAllProveedores();
+        for(Document d : docs) {
+            proveedores.add(ProveedorConverter.convert(d));
+        }
 
         try {
             FXMLLoader loader = new FXMLLoader(FICHERO);
@@ -97,6 +108,8 @@ public class AddCompraDialog extends Dialog<Compra> implements Initializable {
         proveedorOP.bind(proveedorComboBox.valueProperty());
         productoLP.bind(productosListView.itemsProperty());
         fechaOP.bind(fechaDatePicker.valueProperty());
+
+        proveedorComboBox.getItems().setAll(proveedores);
 
         // Disable add Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);

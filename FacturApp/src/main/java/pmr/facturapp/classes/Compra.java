@@ -9,7 +9,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class Compra extends Transaccion {
-    
+
     /*
      * Properties
      */
@@ -30,7 +30,7 @@ public class Compra extends Transaccion {
 
     public Compra(Proveedor proveedor, List<Producto> productos, LocalDate fecha) {
         super(productos, fecha);
-        
+
         this.proveedorOP.set(proveedor);
     }
 
@@ -54,8 +54,8 @@ public class Compra extends Transaccion {
 
     @Override
     public String toString() {
-        return String.format("%s | %s | De: %s %s", getFecha().toString(), getProductos().toString(),
-                getProveedor().getNombre(), getProveedor().getApellido());
+        return String.format("%s - %s, %s", getFecha().toString(), getProveedor().getNombreCompleto(),
+                getProductos().toString());
     }
 
 }

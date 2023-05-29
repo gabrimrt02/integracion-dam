@@ -6,27 +6,36 @@ package pmr.facturapp;
 // import java.util.Locale;
 
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import pmr.facturapp.DataBase.MongoDBManager;
+import pmr.facturapp.controllers.LoginController;
 import pmr.facturapp.controllers.RootController;
 
 public class App extends Application {
 
     /*
+     * Tareas del programa
+     */
+    public static Task<Void> tareaRegistro;
+    public static Task<Void> tareaBorrado;
+
+    /*
      * Variables alfanuméricas
      */
     // Strings alerta conexión
-    private final String ALERT_TITLE   = "Error al conectar con la Base de Datos";
+    private final String ALERT_TITLE = "Error al conectar con la Base de Datos";
     private final String ALERT_CONTENT = "Se ha producido un error durante la conexión con la Base de Datos";
-    
-    //
+    public static String USERNAME = "";
+
+    // Titulo de la aplicación
     private final String APP_TITLE = "FacturApp";
 
-
     public static Stage primaryStage;
+    public static RootController rootController;
 
     public static MongoDBManager dbManager;
 
@@ -35,7 +44,7 @@ public class App extends Application {
         super.init();
 
         // Conexión con BBDD
-        if((dbManager = MongoDBManager.connect()) == null) {
+        if ((dbManager = MongoDBManager.connect()) == null) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle(ALERT_TITLE);
             alert.setContentText(ALERT_CONTENT);
@@ -47,16 +56,14 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         App.primaryStage = primaryStage;
 
-        RootController controller = new RootController();
+        LoginController controller = new LoginController();
 
         App.primaryStage.setTitle(APP_TITLE);
-        App.primaryStage.setScene(new Scene(controller.getView()));
-        App.primaryStage.setMaximized(true);
+        App.primaryStage.setScene(new Scene(controller.getView(), 450, 650));
         App.primaryStage.show();
 
-        // System.out.println(LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
         // System.out.println(LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()));
-    
+
     }
 
     @Override
@@ -67,6 +74,18 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    /*
+     * Funciones
+     */
+    public static void loadApp() {
+        App.primaryStage.close();
+
+        // Apertura de la nueva ventana con el contenido de la App
+        App.primaryStage.setScene(new Scene(new RootController().getView()));
+        App.primaryStage.setMaximized(true);
+        App.primaryStage.show();
     }
 
 }

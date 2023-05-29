@@ -2,11 +2,14 @@ package pmr.facturapp.DataBase;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.bson.Document;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -28,6 +31,8 @@ import pmr.facturapp.converters.ProductoConverter;
 import pmr.facturapp.converters.ProveedorConverter;
 import pmr.facturapp.converters.VentaConverter;
 
+import static com.mongodb.client.model.Sorts.descending;
+
 public class MongoDBManager {
 
     /**
@@ -41,6 +46,7 @@ public class MongoDBManager {
     private final String COL_PROVEEDORES = "Proveedores";
     private final String COL_COMPRAS = "Compras";
     private final String COL_VENTAS = "Ventas";
+    private final String COL_USUARIOS = "Usuarios";
 
     /**
      * Atributo de la clase MongoDBManager que almacena los datos de configuración
@@ -57,7 +63,7 @@ public class MongoDBManager {
     private MongoClient client;
     private MongoClientSettings clientSettings;
     private MongoDatabase database;
-    private MongoCollection<Document> clientes, empleados, productos, proveedores, compras, ventas;
+    private MongoCollection<Document> clientes, empleados, productos, proveedores, compras, ventas, usuarios;
 
     /**
      * Constructor de la clase MongoDBManager, encargado de establecer la conexión
@@ -91,6 +97,7 @@ public class MongoDBManager {
         proveedores = database.getCollection(COL_PROVEEDORES);
         compras = database.getCollection(COL_COMPRAS);
         ventas = database.getCollection(COL_VENTAS);
+        usuarios = database.getCollection(COL_USUARIOS);
     }
 
     /**
@@ -253,7 +260,7 @@ public class MongoDBManager {
         }
         return documentosCompras;
     }
-    
+
     /**
      * Método que devuelve una lista con todos los documentos de la colección
      * "Ventas".
@@ -268,6 +275,22 @@ public class MongoDBManager {
             documentosVentas.add(cursor.next());
         }
         return documentosVentas;
+    }    
+
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Ventas".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos las ventas
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllUsuarios() {
+        ArrayList<Document> documentosUsuarios = new ArrayList<>();
+        MongoCursor<Document> cursor = usuarios.find().cursor();
+        while (cursor.hasNext()) {
+            documentosUsuarios.add(cursor.next());
+        }
+        return documentosUsuarios;
     }
 
     /**
@@ -346,4 +369,153 @@ public class MongoDBManager {
         return documentosProveedores;
     }
 
+    public void deleteCliente(Cliente cliente) {
+        clientes.deleteOne(new BasicDBObject("_id", cliente.getId()));
+    }
+
+    public void deleteCompra(Compra compra) {
+        compras.deleteOne(new BasicDBObject("_id", compra.getId()));
+    }
+
+    public void deleteEmpleado(Empleado empleado) {
+        empleados.deleteOne(new BasicDBObject("_id", empleado.getId()));
+    }
+
+    public void deleteProducto(Producto producto) {
+        productos.deleteOne(new BasicDBObject("_id", producto.getId()));
+    }
+
+    public void deleteProveedor(Proveedor proveedor) {
+        proveedores.deleteOne(new BasicDBObject("_id", proveedor.getId()));
+    }
+
+    public Map<String, Integer> getVentasUltimoMes() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = ventas.find().sort(descending("fecha")).cursor();
+        Venta ultimoGrabado, leido;
+
+        // Comprobamos si tiene siguiente elemento y si lo tiene lo recuperamos a la
+        // lista
+        if (cursor.hasNext()) {
+            leido = VentaConverter.convert(cursor.next());
+            lista.put("" + leido.getFecha().getDayOfMonth(), 1);
+            ultimoGrabado = leido;
+
+            if (cursor.hasNext()) {
+                leido = VentaConverter.convert(cursor.next());
+
+                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
+                        && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+
+                    Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
+                    valor++;
+                    lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+
+                }
+
+                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
+                        && leido.getFecha().getDayOfMonth() != ultimoGrabado.getFecha().getDayOfMonth()) {
+
+                    lista.put("" + leido.getFecha().getDayOfMonth(), 1);
+                    ultimoGrabado = leido;
+
+                    
+                    if (cursor.hasNext()) {
+                        leido = VentaConverter.convert(cursor.next());
+                        
+                        while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
+                                && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+
+                            Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
+                            valor++;
+                            lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+
+                            leido = VentaConverter.convert(cursor.next());
+
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+        return lista;
+    }
+
+
+    public Map<String, Integer> getComprasUltimoMes() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = compras.find().sort(descending("venta.fecha")).cursor();
+        Compra ultimoGrabado, leido;
+
+        // Comprobamos si tiene siguiente elemento y si lo tiene lo recuperamos a la
+        // lista
+        if (cursor.hasNext()) {
+            leido = CompraConverter.convert(cursor.next());
+            lista.put("" + leido.getFecha().getDayOfMonth(), 1);
+            ultimoGrabado = leido;
+
+            if (cursor.hasNext()) {
+                leido = CompraConverter.convert(cursor.next());
+
+                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
+                        && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+
+                    Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
+                    valor++;
+                    lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+
+                }
+
+                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
+                        && leido.getFecha().getDayOfMonth() != ultimoGrabado.getFecha().getDayOfMonth()) {
+
+                    lista.put("" + leido.getFecha().getDayOfMonth(), 1);
+                    ultimoGrabado = leido;
+
+                    
+                    if (cursor.hasNext()) {
+                        leido = CompraConverter.convert(cursor.next());
+                        
+                        while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
+                                && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+
+                            Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
+                            valor++;
+                            lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+
+                            leido = CompraConverter.convert(cursor.next());
+
+                        }
+
+                    }
+                }
+
+            }
+        }
+
+        return lista;
+    }
+
+    // public Map<String, Integer> getVentasUltimaSemana() {
+    //     Map<String, Integer> lista = new HashMap<>();
+    //     MongoCursor<Document> cursor = ventas.find().sort(new BasicDBObject("fecha", -1)).cursor();
+    //     Venta ultimoGrabado, leido;
+
+    //     if (cursor.hasNext()) {
+    //         leido = VentaConverter.convert(cursor.next());
+    //         lista.put("" + leido.getFecha().getDayOfWeek(), 1);
+    //         ultimoGrabado = leido;
+
+    //         if(cursor.hasNext()) {
+
+    //             leido = VentaConverter.convert(cursor.next());
+
+    //             // while ()
+
+    //         }
+    //     }
+
+    // }
 }

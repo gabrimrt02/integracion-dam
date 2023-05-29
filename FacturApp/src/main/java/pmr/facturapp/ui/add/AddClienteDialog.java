@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
+import pmr.facturapp.classes.statics.ProvinciasMunicipios;
 import pmr.facturapp.classes.statics.TipoCliente;
 
 public class AddClienteDialog extends Dialog<Cliente> implements Initializable {
@@ -116,12 +117,26 @@ public class AddClienteDialog extends Dialog<Cliente> implements Initializable {
 
         tipoClienteComboBox.itemsProperty().bind(TipoCliente.tiposProperty());
 
+        provinciaComboBox.getItems().setAll(ProvinciasMunicipios.getProvincias());
+        
+        provinciaComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+            municipioComboBox.getSelectionModel().clearSelection();
+            
+            if (provinciaComboBox.getSelectionModel().getSelectedItem() == ProvinciasMunicipios.getProvincias()[0]) {
+                municipioComboBox.getItems().setAll(ProvinciasMunicipios.getMunicipioSCT());
+
+            } else if (provinciaComboBox.getSelectionModel().getSelectedItem() == ProvinciasMunicipios.getProvincias()[1]) {
+                municipioComboBox.getItems().setAll(ProvinciasMunicipios.getMunicipioLP());
+
+            }
+        });
+
         // Disable Añadir Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);
         addButton.disableProperty()
                 .bind(nombreSP.isEmpty().or(
                         apellidoSP.isEmpty().or(domicilio.provinciaProperty().isEmpty().or(domicilio.municipioProperty()
-                                .isEmpty().or(telefonoSP.isEmpty().or(mailSP.isEmpty().or(tipoClienteOP.isNull())))))));
+                                .isEmpty().or(telefonoSP.isEmpty().or(tipoClienteOP.isNull()))))));
 
     }
 

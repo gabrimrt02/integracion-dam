@@ -1,7 +1,9 @@
 package pmr.facturapp.classes;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 
 import org.bson.types.ObjectId;
 
@@ -21,7 +23,7 @@ public class Transaccion {
     private ObjectProperty<ObjectId> idOP = new SimpleObjectProperty<>();
     private ListProperty<Producto> productosLP = new SimpleListProperty<>(FXCollections.observableArrayList());
     private ObjectProperty<LocalDate> fechaOP = new SimpleObjectProperty<>();
-    private DoubleProperty totalDP = new SimpleDoubleProperty(0.0);
+    private DoubleProperty totalDP = new SimpleDoubleProperty();
 
     /*
      * Constructores
@@ -35,9 +37,12 @@ public class Transaccion {
         this.productosLP.setAll(productos);
         this.fechaOP.set(fecha);
         
+        Double auxTotal = 0.0;
         for(Producto p : productos) {
-            this.totalDP.add(p.getPrecio());
+            auxTotal += p.getPrecio();
         }
+        this.totalDP.set(Double.parseDouble(NumberFormat.getNumberInstance(Locale.US).format(auxTotal)));
+
     }
 
     public Transaccion(List<Producto> productos, LocalDate fecha) {

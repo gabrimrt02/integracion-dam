@@ -3,21 +3,28 @@ package pmr.facturapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.bson.Document;
+import org.controlsfx.control.Notifications;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Domicilio;
@@ -36,6 +43,14 @@ public class ProveedoresController implements Initializable {
     /*
      * Variables alfanumericas
      */
+    // Alert borrado Proveedores
+    private final String DEL_PROVEEDOR_TITLE = "Borrado Proveedor";
+    private final String DEL_PROVEEDOR_HEAD = "¿Seguro que desea eliminar el siguiente proveedor?";
+    
+    // Notificaciones Borrado
+    private final String DEL_NOTIFICATION_TITLE_SUCC = "BORRADO REALIZADO CON ÉXITO";
+    private final String DEL_NOTIFICATION_TITLE_FAIL = "ERROR AL REALIZAR EL BORRADO";
+    private final String DEL_NOTIFICATION_TITLE_CANCEL = "BORRADO CANCELADO";
 
     /*
      * Model
@@ -62,6 +77,9 @@ public class ProveedoresController implements Initializable {
 
     @FXML
     private MenuItem masInformacionMI;
+    
+    @FXML
+    private MenuItem eliminarMI;
 
     @FXML
     private BorderPane view;
@@ -99,7 +117,7 @@ public class ProveedoresController implements Initializable {
      */
     public BorderPane getView() {
         return this.view;
-    }    
+    }
 
     /*
      * Funciones de la view
@@ -111,10 +129,60 @@ public class ProveedoresController implements Initializable {
         dialog.showAndWait();
     }
 
+    @FXML
+    void onEliminarAction(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+
+        Proveedor proveedor = proveedoresTableView.getSelectionModel().getSelectedItem();
+
+        alert.setTitle(DEL_PROVEEDOR_TITLE);
+        alert.setHeaderText(DEL_PROVEEDOR_HEAD);
+        alert.setContentText(proveedor.toString());
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+
+        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
+            // Tarea de Borrado en BBDD
+            App.tareaBorrado = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.deleteProveedor(proveedor);
+
+                    return null;
+                }
+            };
+
+            App.tareaBorrado.setOnSucceeded(e -> {
+                Notifications.create().title(DEL_NOTIFICATION_TITLE_SUCC).text(proveedor.toString()).show();
+                updateView();
+            });
+
+            App.tareaBorrado.setOnCancelled(e -> {
+                Notifications.create().title(DEL_NOTIFICATION_TITLE_CANCEL).text(proveedor.toString()).showWarning();
+                updateView();
+            });
+
+            App.tareaBorrado.setOnFailed(e -> {
+                Notifications.create().title(DEL_NOTIFICATION_TITLE_FAIL).text(proveedor.toString()).showError();
+                updateView();
+            });
+
+            new Thread(App.tareaBorrado).start();
+
+        }
+    }
+
     /*
      * Funciones
      */
+    public void updateView() {
+        setList();
+
+        updateTable();
+    }
+
     private void setList() {
+        proveedoresLP.clear();
         List<Document> docProveedores = App.dbManager.getAllProveedores();
         for (Document d : docProveedores) {
             proveedoresLP.add(ProveedorConverter.convert(d));

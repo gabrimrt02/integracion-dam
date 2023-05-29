@@ -31,7 +31,7 @@ public class Pruebas {
         /*
          * Objetos de prueba para las inserciones
          */
-        Cliente pCliente = new Cliente(TipoCliente.COOPERATIVA(), "Nombre_Cooperativa", "Apellido_Cooperativa",
+        Cliente pCliente = new Cliente(TipoCliente.COOPERATIVA(), "Nombre_Cooperativa_2", "Apellido_Cooperativa",
                 new Domicilio("SC de Tenerife", "Tacoronte"), "922 333 111", "cooperativa.ape@dev.facturapp.es");
 
         Empleado pEmpleado = new Empleado("Nombre_Empleado", "Apellido_Empleado",
