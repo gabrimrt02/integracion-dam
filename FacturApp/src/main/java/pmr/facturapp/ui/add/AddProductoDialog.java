@@ -25,7 +25,9 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
+import pmr.facturapp.App;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.statics.Unidad;
 
@@ -98,6 +100,8 @@ public class AddProductoDialog extends Dialog<Producto> implements Initializable
         // Config
         ButtonType addButtonType = new ButtonType("Añadir", ButtonData.OK_DONE);
 
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.getIcons().addAll(App.LOGO);
         setTitle(TITULO_DIALOG);
         getDialogPane().setContent(view);
         getDialogPane().getButtonTypes().setAll(addButtonType, ButtonType.CANCEL);

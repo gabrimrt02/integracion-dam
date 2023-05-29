@@ -12,6 +12,8 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import pmr.facturapp.App;
 import pmr.facturapp.classes.Persona;
 
 public class InfoClienteProveedorDialog extends Dialog<Persona> implements Initializable {
@@ -77,6 +79,8 @@ public class InfoClienteProveedorDialog extends Dialog<Persona> implements Initi
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Config
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.getIcons().addAll(App.LOGO);
         setTitle(DIALOG_TITULO);
         getDialogPane().setContent(view);
         getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);

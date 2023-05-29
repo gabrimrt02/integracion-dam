@@ -17,6 +17,8 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import pmr.facturapp.App;
 import pmr.facturapp.classes.Domicilio;
 import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.classes.statics.ProvinciasMunicipios;
@@ -93,6 +95,8 @@ public class AddEmpleadoDialog extends Dialog<Empleado> implements Initializable
         // Config
         ButtonType addButtonType = new ButtonType("Añadir", ButtonData.OK_DONE);
 
+        Stage stage = (Stage) getDialogPane().getScene().getWindow();
+        stage.getIcons().addAll(App.LOGO);
         setTitle(TITULO_DIALOG);
         getDialogPane().setContent(view);
         getDialogPane().getButtonTypes().setAll(addButtonType, ButtonType.CANCEL);

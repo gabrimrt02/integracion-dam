@@ -394,7 +394,7 @@ public class MongoDBManager {
 
     public Map<String, Integer> getVentasUltimoMes() {
         Map<String, Integer> lista = new HashMap<>();
-        MongoCursor<Document> cursor = ventas.find().sort(descending("venta.fecha")).cursor();
+        MongoCursor<Document> cursor = ventas.find().sort(new Document("venta.fecha", -1)).cursor();
         Venta leido;
         long fecha;
         int total, mes = -1, dia;

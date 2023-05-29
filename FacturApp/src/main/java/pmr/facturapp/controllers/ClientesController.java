@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Domicilio;
@@ -143,6 +144,8 @@ public class ClientesController implements Initializable {
 
         Cliente cliente = clientesTableView.getSelectionModel().getSelectedItem();
 
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().addAll(App.LOGO);
         alert.setTitle(DEL_CLIENTES_TITLE);
         alert.setHeaderText(DEL_CLIENTES_HEAD);
         alert.setContentText(cliente.toString());

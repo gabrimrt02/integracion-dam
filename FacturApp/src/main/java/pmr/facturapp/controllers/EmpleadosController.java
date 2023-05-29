@@ -31,6 +31,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.converters.EmpleadoConverter;
@@ -128,7 +129,9 @@ public class EmpleadosController implements Initializable {
         Alert alert = new Alert(AlertType.CONFIRMATION);
 
         Empleado empleado = empleadosTableView.getSelectionModel().getSelectedItem();
-
+        
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().addAll(App.LOGO);
         alert.setTitle(DEL_EMPLEADO_TITLE);
         alert.setHeaderText(DEL_EMPLEADO_HEAD);
         alert.setContentText(empleado.toString());

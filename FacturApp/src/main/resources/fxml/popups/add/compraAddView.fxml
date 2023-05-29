@@ -40,12 +40,12 @@
       <JFXListView fx:id="productosListView" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="2147483647" />
       <VBox prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
          <children>
-            <JFXButton fx:id="addProductoButton" alignment="CENTER" text="+">
+            <JFXButton fx:id="addProductoButton" alignment="CENTER" onAction="#onAddProductoAction" text="+">
                <font>
                   <Font size="18.0" />
                </font>
             </JFXButton>
-            <JFXButton fx:id="removeProductoButton" alignment="CENTER" maxWidth="1.7976931348623157E308" text="-">
+            <JFXButton fx:id="removeProductoButton" alignment="CENTER" maxWidth="1.7976931348623157E308" onAction="#onDelProductoAction" text="-">
                <font>
                   <Font size="18.0" />
                </font>
