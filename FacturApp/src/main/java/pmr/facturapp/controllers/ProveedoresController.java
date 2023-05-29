@@ -104,12 +104,9 @@ public class ProveedoresController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setList();
-
         // Bindings
         proveedoresTableView.itemsProperty().bind(proveedoresLP);
-
-        updateTable();
+        
     }
 
     /*

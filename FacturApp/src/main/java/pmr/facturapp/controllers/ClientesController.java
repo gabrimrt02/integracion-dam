@@ -108,12 +108,9 @@ public class ClientesController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setList();
-
         // Bindings
         clientesTableView.itemsProperty().bind(clientesLP);
 
-        updateTable();
     }
 
     /*

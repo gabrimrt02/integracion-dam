@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.bson.Document;
 import org.controlsfx.control.Notifications;
 
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
@@ -68,7 +71,7 @@ public class ComprasController implements Initializable {
     private TableColumn<Compra, LocalDate> fechaColumn;
 
     @FXML
-    private LineChart<?, ?> lineChart;
+    private LineChart<String, Number> lineChart;
 
     @FXML
     private PieChart pieChart;
@@ -105,12 +108,9 @@ public class ComprasController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setList();
-
         // Bindings
         comprasTableView.itemsProperty().bind(comprasLP);
 
-        updateTable();
     }
 
     /*
@@ -176,9 +176,37 @@ public class ComprasController implements Initializable {
      * Funciones
      */
     public void updateView() {
-        setList();
+        Task<Void> tablaTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                setList();
+                updateTable();
+                
+                return null;
+            }
+        };
 
-        updateTable();
+        Task<Void> graficaLineaTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateLineChart();
+                
+                return null;
+            }
+        };
+
+        Task<Void> graficaPieTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updatePieChart();
+                
+                return null;
+            }
+        };
+
+        Platform.runLater(tablaTask);
+        Platform.runLater(graficaLineaTask);
+        Platform.runLater(graficaPieTask);
     }
 
     private void setList() {
@@ -204,4 +232,29 @@ public class ComprasController implements Initializable {
         return comprasTableView.getSelectionModel().getSelectedItem();
     }
 
+    private void updateLineChart() {
+        lineChart.getData().clear();
+
+        Map<String, Integer> compras = App.dbManager.getComprasUltimoMes();
+
+        XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
+        seriesCompras.setName("Compras");
+
+        for (String clave : compras.keySet()) {
+            seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
+        }
+
+        lineChart.getData().add(seriesCompras);
+    }
+
+    private void updatePieChart() {
+        pieChart.getData().clear();
+
+        Map<String, Integer> proveedores = App.dbManager.getProveedoresUltimoMes();
+
+        for (String clave : proveedores.keySet()) {
+            pieChart.getData().add(new PieChart.Data(clave, proveedores.get(clave)));            
+        }
+
+    }
 }

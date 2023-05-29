@@ -99,12 +99,8 @@ public class ProductosController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setList();
-
         // Bindings
         productosTableView.itemsProperty().bind(productosLP);
-
-        updateTable();
 
     }
 

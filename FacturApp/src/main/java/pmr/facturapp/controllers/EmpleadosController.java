@@ -3,12 +3,14 @@ package pmr.facturapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.bson.Document;
 import org.controlsfx.control.Notifications;
 
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,15 +20,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.StackedAreaChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Empleado;
@@ -72,7 +75,7 @@ public class EmpleadosController implements Initializable {
     private PieChart pieChart;
 
     @FXML
-    private StackedAreaChart<?, ?> stackAreaChart;
+    private AreaChart<String, Integer> areaChart;
 
     @FXML
     private TableColumn<Empleado, String> telefonoColumn;
@@ -103,12 +106,11 @@ public class EmpleadosController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setList();
-
         // Bindings
         empleadosTableView.itemsProperty().bind(empleadosLP);
-
-        updateTable();
+        
+        updatePieChart();
+        updateAreaChart();
     }
 
     /*
@@ -168,9 +170,37 @@ public class EmpleadosController implements Initializable {
      * Funciones
      */
     public void updateView() {
-        setList();
+        Task<Void> tablaTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                setList();
+                updateTable();
 
-        updateTable();
+                return null;
+            }
+        };
+
+        Task<Void> graficaLineTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateAreaChart();
+                
+                return null;
+            }
+        };
+
+        Task<Void> graficaPieTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateAreaChart();
+                
+                return null;
+            }
+        };
+
+        Platform.runLater(tablaTask);
+        Platform.runLater(graficaLineTask);
+        Platform.runLater(graficaPieTask);
     }
 
     private void setList() {
@@ -190,6 +220,36 @@ public class EmpleadosController implements Initializable {
 
     public TableView<Empleado> getEmpleadosTableView() {
         return this.empleadosTableView;
+    }
+
+    private void updatePieChart() {
+        pieChart.getData().clear();
+
+        Map<String, Integer> empleados = App.dbManager.getEmpleadosUltimoMes();
+
+        for (String clave : empleados.keySet()) {
+            pieChart.getData().add(new PieChart.Data(clave, empleados.get(clave)));
+        }
+
+    }
+
+    private void updateAreaChart() {
+        areaChart.getData().clear();
+
+        Map<String, Map<String, Integer>> datos = App.dbManager.getDesempeñoEmpleados();
+        XYChart.Series<String, Integer> seriesDatos;
+
+        for (String nombre : datos.keySet()) {
+            seriesDatos = new XYChart.Series<>();
+            seriesDatos.setName(nombre);
+            Map<String, Integer> insideData = datos.get(nombre);
+
+            for (String clave : insideData.keySet()) {
+                seriesDatos.getData().add(new XYChart.Data<String, Integer>(clave, insideData.get(clave)));
+            }
+
+            areaChart.getData().add(seriesDatos);
+        }
     }
 
 }

@@ -379,37 +379,43 @@ public class RootController implements Initializable {
     @FXML
     void onVerClientesAction(ActionEvent event) {
         view.setCenter(C_CLIENTES.getView());
+        C_CLIENTES.updateView();
     }
 
     @FXML
     void onVerComprasAction(ActionEvent event) {
         view.setCenter(C_COMPRAS.getView());
+        C_COMPRAS.updateView();
     }
 
     @FXML
     void onVerEmpleadosAction(ActionEvent event) {
         view.setCenter(C_EMPLEADOS.getView());
+        C_EMPLEADOS.updateView();
     }
 
     @FXML
     void onVerInicioAction(ActionEvent event) {
         view.setCenter(C_INICIO.getView());
+        C_INICIO.updateView();
     }
 
     @FXML
     void onVerProductosAction(ActionEvent event) {
-        C_PRODUCTOS.updateView();
         view.setCenter(C_PRODUCTOS.getView());
+        C_PRODUCTOS.updateView();
     }
 
     @FXML
     void onVerProveedoresAction(ActionEvent event) {
         view.setCenter(C_PROVEEDORES.getView());
+        C_PROVEEDORES.updateView();
     }
 
     @FXML
     void onVerVentasAction(ActionEvent event) {
         view.setCenter(C_VENTAS.getView());
+        C_VENTAS.updateView();
     }
 
     /*

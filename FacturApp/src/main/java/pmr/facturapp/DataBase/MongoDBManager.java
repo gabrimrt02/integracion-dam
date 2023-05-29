@@ -1,13 +1,16 @@
 package pmr.facturapp.DataBase;
 
 import java.io.IOException;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
@@ -275,7 +278,7 @@ public class MongoDBManager {
             documentosVentas.add(cursor.next());
         }
         return documentosVentas;
-    }    
+    }
 
     /**
      * Método que devuelve una lista con todos los documentos de la colección
@@ -391,131 +394,324 @@ public class MongoDBManager {
 
     public Map<String, Integer> getVentasUltimoMes() {
         Map<String, Integer> lista = new HashMap<>();
-        MongoCursor<Document> cursor = ventas.find().sort(descending("fecha")).cursor();
-        Venta ultimoGrabado, leido;
+        MongoCursor<Document> cursor = ventas.find().sort(descending("venta.fecha")).cursor();
+        Venta leido;
+        long fecha;
+        int total, mes = -1, dia;
+        boolean mismoMes = true;
+        Bson query;
 
-        // Comprobamos si tiene siguiente elemento y si lo tiene lo recuperamos a la
-        // lista
-        if (cursor.hasNext()) {
+        while (cursor.hasNext() && mismoMes) {
+
             leido = VentaConverter.convert(cursor.next());
-            lista.put("" + leido.getFecha().getDayOfMonth(), 1);
-            ultimoGrabado = leido;
+            fecha = leido.getFecha().toEpochDay();
+            dia = leido.getFecha().getDayOfMonth();
 
-            if (cursor.hasNext()) {
-                leido = VentaConverter.convert(cursor.next());
+            if (mes == -1)
+                mes = leido.getFecha().getMonthValue();
 
-                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
-                        && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+            query = new BasicDBObject("venta.fecha", fecha);
+            total = (int) ventas.countDocuments(query);
 
-                    Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
-                    valor++;
-                    lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+            lista.put("" + dia, total);
 
-                }
-
-                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
-                        && leido.getFecha().getDayOfMonth() != ultimoGrabado.getFecha().getDayOfMonth()) {
-
-                    lista.put("" + leido.getFecha().getDayOfMonth(), 1);
-                    ultimoGrabado = leido;
-
-                    
-                    if (cursor.hasNext()) {
-                        leido = VentaConverter.convert(cursor.next());
-                        
-                        while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
-                                && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
-
-                            Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
-                            valor++;
-                            lista.put("" + leido.getFecha().getDayOfMonth(), valor);
-
-                            leido = VentaConverter.convert(cursor.next());
-
-                        }
-
-                    }
-                }
-
+            if (leido.getFecha().getMonthValue() != mes) {
+                mismoMes = false;
             }
+
         }
 
         return lista;
     }
-
 
     public Map<String, Integer> getComprasUltimoMes() {
         Map<String, Integer> lista = new HashMap<>();
-        MongoCursor<Document> cursor = compras.find().sort(descending("venta.fecha")).cursor();
-        Compra ultimoGrabado, leido;
+        MongoCursor<Document> cursor = compras.find().sort(descending("compras.fecha")).cursor();
+        Compra leido;
+        long fecha;
+        int total, mes = -1, dia;
+        boolean mismoMes = true;
+        Bson query;
 
-        // Comprobamos si tiene siguiente elemento y si lo tiene lo recuperamos a la
-        // lista
-        if (cursor.hasNext()) {
+        while (cursor.hasNext() && mismoMes) {
+
             leido = CompraConverter.convert(cursor.next());
-            lista.put("" + leido.getFecha().getDayOfMonth(), 1);
-            ultimoGrabado = leido;
+            fecha = leido.getFecha().toEpochDay();
+            dia = leido.getFecha().getDayOfMonth();
 
-            if (cursor.hasNext()) {
-                leido = CompraConverter.convert(cursor.next());
+            if (mes == -1)
+                mes = leido.getFecha().getMonthValue();
 
-                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
-                        && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+            query = new BasicDBObject("compra.fecha", fecha);
+            total = (int) compras.countDocuments(query);
 
-                    Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
-                    valor++;
-                    lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+            lista.put("" + dia, total);
 
-                }
+            if (leido.getFecha().getMonthValue() != mes) {
+                mismoMes = false;
+            }
 
-                while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
-                        && leido.getFecha().getDayOfMonth() != ultimoGrabado.getFecha().getDayOfMonth()) {
+        }
 
-                    lista.put("" + leido.getFecha().getDayOfMonth(), 1);
-                    ultimoGrabado = leido;
+        return lista;
+    }
 
-                    
-                    if (cursor.hasNext()) {
-                        leido = CompraConverter.convert(cursor.next());
-                        
-                        while (cursor.hasNext() && leido.getFecha().getMonth() == ultimoGrabado.getFecha().getMonth()
-                                && leido.getFecha().getDayOfMonth() == ultimoGrabado.getFecha().getDayOfMonth()) {
+    public Map<String, Integer> getVentasUltimaSemana() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = ventas.find().sort(descending("venta.fecha")).cursor();
+        Venta leido;
+        long fecha;
+        int total, semana = -1, dia;
+        boolean mismaSemana = true;
+        Bson query;
 
-                            Integer valor = lista.get("" + leido.getFecha().getDayOfMonth());
-                            valor++;
-                            lista.put("" + leido.getFecha().getDayOfMonth(), valor);
+        while (cursor.hasNext() && mismaSemana) {
 
-                            leido = CompraConverter.convert(cursor.next());
+            leido = VentaConverter.convert(cursor.next());
+            fecha = leido.getFecha().toEpochDay();
+            dia = leido.getFecha().getDayOfWeek().getValue();
 
-                        }
+            if (semana == -1)
+                semana = leido.getFecha().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
 
-                    }
-                }
+            query = new BasicDBObject("venta.fecha", fecha);
+            total = (int) ventas.countDocuments(query);
 
+            lista.put("" + dia, total);
+
+            if (leido.getFecha().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) != semana) {
+                mismaSemana = false;
             }
         }
 
         return lista;
     }
 
-    // public Map<String, Integer> getVentasUltimaSemana() {
-    //     Map<String, Integer> lista = new HashMap<>();
-    //     MongoCursor<Document> cursor = ventas.find().sort(new BasicDBObject("fecha", -1)).cursor();
-    //     Venta ultimoGrabado, leido;
+    public Map<String, Integer> getComprasUltimaSemana() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = compras.find().sort(descending("compra.fecha")).cursor();
+        Compra leido;
+        long fecha;
+        int total, semana = -1, dia;
+        boolean mismaSemana = true;
+        Bson query;
 
-    //     if (cursor.hasNext()) {
-    //         leido = VentaConverter.convert(cursor.next());
-    //         lista.put("" + leido.getFecha().getDayOfWeek(), 1);
-    //         ultimoGrabado = leido;
+        while (cursor.hasNext() && mismaSemana) {
 
-    //         if(cursor.hasNext()) {
+            leido = CompraConverter.convert(cursor.next());
+            fecha = leido.getFecha().toEpochDay();
+            dia = leido.getFecha().getDayOfWeek().getValue();
 
-    //             leido = VentaConverter.convert(cursor.next());
+            if (semana == -1)
+                semana = leido.getFecha().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear());
 
-    //             // while ()
+            query = new BasicDBObject("compra.fecha", fecha);
+            total = (int) compras.countDocuments(query);
 
-    //         }
-    //     }
+            lista.put("" + dia, total);
 
-    // }
+            if (leido.getFecha().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()) != semana) {
+                mismaSemana = false;
+            }
+        }
+
+        return lista;
+    }
+
+    public Map<String, Integer> getClientesUltimoMes() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = ventas.find().sort(descending("venta.fecha")).cursor();
+        Venta leido;
+        Cliente cliente;
+        long fecha;
+        int total = 0, mes = -1;
+        boolean mismoMes = true;
+        Document query;
+
+        while (cursor.hasNext() && mismoMes) {
+
+            leido = VentaConverter.convert(cursor.next());
+            cliente = leido.getCliente();
+            fecha = leido.getFecha().toEpochDay();
+
+            if (mes == -1)
+                mes = leido.getFecha().getMonthValue();
+
+            query = new Document();
+            query.append("venta.cliente.nombre", cliente.getNombre());
+            query.append("venta.cliente.apellido", cliente.getApellido());
+            query.append("venta.fecha", fecha);
+
+            total += (int) ventas.countDocuments(query);
+
+            lista.put(cliente.getNombreCompleto(), total);
+
+            if (leido.getFecha().getMonthValue() != mes)
+                mismoMes = false;
+
+        }
+
+        return lista;
+    }
+
+
+    public Map<String, Integer> getProveedoresUltimoMes() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = compras.find().sort(descending("compra.fecha")).cursor();
+        Compra leido;
+        Proveedor proveedor;
+        long fecha;
+        int total = 0, mes = -1;
+        boolean mismoMes = true;
+        Document query;
+
+        while (cursor.hasNext() && mismoMes) {
+
+            leido = CompraConverter.convert(cursor.next());
+            proveedor = leido.getProveedor();
+            fecha = leido.getFecha().toEpochDay();
+
+            if (mes == -1)
+                mes = leido.getFecha().getMonthValue();
+
+            query = new Document();
+            query.append("compra.proveedor.nombre", proveedor.getNombre());
+            query.append("compra.proveedor.apellido", proveedor.getApellido());
+            query.append("compra.fecha", fecha);
+
+            total += (int) compras.countDocuments(query);
+
+            lista.put(proveedor.getNombreCompleto(), total);
+
+            if (leido.getFecha().getMonthValue() != mes)
+                mismoMes = false;
+
+        }
+
+        return lista;
+    }
+
+    public Map<String, Integer> getEmpleadosUltimoMes() {
+        Map<String, Integer> lista = new HashMap<>();
+        MongoCursor<Document> cursor = ventas.find().sort(descending("ventas.fecha")).cursor();
+        Venta leido;
+        Empleado empleado;
+        long fecha;
+        int total = 0, mes = -1;
+        boolean mismoMes = true;
+        Document query;
+
+        while (cursor.hasNext() && mismoMes) {
+
+            leido = VentaConverter.convert(cursor.next());
+            empleado = leido.getEmpleado();
+            fecha = leido.getFecha().toEpochDay();
+
+            if (mes == -1)
+                mes = leido.getFecha().getMonthValue();
+
+            query = new Document();
+            query.append("venta.empleado.nombre", empleado.getNombre());
+            query.append("venta.empleado.apellido", empleado.getApellido());
+            query.append("venta.fecha", fecha);
+
+            total += (int) ventas.countDocuments(query);
+
+            lista.put(empleado.getNombreCompleto(), total);
+
+            if (leido.getFecha().getMonthValue() != mes)
+                mismoMes = false;
+
+        }
+
+        return lista;
+    }
+
+    public Map<String, Map<String, Integer>> getDesempeñoEmpleados() {
+        Map<String, Map<String, Integer>> lista = new HashMap<>();
+        Map<String, Integer> datosMes;
+
+        MongoCursor<Document> cursorEmpleados = ventas.find().sort(descending("ventas.fecha")).cursor();
+        MongoCursor<Document> cursorDatos;
+        Venta leidoEmpleado, leidoDatos;
+        Empleado empleado;
+        long fecha;
+        int total, mesEmpleados = -1, mesDatos = -1, diaDatos;
+        boolean mismoMesEmpleados = true, mismoMesDatos = true;
+        Document query;
+
+        while (cursorEmpleados.hasNext() && mismoMesEmpleados) {
+
+            leidoEmpleado = VentaConverter.convert(cursorEmpleados.next());
+            empleado = leidoEmpleado.getEmpleado();
+
+            if (mesEmpleados == -1)
+                mesEmpleados = leidoEmpleado.getFecha().getMonthValue();
+
+            query = new Document("venta.empleado.nombre", empleado.getNombre());
+            query.append("venta.empleado.apellido", empleado.getApellido());
+
+            cursorDatos = ventas.find().sort(descending("ventas.fecha")).cursor();
+
+            datosMes = new HashMap<>();
+
+            while (cursorDatos.hasNext() && mismoMesDatos) {
+
+                leidoDatos = VentaConverter.convert(cursorDatos.next());
+                fecha = leidoDatos.getFecha().toEpochDay();
+                diaDatos = leidoDatos.getFecha().getDayOfMonth();
+
+                if (mesDatos == -1)
+                    mesDatos = leidoDatos.getFecha().getMonthValue();
+
+                query.append("venta.fecha", fecha);
+
+                total = (int) ventas.countDocuments(query);
+
+                datosMes.put("" + diaDatos, total);
+
+                if (leidoDatos.getFecha().getMonthValue() != mesDatos)
+                    mismoMesDatos = false;                
+                
+            }
+            
+            lista.put(empleado.getNombreCompleto(), datosMes);
+
+            if (leidoEmpleado.getFecha().getMonthValue() != mesEmpleados)
+                mismoMesEmpleados = false;
+
+        }
+
+        return lista;
+    }
+
+    public Double getTotalVentas() {
+        MongoCursor<Document> cursor = ventas.find().cursor();
+        Double total = 0.0;
+        Venta venta;
+
+        while (cursor.hasNext()) {
+            venta = VentaConverter.convert(cursor.next());
+            total += venta.getTotal();
+
+        }
+
+        return total;
+
+    }
+
+    public Double getTotalCompras() {
+        MongoCursor<Document> cursor = compras.find().cursor();
+        Double total = 0.0;
+        Compra compra;
+
+        while (cursor.hasNext()) {
+            compra = CompraConverter.convert(cursor.next());
+            total += compra.getTotal();
+
+        }
+
+        return total;
+
+    }
 }

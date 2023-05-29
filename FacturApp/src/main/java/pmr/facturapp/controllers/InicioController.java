@@ -3,18 +3,19 @@ package pmr.facturapp.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.bson.Document;
 
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -78,7 +79,7 @@ public class InicioController implements Initializable {
     private BorderPane view;
 
     @FXML
-    private LineChart<?, ?> weekLineChart;
+    private LineChart<String, Number> weekLineChart;
 
     /*
      * Constructor
@@ -100,21 +101,8 @@ public class InicioController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        userLabel.textProperty().set(App.USERNAME);
-        dateLabel.textProperty().set(LocalDate.now().toString());
-        // balanceLabel.textProperty().set("1000€");
-
-        setList();
-
         // Bindings
         movimientosTableView.itemsProperty().bind(transaccionesLP);
-
-        updateTable();
-
-        // Como crear una grafíca
-        monthLineChart.setTitle("Comparativa de meses");
-
-        updateMonthLineChart();
 
     }
 
@@ -128,18 +116,80 @@ public class InicioController implements Initializable {
     /**
      * Funciones
      */
+    public void updateView() {
+        userLabel.textProperty().set(App.USERNAME);
+        dateLabel.textProperty().set(LocalDate.now().toString());
+        monthLineChart.setTitle("Comparativa Mensual");
+        weekLineChart.setTitle("Comparativa Semanal");
+
+        Task<Void> balance = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Double totalVentas = App.dbManager.getTotalVentas();
+                Double totalCompras = App.dbManager.getTotalCompras();
+
+                Double balanceFinal = totalVentas - totalCompras;
+
+                balanceLabel.textProperty().set(String.format("%.2f €", balanceFinal));
+
+                return null;
+            }
+        };
+
+        Task<Void> tabla = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                setList();
+                updateTable();
+
+                return null;
+            }
+        };
+
+        Task<Void> graficaMes = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                updateMonthLineChart();
+
+                return null;
+            }
+        };
+
+        Task<Void> graficaSemana = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {                
+                updateWeekLineChart();
+
+                return null;
+            }
+        };
+
+        new Thread(tabla).start();
+
+        Platform.runLater(balance);
+        Platform.runLater(graficaMes);
+        Platform.runLater(graficaSemana);
+    }
+
     private void setList() {
         List<Document> docCompras = App.dbManager.getAllCompras();
-        for (Document d : docCompras) {
-            transaccionesLP.add(CompraConverter.convert(d));
-        }
-
         List<Document> docVentas = App.dbManager.getAllVentas();
-        for (Document d : docVentas) {
-            transaccionesLP.add(VentaConverter.convert(d));
+        List<Compra> compras = new ArrayList<>();
+        List<Venta> ventas = new ArrayList<>();
+        List<Transaccion> transaccionesList = new ArrayList<>();
+
+        for (Document d : docCompras) {
+            compras.add(CompraConverter.convert(d));
         }
 
-        transaccionesLP.setAll(transaccionesLP.sorted());
+        for (Document d : docVentas) {
+            ventas.add(VentaConverter.convert(d));
+        }
+
+        transaccionesList.addAll(compras);
+        transaccionesList.addAll(ventas);
+
+        transaccionesLP.get().setAll(transaccionesList);
     }
 
     private void updateTable() {
@@ -161,18 +211,20 @@ public class InicioController implements Initializable {
     }
 
     private void updateMonthLineChart() {
+        monthLineChart.getData().clear();
+
         Map<String, Integer> ventas = App.dbManager.getVentasUltimoMes();
         Map<String, Integer> compras = App.dbManager.getComprasUltimoMes();
 
         XYChart.Series<String, Number> seriesVentas = new XYChart.Series<>();
-        seriesVentas.setName(LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
+        seriesVentas.setName("Ventas");
+
+        XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
+        seriesCompras.setName("Compras");
 
         for (String clave : ventas.keySet()) {
             seriesVentas.getData().add(new XYChart.Data<String, Number>(clave, ventas.get(clave)));
         }
-
-        XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
-        seriesCompras.setName(LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault()));
 
         for (String clave : compras.keySet()) {
             seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
@@ -183,8 +235,29 @@ public class InicioController implements Initializable {
 
     }
 
-    // private void updateWeekLineChart() {
-    // Map<String, Integer> ventas = new HashMap<>();
-    // }
+    private void updateWeekLineChart() {
+        weekLineChart.getData().clear();
+
+        Map<String, Integer> ventas = App.dbManager.getVentasUltimaSemana();
+        Map<String, Integer> compras = App.dbManager.getComprasUltimaSemana();
+
+        XYChart.Series<String, Number> seriesVentas = new XYChart.Series<>();
+        seriesVentas.setName("Ventas");
+
+        XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
+        seriesCompras.setName("Compras");
+
+        for (String clave : ventas.keySet()) {
+            seriesVentas.getData().add(new XYChart.Data<String, Number>(clave, ventas.get(clave)));
+        }
+
+        for (String clave : compras.keySet()) {
+            seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
+        }
+
+        weekLineChart.getData().add(seriesVentas);
+        weekLineChart.getData().add(seriesCompras);
+
+    }
 
 }
