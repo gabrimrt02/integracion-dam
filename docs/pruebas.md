@@ -8,7 +8,7 @@ Durante el desarrollo del proyecto, se identificaron los siguientes fallos notab
 
 2. Errores en la visualización de los datos en las gráficas de la interfaz: Relacionado con el error anterior, los datos no se montraban de forma adecuada dentro de la interfaz gráfica, por lo que se modificáron el tipo de gráficas en las que se mostraban y se realizaron pruebas para poder verificar que el problema estaba completamente solucinado.
 
-3. 
+3. Errores de sincronización en la primera versión del proyecto: Durante las primeras etápas del desarrollo del proyecto se producieron una serie de errores de sincronización y conexión entre el *front-end* y el *back-end* del programa, lo que impidió continuar con esa vía de desarrollo, obligando a realizar un cambio significativo en la lógica de negocio del programa y en el modo de desarrollo.
 
 ### Planes de pruebas:
 
