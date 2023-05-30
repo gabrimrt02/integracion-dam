@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import pmr.facturdroid.MainActivity;
 import pmr.facturdroid.R;
 import pmr.facturdroid.classes.Venta;
 import pmr.facturdroid.converters.VentaConverter;
@@ -38,7 +39,7 @@ public class MongoDBManager {
      * Atributos de la clase MongoDBManager que almacenan los objetos y valores
      * necesarios para la conexión con la base de datos de MongoDB.
      */
-    private String connString;
+    private final String connString = "mongodb+srv://Developer:3gughi9KTrPYd3uW@facturapp.exx6an8.mongodb.net/test";
     private ConnectionString conn;
     private MongoClient client;
     private MongoClientSettings clientSettings;
@@ -56,11 +57,11 @@ public class MongoDBManager {
     private MongoDBManager() throws IOException {
         // Apertura del fichero de properties y retorno de la clave de conexión
         // Conexión con la base de datos de MongoDB
-        conn = new ConnectionString(Resources.getSystem().getString(R.string.connString));
-        clientSettings = MongoClientSettings.builder().applyConnectionString(conn).build();
+        //conn = new ConnectionString(connString);
+        //clientSettings = MongoClientSettings.builder().applyConnectionString(conn).build();
 
         // Creación del cliente
-        client = MongoClients.create(clientSettings);
+        client = MongoClients.create(connString);
 
         // Recuperación de la BBDD
         database = client.getDatabase(BBDD_NAME);

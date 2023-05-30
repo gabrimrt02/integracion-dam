@@ -1,5 +1,6 @@
 package pmr.facturdroid.login;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import org.bson.Document;
+
+import java.util.List;
+
+import pmr.facturdroid.MainActivity;
 import pmr.facturdroid.R;
+import pmr.facturdroid.classes.Usuario;
+import pmr.facturdroid.converters.UsuarioConverter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +33,19 @@ public class LoginFragment extends Fragment {
     /*
      * Atributos
      */
+    // Listas de datos
+    private List<Document> docsUsuarios;
+    private List<Usuario> usuarios;
+
+    // Variables booleanas
+    private Boolean contenido = false;
+
+    // Variables de texto con los datos introducidos
+    private String username, password;
+
+    // Variables alfanuméricas
+    String inicioText;
+    String noInicioText;
 
     /*
      * Elementos de la interfaz
@@ -31,6 +53,8 @@ public class LoginFragment extends Fragment {
     private EditText loginUsernameET;
     private EditText loginPasswdET;
     private Button loginAccederBTN;
+
+
 
     public LoginFragment() {
         // Required empty public constructor
@@ -51,6 +75,15 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // docsUsuarios = MainActivity.dbManager.getAllUsuarios();
+
+        inicioText = getString(R.string.toast_inicio);
+        noInicioText = getString(R.string.toast_no_inicio);
+
+        for (Document d : docsUsuarios) {
+            usuarios.add(UsuarioConverter.convert(d));
+        }
+
     }
 
     @Override
@@ -72,7 +105,24 @@ public class LoginFragment extends Fragment {
         loginAccederBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                username = loginUsernameET.getText().toString();
+                password = loginPasswdET.getText().toString();
 
+                Usuario user = new Usuario(username, password, "");
+
+                int index = 0;
+                while (index < usuarios.size() && !contenido) {
+                    if (usuarios.get(index).equals(user))
+                        contenido = true;
+
+                    index++;
+                }
+
+                if (contenido) {
+                    Toast.makeText(getContext(), inicioText, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), noInicioText, Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

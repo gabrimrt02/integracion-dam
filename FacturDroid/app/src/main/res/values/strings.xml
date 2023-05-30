@@ -6,6 +6,8 @@
     <string name="login_username">Nombre de Usuario</string>
     <string name="login_password">Contraseña</string>
     <string name="login_acceder">Acceder</string>
+    <string name="toast_inicio">Inicio de sesión realizado</string>
+    <string name="toast_no_inicio">Usuario o contraseña incorrecto(s)</string>
     <!-- Menú -->
     <string name="titulo_menu">Menú</string>
     <string name="opcion_menu_ventas">Ventas</string>
