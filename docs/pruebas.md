@@ -8,6 +8,8 @@ Durante el desarrollo del proyecto, se identificaron los siguientes fallos notab
 
 2. Errores en la visualización de los datos en las gráficas de la interfaz: Relacionado con el error anterior, los datos no se montraban de forma adecuada dentro de la interfaz gráfica, por lo que se modificáron el tipo de gráficas en las que se mostraban y se realizaron pruebas para poder verificar que el problema estaba completamente solucinado.
 
+3. 
+
 ### Planes de pruebas:
 
 * Pruebas manuales: Durante el desarrollo se realizaron pruebas periódicas que comprobaban en correcto funcionamiento de los diferentes aspectos de la aplicación, así como de sus componentes y partes cruciales de la lógica, antes de proceder a la realización del resto de pruebas.
