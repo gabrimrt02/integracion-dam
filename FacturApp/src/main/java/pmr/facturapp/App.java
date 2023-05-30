@@ -2,29 +2,18 @@ package pmr.facturapp;
 
 import java.net.URL;
 
-// import java.time.LocalDate;
-// import java.time.format.TextStyle;
-// import java.time.temporal.WeekFields;
-// import java.util.Locale;
-
 import javafx.application.Application;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.controllers.LoginController;
 import pmr.facturapp.controllers.RootController;
 import pmr.facturapp.database.MongoDBManager;
 
 public class App extends Application {
-
-    /*
-     * Tareas del programa
-     */
-    public static Task<Void> tareaRegistro;
-    public static Task<Void> tareaBorrado;
 
     /*
      * Variables URL
@@ -37,7 +26,7 @@ public class App extends Application {
     // Strings alerta conexión
     private final String ALERT_TITLE = "Error al conectar con la Base de Datos";
     private final String ALERT_CONTENT = "Se ha producido un error durante la conexión con la Base de Datos";
-    public static String USERNAME = "";
+    private static Empleado EMPLEADO;
 
     /*
      * Variables Image
@@ -77,8 +66,6 @@ public class App extends Application {
         App.primaryStage.getIcons().setAll(LOGO);
         App.primaryStage.show();
 
-        // System.out.println(LocalDate.now().get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear()));
-
     }
 
     @Override
@@ -101,6 +88,14 @@ public class App extends Application {
         App.primaryStage.setScene(new Scene(new RootController().getView()));
         App.primaryStage.setMaximized(true);
         App.primaryStage.show();
+    }
+
+    public static void setEmpleado(Empleado empleado) {
+        App.EMPLEADO = empleado;
+    }
+
+    public static Empleado getEmpleado() {
+        return App.EMPLEADO;
     }
 
 }

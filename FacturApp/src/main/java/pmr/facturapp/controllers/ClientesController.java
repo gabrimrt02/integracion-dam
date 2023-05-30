@@ -154,7 +154,7 @@ public class ClientesController implements Initializable {
 
         if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
             // Tarea de Borrado en BBDD
-            App.tareaBorrado = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.deleteCliente(cliente);
@@ -163,22 +163,22 @@ public class ClientesController implements Initializable {
                 }
             };
 
-            App.tareaBorrado.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(DEL_NOTIFICATION_TITLE_SUCC).text(cliente.toString()).show();
                 updateView();
             });
 
-            App.tareaBorrado.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(DEL_NOTIFICATION_TITLE_CANCEL).text(cliente.toString()).showWarning();
                 updateView();
             });
 
-            App.tareaBorrado.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(DEL_NOTIFICATION_TITLE_FAIL).text(cliente.toString()).showError();
                 updateView();
             });
 
-            new Thread(App.tareaBorrado).start();
+            new Thread(task).start();
 
         }
     }

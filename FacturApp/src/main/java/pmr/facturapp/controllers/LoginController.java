@@ -23,7 +23,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import pmr.facturapp.App;
+import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.classes.Usuario;
 import pmr.facturapp.converters.UsuarioConverter;
 
@@ -39,6 +41,9 @@ public class LoginController implements Initializable {
      */
     private final String ALERT_TITLE = "Usuario no encontrado";
     private final String ALERT_CONTENT = "El usuario no está registrado o la contraseña introducida no es correcta.";
+
+    private final String LOGIN_ERROR_TITLE = "Se ha producido un error";
+    private final String LOGIN_ERROR_CONTENT = "No se ha podido iniciar sesión en el sistema.\nPor favor, contacte con el adminsitrador del programa";
 
     /*
      * Model
@@ -83,6 +88,8 @@ public class LoginController implements Initializable {
             loader.load();
         } catch (IOException e) {
             Alert alert = new Alert(AlertType.ERROR);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().addAll(App.LOGO);
             alert.setHeaderText("Se ha producido un error");
             alert.setContentText("No se ha podido cargar de forma correcta el archivo " + FICHERO_VIEW.toString());
         }
@@ -133,12 +140,28 @@ public class LoginController implements Initializable {
         }
 
         if (contenido) {
-            App.USERNAME = usuarioOP.get().getNombre();
+            String identificador = usuarioOP.get().getIdentificador();
 
-            App.loadApp();
+            try {
+                Empleado empleado = App.dbManager.getEmpleadoById(identificador);
+                App.setEmpleado(empleado);
+                // throw new RuntimeException("Producida");
+
+                App.loadApp();
+
+            } catch (Exception e) {
+                Alert alert = new Alert(AlertType.ERROR);
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().addAll(App.LOGO);
+                alert.setTitle(LOGIN_ERROR_TITLE);
+                alert.setContentText(LOGIN_ERROR_CONTENT);
+                alert.showAndWait();
+            }
 
         } else {
             Alert alert = new Alert(AlertType.ERROR);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().addAll(App.LOGO);
             alert.setTitle(ALERT_TITLE);
             alert.setHeaderText(ALERT_TITLE);
             alert.setContentText(ALERT_CONTENT);

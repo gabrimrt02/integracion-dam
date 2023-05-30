@@ -23,6 +23,7 @@ import pmr.facturapp.classes.Domicilio;
 import pmr.facturapp.classes.Empleado;
 import pmr.facturapp.classes.Producto;
 import pmr.facturapp.classes.Proveedor;
+import pmr.facturapp.classes.Venta;
 import pmr.facturapp.classes.statics.TipoCliente;
 import pmr.facturapp.classes.statics.Unidad;
 import pmr.facturapp.ui.add.AddClienteDialog;
@@ -30,6 +31,7 @@ import pmr.facturapp.ui.add.AddCompraDialog;
 import pmr.facturapp.ui.add.AddEmpleadoDialog;
 import pmr.facturapp.ui.add.AddProductoDialog;
 import pmr.facturapp.ui.add.AddProveedorDialog;
+import pmr.facturapp.ui.add.AddVentaDialog;
 
 public class RootController implements Initializable {
 
@@ -78,6 +80,9 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem addProveedoresMI;
+
+    @FXML
+    private MenuItem addVentaMI;
 
     @FXML
     private MenuItem delClientesMI;
@@ -170,7 +175,7 @@ public class RootController implements Initializable {
             Cliente cliente = new Cliente(TipoCliente, nombre, apellidos, domicilio, telefono, email);
 
             // Tarea de Registro en BBDD
-            App.tareaRegistro = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.insertCliente(cliente);
@@ -179,22 +184,22 @@ public class RootController implements Initializable {
                 }
             };
 
-            App.tareaRegistro.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(cliente.toString()).show();
                 C_CLIENTES.updateView();
             });
 
-            App.tareaRegistro.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(cliente.toString()).showWarning();
                 C_CLIENTES.updateView();
             });
 
-            App.tareaRegistro.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(cliente.toString()).showError();
                 C_CLIENTES.updateView();
             });
 
-            new Thread(App.tareaRegistro).start();
+            new Thread(task).start();
         }
     }
 
@@ -212,7 +217,7 @@ public class RootController implements Initializable {
             Compra compra = new Compra(proveedor, productos, fecha);
 
             // Tarea de Registro en BBDD
-            App.tareaRegistro = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.insertCompra(compra);
@@ -221,22 +226,22 @@ public class RootController implements Initializable {
                 }
             };
 
-            App.tareaRegistro.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(compra.toString()).show();
                 C_COMPRAS.updateView();
             });
 
-            App.tareaRegistro.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(compra.toString()).showWarning();
                 C_COMPRAS.updateView();
             });
 
-            App.tareaRegistro.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(compra.toString()).showError();
                 C_COMPRAS.updateView();
             });
 
-            new Thread(App.tareaRegistro).start();
+            new Thread(task).start();
         }
 
     }
@@ -257,7 +262,7 @@ public class RootController implements Initializable {
             Empleado empleado = new Empleado(nombre, apellido, domicilio, telefono, email);
 
             // Tarea de Registro en BBDD
-            App.tareaRegistro = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.insertEmpleado(empleado);
@@ -266,22 +271,22 @@ public class RootController implements Initializable {
                 }
             };
 
-            App.tareaRegistro.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(empleado.toString()).show();
                 C_EMPLEADOS.updateView();
             });
 
-            App.tareaRegistro.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(empleado.toString()).showWarning();
                 C_EMPLEADOS.updateView();
             });
 
-            App.tareaRegistro.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(empleado.toString()).showError();
                 C_EMPLEADOS.updateView();
             });
 
-            new Thread(App.tareaRegistro).start();
+            new Thread(task).start();
         }
     }
 
@@ -301,7 +306,7 @@ public class RootController implements Initializable {
             Producto producto = new Producto(nombre, descripcion, precio, stock, unidad);
 
             // Tarea de Registro en BBDD
-            App.tareaRegistro = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.insertProducto(producto);
@@ -310,22 +315,22 @@ public class RootController implements Initializable {
                 }
             };
 
-            App.tareaRegistro.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(producto.toString()).show();
                 C_PRODUCTOS.updateView();
             });
 
-            App.tareaRegistro.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(producto.toString()).showWarning();
                 C_PRODUCTOS.updateView();
             });
 
-            App.tareaRegistro.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(producto.toString()).showError();
                 C_PRODUCTOS.updateView();
             });
 
-            new Thread(App.tareaRegistro).start();
+            new Thread(task).start();
 
         }
 
@@ -347,7 +352,7 @@ public class RootController implements Initializable {
             Proveedor proveedor = new Proveedor(nombre, apellidos, domicilio, telefono, email);
 
             // Tarea de Registro en BBDD
-            App.tareaRegistro = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.insertProveedor(proveedor);
@@ -356,24 +361,68 @@ public class RootController implements Initializable {
                 }
             };
 
-            App.tareaRegistro.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(proveedor.toString()).show();
                 C_PROVEEDORES.updateView();
             });
 
-            App.tareaRegistro.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(proveedor.toString()).showWarning();
                 C_PROVEEDORES.updateView();
             });
 
-            App.tareaRegistro.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(proveedor.toString()).showError();
                 C_PROVEEDORES.updateView();
             });
 
-            new Thread(App.tareaRegistro).start();
+            new Thread(task).start();
 
         }
+    }
+
+    @FXML
+    void onAddVentaAction(ActionEvent event) {
+        AddVentaDialog dialog = new AddVentaDialog();
+
+        Optional<Venta> resultado= dialog.showAndWait();
+
+        if (resultado.isPresent()) {
+            Empleado empleado = dialog.getEmpleado();
+            LocalDate fecha = dialog.getFecha();
+            List<Producto> productos = dialog.getProductos();
+            Cliente cliente = dialog.getCliente();
+
+            Venta venta = new Venta(cliente, productos, empleado, fecha);
+
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.insertVenta(venta);
+                    
+                    return null;
+                }
+            };
+
+            task.setOnSucceeded(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_SUCC).text(venta.toString()).show();
+                C_VENTAS.updateView();
+            });
+
+            task.setOnCancelled(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_CANCEL).text(venta.toString()).showWarning();
+                C_VENTAS.updateView();
+            });
+
+            task.setOnFailed(e -> {
+                Notifications.create().title(ADD_NOTIFICATION_TITLE_FAIL).text(venta.toString()).showError();
+                C_VENTAS.updateView();
+            });
+
+            new Thread(task).start();
+        }
+
+
     }
 
     @FXML

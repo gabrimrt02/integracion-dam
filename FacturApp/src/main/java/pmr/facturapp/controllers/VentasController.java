@@ -5,9 +5,11 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import org.bson.Document;
+import org.controlsfx.control.Notifications;
 
 import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
@@ -21,10 +23,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import pmr.facturapp.App;
 import pmr.facturapp.classes.Cliente;
 import pmr.facturapp.classes.Venta;
@@ -41,6 +48,14 @@ public class VentasController implements Initializable {
     /*
      * Variables alfanumericas
      */
+    // Alert borrado Proveedores
+    private final String DEL_VENTA_TITLE = "Borrado Proveedor";
+    private final String DEL_VENTA_HEAD = "¿Seguro que desea eliminar el siguiente proveedor?";
+    
+    // Notificaciones Borrado
+    private final String DEL_NOTIFICATION_TITLE_SUCC = "BORRADO REALIZADO CON ÉXITO";
+    private final String DEL_NOTIFICATION_TITLE_FAIL = "ERROR AL REALIZAR EL BORRADO";
+    private final String DEL_NOTIFICATION_TITLE_CANCEL = "BORRADO CANCELADO";
 
     /*
      * Model
@@ -70,6 +85,9 @@ public class VentasController implements Initializable {
 
     @FXML
     private MenuItem moreInfoMI;
+
+    @FXML
+    private MenuItem eliminarMI;
 
     @FXML
     private BorderPane view;
@@ -117,6 +135,51 @@ public class VentasController implements Initializable {
         InfoComprasVentasDialog dialog = new InfoComprasVentasDialog(getSelectedVenta());
 
         dialog.showAndWait();
+    }
+
+    @FXML
+    void onEliminarAction(ActionEvent event) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+
+        Venta venta = ventasTableView.getSelectionModel().getSelectedItem();
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().addAll(App.LOGO);
+        alert.setTitle(DEL_VENTA_TITLE);
+        alert.setHeaderText(DEL_VENTA_HEAD);
+        alert.setContentText(venta.toString());
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+
+        if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
+            // Tarea de Borrado en BBDD
+            Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    App.dbManager.deleteVenta(venta);
+
+                    return null;
+                }
+            };
+
+            task.setOnSucceeded(e -> {
+                Notifications.create().title(DEL_NOTIFICATION_TITLE_SUCC).text(venta.toString()).show();
+                updateView();
+            });
+
+            task.setOnCancelled(e -> {
+                Notifications.create().title(DEL_NOTIFICATION_TITLE_CANCEL).text(venta.toString()).showWarning();
+                updateView();
+            });
+
+            task.setOnFailed(e -> {
+                Notifications.create().title(DEL_NOTIFICATION_TITLE_FAIL).text(venta.toString()).showError();
+                updateView();
+            });
+
+            new Thread(task).start();
+
+        }
     }
 
     /*

@@ -147,7 +147,7 @@ public class ComprasController implements Initializable {
 
         if (resultado.get().getButtonData() == ButtonData.OK_DONE) {
             // Tarea de Borrado en BBDD
-            App.tareaBorrado = new Task<Void>() {
+            Task<Void> task = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.deleteCompra(compra);
@@ -156,22 +156,22 @@ public class ComprasController implements Initializable {
                 }
             };
 
-            App.tareaBorrado.setOnSucceeded(e -> {
+            task.setOnSucceeded(e -> {
                 Notifications.create().title(DEL_NOTIFICATION_TITLE_SUCC).text(compra.toString()).show();
                 updateView();
             });
 
-            App.tareaBorrado.setOnCancelled(e -> {
+            task.setOnCancelled(e -> {
                 Notifications.create().title(DEL_NOTIFICATION_TITLE_CANCEL).text(compra.toString()).showWarning();
                 updateView();
             });
 
-            App.tareaBorrado.setOnFailed(e -> {
+            task.setOnFailed(e -> {
                 Notifications.create().title(DEL_NOTIFICATION_TITLE_FAIL).text(compra.toString()).showError();
                 updateView();
             });
 
-            new Thread(App.tareaBorrado).start();
+            new Thread(task).start();
         }
     }
 

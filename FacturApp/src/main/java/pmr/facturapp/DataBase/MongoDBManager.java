@@ -11,6 +11,7 @@ import java.util.Properties;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.ConnectionString;
@@ -372,6 +373,11 @@ public class MongoDBManager {
         return documentosProveedores;
     }
 
+    public Empleado getEmpleadoById(String id) {
+        Document doc = empleados.find(new Document("_id", new ObjectId(id))).cursor().next();
+        return EmpleadoConverter.convert(doc);
+    }
+
     public void deleteCliente(Cliente cliente) {
         clientes.deleteOne(new BasicDBObject("_id", cliente.getId()));
     }
@@ -390,6 +396,10 @@ public class MongoDBManager {
 
     public void deleteProveedor(Proveedor proveedor) {
         proveedores.deleteOne(new BasicDBObject("_id", proveedor.getId()));
+    }
+
+    public void deleteVenta(Venta venta) {
+        ventas.deleteOne(new BasicDBObject("_id", venta.getId()));
     }
 
     public Map<String, Integer> getVentasUltimoMes() {

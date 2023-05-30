@@ -10,7 +10,7 @@ public class Usuario {
      */
     private StringProperty usernameSP = new SimpleStringProperty();
     private StringProperty passwordSP = new SimpleStringProperty();
-    private StringProperty nombreSP = new SimpleStringProperty();
+    private StringProperty identificadorSP = new SimpleStringProperty();
 
     /*
      * Constructor
@@ -19,10 +19,10 @@ public class Usuario {
         // Constructor Vacios
     }
 
-    public Usuario(String username, String password, String nombre) {
+    public Usuario(String username, String password, String identificador) {
         this.usernameSP.set(username);
         this.passwordSP.set(password);
-        this.nombreSP.set(nombre);
+        this.identificadorSP.set(identificador);
     }
 
     /*
@@ -36,8 +36,8 @@ public class Usuario {
         return passwordSP;
     }
 
-    public StringProperty nombreProperty() {
-        return nombreSP;
+    public StringProperty identificadorProperty() {
+        return identificadorSP;
     }
 
     /*
@@ -51,13 +51,13 @@ public class Usuario {
         return this.passwordSP.get();
     }
 
-    public String getNombre() {
-        return this.nombreSP.get();
+    public String getIdentificador() {
+        return this.identificadorSP.get();
     }
 
     @Override
     public String toString() {
-        return String.format("%s (%s) - %s", getUsername(), getPassword(), getNombre());
+        return String.format("%s (%s) - %s", getUsername(), getPassword(), getIdentificador());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Usuario {
 
         if (obj instanceof Usuario) {
             Usuario other = new Usuario(((Usuario) obj).getUsername(), ((Usuario) obj).getPassword(),
-                    ((Usuario) obj).getNombre());
+                    ((Usuario) obj).getIdentificador());
             if (other.getUsername().equals(this.getUsername())) {
                 if (other.getPassword().equals(this.getPassword())) {
                     res = true;

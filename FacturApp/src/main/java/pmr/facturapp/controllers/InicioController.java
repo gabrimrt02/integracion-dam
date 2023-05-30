@@ -117,7 +117,7 @@ public class InicioController implements Initializable {
      * Funciones
      */
     public void updateView() {
-        userLabel.textProperty().set(App.USERNAME);
+        userLabel.textProperty().set(App.getEmpleado().getNombre());
         dateLabel.textProperty().set(LocalDate.now().toString());
         monthLineChart.setTitle("Comparativa Mensual");
         weekLineChart.setTitle("Comparativa Semanal");

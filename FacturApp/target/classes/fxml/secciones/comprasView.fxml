@@ -60,7 +60,6 @@
                   <ContextMenu>
                      <items>
                         <MenuItem fx:id="masInfoMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más Información" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem fx:id="eliminarMI" mnemonicParsing="false" onAction="#onEliminarAction" text="Eliminar" />
                      </items>
                   </ContextMenu>

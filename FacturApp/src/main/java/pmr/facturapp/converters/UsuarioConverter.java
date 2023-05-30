@@ -13,9 +13,9 @@ public class UsuarioConverter {
         // Recuperamos los atributos del Usuario de la BBDD
         String username = docUsuario.getString("username");
         String password = docUsuario.getString("password");
-        String nombre = docUsuario.getString("nombre");
+        String identificador = docUsuario.getString("identificador");
         
-        return new Usuario(username, password, nombre);
+        return new Usuario(username, password, identificador);
     }
 
 }

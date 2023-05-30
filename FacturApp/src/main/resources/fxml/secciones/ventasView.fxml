@@ -58,6 +58,7 @@
                   <ContextMenu>
                     <items>
                       <MenuItem fx:id="masInfoMI" mnemonicParsing="false" onAction="#onMoreInfoAction" text="Más Información" />
+                      <MenuItem fx:id="eliminarMI" mnemonicParsing="false" onAction="#onEliminarAction" text="Eliminar" />
                     </items>
                   </ContextMenu>
                </contextMenu>
