@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 
 import org.controlsfx.control.Notifications;
 
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -385,7 +386,7 @@ public class RootController implements Initializable {
     void onAddVentaAction(ActionEvent event) {
         AddVentaDialog dialog = new AddVentaDialog();
 
-        Optional<Venta> resultado= dialog.showAndWait();
+        Optional<Venta> resultado = dialog.showAndWait();
 
         if (resultado.isPresent()) {
             Empleado empleado = dialog.getEmpleado();
@@ -399,7 +400,7 @@ public class RootController implements Initializable {
                 @Override
                 protected Void call() throws Exception {
                     App.dbManager.insertVenta(venta);
-                    
+
                     return null;
                 }
             };
@@ -422,49 +423,167 @@ public class RootController implements Initializable {
             new Thread(task).start();
         }
 
-
     }
 
     @FXML
     void onVerClientesAction(ActionEvent event) {
         view.setCenter(C_CLIENTES.getView());
-        C_CLIENTES.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_CLIENTES.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Clientes").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Cliente Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     @FXML
     void onVerComprasAction(ActionEvent event) {
         view.setCenter(C_COMPRAS.getView());
-        C_COMPRAS.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_COMPRAS.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Compras").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Compras Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     @FXML
     void onVerEmpleadosAction(ActionEvent event) {
         view.setCenter(C_EMPLEADOS.getView());
-        C_EMPLEADOS.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_EMPLEADOS.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Empleados").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Empleados Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     @FXML
     void onVerInicioAction(ActionEvent event) {
         view.setCenter(C_INICIO.getView());
-        C_INICIO.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_INICIO.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Inicio").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Inicio Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     @FXML
     void onVerProductosAction(ActionEvent event) {
         view.setCenter(C_PRODUCTOS.getView());
-        C_PRODUCTOS.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_PRODUCTOS.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Productos").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Productos Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     @FXML
     void onVerProveedoresAction(ActionEvent event) {
         view.setCenter(C_PROVEEDORES.getView());
-        C_PROVEEDORES.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_PROVEEDORES.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Proveedores").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Proveedores Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     @FXML
     void onVerVentasAction(ActionEvent event) {
         view.setCenter(C_VENTAS.getView());
-        C_VENTAS.updateView();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                C_VENTAS.updateView();
+
+                return null;
+            }
+        };
+
+        task.setOnRunning(e -> {
+            Notifications.create().title("Cargando Ventas").showInformation();
+        });
+
+        task.setOnSucceeded(e -> {
+            Notifications.create().title("Ventas Cargado Correctamente").showConfirm();
+        });
+
+        Platform.runLater(task);
     }
 
     /*
