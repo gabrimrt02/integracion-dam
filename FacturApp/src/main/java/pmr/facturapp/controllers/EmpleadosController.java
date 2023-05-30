@@ -239,7 +239,7 @@ public class EmpleadosController implements Initializable {
     private void updateAreaChart() {
         areaChart.getData().clear();
 
-        Map<String, Map<String, Integer>> datos = App.dbManager.getDesempeñoEmpleados();
+        Map<String, Map<String, Integer>> datos = App.dbManager.getDesempenioEmpleados();
         XYChart.Series<String, Integer> seriesDatos;
 
         for (String nombre : datos.keySet()) {

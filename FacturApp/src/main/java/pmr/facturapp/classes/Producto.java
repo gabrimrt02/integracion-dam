@@ -115,7 +115,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return String.format("%s (%.2f) [%s]", getNombre(), getPrecio(), getStock(), getUnidad().getUnidad());
+        return String.format("%s (%.2f)", getNombre(), getPrecio());
     }
 
 }

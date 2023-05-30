@@ -153,7 +153,7 @@ public class AddCompraDialog extends Dialog<Compra> implements Initializable {
 
             }
 
-            productoLP.setAll(productos);
+            productoLP.addAll(productos);
             
         }
 

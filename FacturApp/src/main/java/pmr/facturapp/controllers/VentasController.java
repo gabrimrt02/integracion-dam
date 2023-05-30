@@ -244,13 +244,13 @@ public class VentasController implements Initializable {
     private void updateLineChart() {
         lineChart.getData().clear();
 
-        Map<String, Integer> ventas = App.dbManager.getVentasUltimoMes();
+        Map<Integer, Integer> ventas = App.dbManager.getVentasUltimoMes();
         
         XYChart.Series<String, Integer> seriesVentas = new XYChart.Series<>();
         seriesVentas.setName("Ventas");
 
-        for (String clave : ventas.keySet()) {
-            seriesVentas.getData().add(new XYChart.Data<String, Integer>(clave, ventas.get(clave)));
+        for (int clave : ventas.keySet()) {
+            seriesVentas.getData().add(new XYChart.Data<String, Integer>("" + clave, ventas.get(clave)));
         }
 
         lineChart.getData().add(seriesVentas);

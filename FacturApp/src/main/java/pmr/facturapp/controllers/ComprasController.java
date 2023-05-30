@@ -72,7 +72,7 @@ public class ComprasController implements Initializable {
     private TableColumn<Compra, LocalDate> fechaColumn;
 
     @FXML
-    private LineChart<String, Number> lineChart;
+    private LineChart<String, Integer> lineChart;
 
     @FXML
     private PieChart pieChart;
@@ -238,13 +238,13 @@ public class ComprasController implements Initializable {
     private void updateLineChart() {
         lineChart.getData().clear();
 
-        Map<String, Integer> compras = App.dbManager.getComprasUltimoMes();
+        Map<Integer, Integer> compras = App.dbManager.getComprasUltimoMes();
 
-        XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
+        XYChart.Series<String, Integer> seriesCompras = new XYChart.Series<>();
         seriesCompras.setName("Compras");
 
-        for (String clave : compras.keySet()) {
-            seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
+        for (int clave : compras.keySet()) {
+            seriesCompras.getData().add(new XYChart.Data<String, Integer>("" + clave, compras.get(clave)));
         }
 
         lineChart.getData().add(seriesCompras);

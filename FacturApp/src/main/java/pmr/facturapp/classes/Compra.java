@@ -54,8 +54,7 @@ public class Compra extends Transaccion {
 
     @Override
     public String toString() {
-        return String.format("%s - %s, %s", getFecha().toString(), getProveedor().getNombreCompleto(),
-                getProductos().toString());
+        return String.format("%s - %s", getFecha().toString(), getProveedor().getNombreCompleto());
     }
 
 }

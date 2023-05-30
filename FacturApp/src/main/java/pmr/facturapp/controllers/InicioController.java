@@ -213,8 +213,8 @@ public class InicioController implements Initializable {
     private void updateMonthLineChart() {
         monthLineChart.getData().clear();
 
-        Map<String, Integer> ventas = App.dbManager.getVentasUltimoMes();
-        Map<String, Integer> compras = App.dbManager.getComprasUltimoMes();
+        Map<Integer, Integer> ventas = App.dbManager.getVentasUltimoMes();
+        Map<Integer, Integer> compras = App.dbManager.getComprasUltimoMes();
 
         XYChart.Series<String, Number> seriesVentas = new XYChart.Series<>();
         seriesVentas.setName("Ventas");
@@ -222,12 +222,12 @@ public class InicioController implements Initializable {
         XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
         seriesCompras.setName("Compras");
 
-        for (String clave : ventas.keySet()) {
-            seriesVentas.getData().add(new XYChart.Data<String, Number>(clave, ventas.get(clave)));
+        for (int clave : ventas.keySet()) {
+            seriesVentas.getData().add(new XYChart.Data<String, Number>("" + clave, ventas.get(clave)));
         }
 
-        for (String clave : compras.keySet()) {
-            seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
+        for (int clave : compras.keySet()) {
+            seriesCompras.getData().add(new XYChart.Data<String, Number>("" + clave, compras.get(clave)));
         }
 
         monthLineChart.getData().add(seriesVentas);
@@ -238,8 +238,8 @@ public class InicioController implements Initializable {
     private void updateWeekLineChart() {
         weekLineChart.getData().clear();
 
-        Map<String, Integer> ventas = App.dbManager.getVentasUltimaSemana();
-        Map<String, Integer> compras = App.dbManager.getComprasUltimaSemana();
+        Map<Integer, Integer> ventas = App.dbManager.getVentasUltimaSemana();
+        Map<Integer, Integer> compras = App.dbManager.getComprasUltimaSemana();
 
         XYChart.Series<String, Number> seriesVentas = new XYChart.Series<>();
         seriesVentas.setName("Ventas");
@@ -247,12 +247,12 @@ public class InicioController implements Initializable {
         XYChart.Series<String, Number> seriesCompras = new XYChart.Series<>();
         seriesCompras.setName("Compras");
 
-        for (String clave : ventas.keySet()) {
-            seriesVentas.getData().add(new XYChart.Data<String, Number>(clave, ventas.get(clave)));
+        for (int clave : ventas.keySet()) {
+            seriesVentas.getData().add(new XYChart.Data<String, Number>("" + clave, ventas.get(clave)));
         }
 
-        for (String clave : compras.keySet()) {
-            seriesCompras.getData().add(new XYChart.Data<String, Number>(clave, compras.get(clave)));
+        for (int clave : compras.keySet()) {
+            seriesCompras.getData().add(new XYChart.Data<String, Number>("" + clave, compras.get(clave)));
         }
 
         weekLineChart.getData().add(seriesVentas);

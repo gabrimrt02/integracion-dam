@@ -114,7 +114,7 @@ public class Persona {
 
     @Override
     public String toString() {
-        return String.format("%s, %s", getApellido(), getNombre());
+        return String.format("%s", getNombreCompleto());
     }
 
 }

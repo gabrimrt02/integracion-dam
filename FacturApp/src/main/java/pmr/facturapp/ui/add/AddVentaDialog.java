@@ -25,6 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -75,7 +76,7 @@ public class AddVentaDialog extends Dialog<Venta> implements Initializable {
     private TextField empleadoTextField;
 
     @FXML
-    private TextField fechaTextField;
+    private DatePicker fechaDatePicker;
 
     @FXML
     private JFXListView<Producto> productosListView;
@@ -133,8 +134,11 @@ public class AddVentaDialog extends Dialog<Venta> implements Initializable {
         clienteOP.bind(clienteComboBox.valueProperty());
         productosLP.bind(productosListView.itemsProperty());
 
-        fechaOP.set(LocalDate.now());
-        // TODO Set empleado tras modificación de guardado de serial en la BD
+        fechaOP.bind(fechaDatePicker.valueProperty());;
+        empleadoOP.set(App.getEmpleado());
+        empleadoTextField.setText(empleadoOP.get().getNombreCompleto());
+
+        clienteComboBox.getItems().setAll(clientes);
 
         // TODO Disable add Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);
@@ -174,7 +178,7 @@ public class AddVentaDialog extends Dialog<Venta> implements Initializable {
 
             }
 
-            productosLP.setAll(productos);
+            productosLP.addAll(productos);
             
         }
 

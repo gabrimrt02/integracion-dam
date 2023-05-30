@@ -23,11 +23,10 @@ public class Venta extends Transaccion {
 
     public Venta(Cliente cliente, List<Producto> productos, Empleado empleado, LocalDate fecha) {
         super(productos, fecha);
-        
+
         this.clienteOP.set(cliente);
         this.empleadoOP.set(empleado);
     }
-
 
     /*
      * Getters Properties
@@ -60,8 +59,8 @@ public class Venta extends Transaccion {
 
     @Override
     public String toString() {
-        return String.format("%s | %s | De: %s %s - Atención: %s %s", getFecha().toString(), getProductos().toString(),
-                getCliente().getNombre(), getCliente().getApellido(), getEmpleado().getNombre(), getEmpleado().getApellido());
+        return String.format("(%s) %s - Por: %s", getFecha().toString(), getCliente().getNombreCompleto(),
+                getEmpleado().getNombreCompleto());
     }
 
 }

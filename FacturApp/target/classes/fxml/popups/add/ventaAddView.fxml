@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -38,7 +39,7 @@
       <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Responsable: " GridPane.rowIndex="2" />
       <Label alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Productos: " GridPane.rowIndex="3" />
       <SearchableComboBox fx:id="clienteComboBox" maxHeight="1.0" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField fx:id="fechaTextField" editable="false" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+      <DatePicker fx:id="fechaDatePicker" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
       <TextField fx:id="empleadoTextField" editable="false" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
       <JFXListView fx:id="productosListView" GridPane.columnSpan="4" GridPane.rowIndex="4" GridPane.rowSpan="2147483647" />
       <VBox prefHeight="200.0" GridPane.columnIndex="4" GridPane.rowIndex="4">
