@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">FacturDroid</string>
+    <!-- Conexión MongoDB -->
+    <string name="connString">mongodb+srv://Developer:3gughi9KTrPYd3uW@facturapp.exx6an8.mongodb.net/test</string>
+    <!-- Login -->
+    <string name="login_username">Nombre de Usuario</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_acceder">Acceder</string>
+    <!-- Menú -->
+    <string name="titulo_menu">Menú</string>
+    <string name="opcion_menu_ventas">Ventas</string>
+    <string name="desc_menu_ventas">Añade una nueva venta al sistema</string>
+    <!-- Ventas -->
+    <string name="ventas_titulo">Ventas</string>
+    <string name="ventas_cliente">Cliente: </string>
+    <string name="ventas_productos">Productos: </string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
