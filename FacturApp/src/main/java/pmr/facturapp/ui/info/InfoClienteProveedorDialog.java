@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
@@ -44,9 +43,6 @@ public class InfoClienteProveedorDialog extends Dialog<Persona> implements Initi
 
     @FXML
     private TextField idTextField;
-
-    @FXML
-    private LineChart<?, ?> lineChart;
 
     @FXML
     private TextField nombreTextField;

@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXComboBox;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
+
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -37,7 +38,7 @@ public class AddProveedorDialog extends Dialog<Proveedor> implements Initializab
     private Domicilio domicilio = new Domicilio();
     private StringProperty telefonoSP = new SimpleStringProperty();
     private StringProperty mailSP = new SimpleStringProperty();
-    
+
     // View
     @FXML
     private TextField apellidosTextField;
@@ -112,14 +113,15 @@ public class AddProveedorDialog extends Dialog<Proveedor> implements Initializab
         mailSP.bind(emailTextField.textProperty());
 
         provinciaComboBox.getItems().setAll(ProvinciasMunicipios.getProvincias());
-        
+
         provinciaComboBox.getSelectionModel().selectedItemProperty().addListener(e -> {
             municipioComboBox.getSelectionModel().clearSelection();
 
             if (provinciaComboBox.getSelectionModel().getSelectedItem() == ProvinciasMunicipios.getProvincias()[0]) {
                 municipioComboBox.getItems().setAll(ProvinciasMunicipios.getMunicipioSCT());
 
-            } else if (provinciaComboBox.getSelectionModel().getSelectedItem() == ProvinciasMunicipios.getProvincias()[1]) {
+            } else if (provinciaComboBox.getSelectionModel()
+                    .getSelectedItem() == ProvinciasMunicipios.getProvincias()[1]) {
                 municipioComboBox.getItems().setAll(ProvinciasMunicipios.getMunicipioLP());
 
             }
@@ -128,8 +130,7 @@ public class AddProveedorDialog extends Dialog<Proveedor> implements Initializab
         // Disable Añadir Button
         Button addButton = (Button) getDialogPane().lookupButton(addButtonType);
         addButton.disableProperty().bind(nombreSP.isEmpty().or(apellidoSP.isEmpty().or(domicilio.provinciaProperty()
-                .isEmpty().or(domicilio.municipioProperty().isEmpty().or(telefonoSP.isEmpty().or(mailSP.isEmpty())))))
-                );
+                .isEmpty().or(domicilio.municipioProperty().isEmpty().or(telefonoSP.isEmpty().or(mailSP.isEmpty()))))));
 
     }
 
