@@ -133,5 +133,21 @@ public class MongoDBManager {
         return documentosProductos;
     }
 
+    /**
+     * Método que devuelve una lista con todos los documentos de la colección
+     * "Usuarios".
+     *
+     * @return Una lista de documentos de tipo "Document" con todos los usuarios
+     *         almacenados en la base de datos.
+     */
+    public List<Document> getAllUsuarios() {
+        ArrayList<Document> documentosUsuarios = new ArrayList<>();
+        MongoCursor<Document> cursor = usuarios.find().cursor();
+        while (cursor.hasNext()) {
+            documentosUsuarios.add(cursor.next());
+        }
+        return documentosUsuarios;
+    }
+
 
 }

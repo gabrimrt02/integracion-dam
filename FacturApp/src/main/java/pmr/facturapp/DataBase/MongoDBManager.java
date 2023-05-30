@@ -1,4 +1,4 @@
-package pmr.facturapp.DataBase;
+package pmr.facturapp.database;
 
 import java.io.IOException;
 import java.time.temporal.WeekFields;
@@ -282,9 +282,9 @@ public class MongoDBManager {
 
     /**
      * Método que devuelve una lista con todos los documentos de la colección
-     * "Ventas".
+     * "Usuarios".
      *
-     * @return Una lista de documentos de tipo "Document" con todos las ventas
+     * @return Una lista de documentos de tipo "Document" con todos los usuarios
      *         almacenados en la base de datos.
      */
     public List<Document> getAllUsuarios() {

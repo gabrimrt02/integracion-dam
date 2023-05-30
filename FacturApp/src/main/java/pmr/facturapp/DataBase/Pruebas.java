@@ -1,4 +1,4 @@
-package pmr.facturapp.DataBase;
+package pmr.facturapp.database;
 
 import java.time.LocalDate;
 import java.util.List;
